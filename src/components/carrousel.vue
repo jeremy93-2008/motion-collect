@@ -1,14 +1,30 @@
 <script lang="ts" setup>
-import type { IMovieDB } from '~/types/MovieDB.type'
-
-defineProps({
+const props = defineProps({
     data: Array,
+    length: Number,
+})
+const carrousel = ref<HTMLUListElement | null>(null)
+const carrouselIndex = ref(0)
+
+const onCarrouselChangeClick = (index: number) => {
+    const carrouselElement = carrousel.value!
+    carrouselIndex.value = index >= props.length! ? 0 : index ?? 0
+    if (carrouselElement) {
+        carrouselElement.scrollLeft =
+            carrouselIndex.value * carrouselElement.clientWidth
+    }
+}
+
+onMounted(() => {
+    window.setInterval(() => {
+        onCarrouselChangeClick(carrouselIndex.value + 1)
+    }, 7000)
 })
 </script>
 
 <template>
     <section class="carrousel_container">
-        <ul class="carrousel">
+        <ul ref="carrousel" class="carrousel">
             <li v-for="item in data" :key="item.id">
                 <img
                     :src="
@@ -17,26 +33,64 @@ defineProps({
                     "
                     alt="backdrop"
                 />
-                <!--<img
-              :src="
-                  'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                  item.poster_path
-              "
-              alt="poster"
-          />-->
+            </li>
+        </ul>
+        <ul class="carrousel_menu">
+            <li v-for="(item, index) in data" :key="item.id">
+                <button
+                    @click="onCarrouselChangeClick(index)"
+                    class="carrousel_button"
+                    :class="{ active: index === carrouselIndex }"
+                />
             </li>
         </ul>
     </section>
 </template>
 
 <style scoped>
-ul.carrousel {
+section.carrousel_container {
+    position: relative;
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 1rem;
-    list-style: none;
-    margin: 0;
+    flex-direction: column;
+    width: calc(100vw - 328px);
+
+    ul.carrousel {
+        display: flex;
+        flex-direction: row;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        & li {
+            scroll-snap-align: center;
+            & img {
+                border-top-left-radius: 26px;
+                border-top-right-radius: 26px;
+                min-width: calc(100vw - 328px);
+                height: auto;
+            }
+        }
+    }
+
+    ul.carrousel_menu {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        & button.carrousel_button {
+            background-color: white;
+            border: solid 2px white;
+            border-radius: 20px;
+            margin: 0 10px;
+            width: 10px;
+            height: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover,
+            &.active {
+                width: 20px;
+            }
+        }
+    }
 }
 </style>

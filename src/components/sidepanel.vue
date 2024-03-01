@@ -57,6 +57,7 @@ const route = useRoute()
     flex-direction: column;
     align-items: center;
     width: 300px;
+    flex: 0 0 300px;
     margin: 0 10px;
     padding-top: 24px;
 
