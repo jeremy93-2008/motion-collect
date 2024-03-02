@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import homeIcon from '@/assets/home.svg'
-import moviesIcon from '@/assets/movies.svg'
-import tvIcon from '@/assets/tv.svg'
+import homeIcon from 'assets/home.svg'
+import moviesIcon from 'assets/movies.svg'
+import tvIcon from 'assets/tv.svg'
 
-import plusIcon from '@/assets/plus.svg'
+import plusIcon from 'assets/plus.svg'
 
 import Sidebutton from './sidebutton.vue'
-import Iconbutton from './iconbutton.vue'
+import Iconbutton from '../iconbutton.vue'
 
 const route = useRoute()
 </script>
@@ -16,7 +16,7 @@ const route = useRoute()
         <section class="logo">
             <img
                 class="h-[48px]"
-                src="@/assets/logo.svg"
+                src="../../assets/logo.svg"
                 alt="Motion Collect"
             />
             <span>Motion Collect</span>
@@ -42,7 +42,7 @@ const route = useRoute()
             >
             <div class="collection">
                 <div class="title">
-                    <img src="@/assets/collections.svg" alt="Collections" />
+                    <img src="../../assets/collections.svg" alt="Collections" />
                     <span>Collections</span>
                     <Iconbutton size="16px" :icon="plusIcon" />
                 </div>

@@ -35,6 +35,10 @@ onMounted(() => {
                 />
             </li>
         </ul>
+        <div class="blue-gradient" />
+        <span class="title">{{
+            data[carrouselIndex].title ?? data[carrouselIndex].name
+        }}</span>
         <ul class="carrousel_menu">
             <li v-for="(item, index) in data" :key="item.id">
                 <button
@@ -70,6 +74,27 @@ section.carrousel_container {
         }
     }
 
+    div.blue-gradient {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0) 10%,
+            var(--color-background) 100%
+        );
+    }
+
+    & span.title {
+        position: absolute;
+        top: 35px;
+        left: 3vw;
+        font-size: 48px;
+        max-width: 200px;
+        text-shadow: 0 0 20px var(--color-background);
+    }
+
     ul.carrousel_menu {
         position: absolute;
         bottom: 0;
@@ -86,6 +111,10 @@ section.carrousel_container {
             height: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            &:hover {
+                background-color: var(--color-accent);
+                border-color: var(--color-accent);
+            }
             &:hover,
             &.active {
                 width: 20px;

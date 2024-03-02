@@ -1,9 +1,17 @@
 <script setup lang="ts">
 defineProps({
+    variant: {
+        type: String,
+        default: 'secondary',
+    },
     icon: String,
     size: {
         type: String,
         default: '16px',
+    },
+    className: {
+        type: String,
+        default: '',
     },
 })
 </script>
@@ -12,7 +20,7 @@ defineProps({
     <button class="iconbutton">
         <img
             class="mr-4"
-            :class="`h-[${size}] w-[${size}]`"
+            :class="`h-[${size}] w-[${size}] ${className} ${variant === 'primary' ? 'primary' : ''}`"
             :src="icon"
             alt="icon"
         />
@@ -34,6 +42,16 @@ defineProps({
         border: solid 2px var(--color-shade);
     }
     &:active {
+        border: solid 2px var(--color-white);
+    }
+
+    &:has(.primary):hover {
+        background-color: var(--color-accent);
+        border: solid 2px var(--color-accent);
+    }
+
+    &:has(.primary):active {
+        background-color: var(--color-accent);
         border: solid 2px var(--color-white);
     }
 }

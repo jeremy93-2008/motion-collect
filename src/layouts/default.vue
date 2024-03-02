@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import '@/styles/base.css'
-import Sidepanel from '@/components/sidepanel.vue'
+import Sidepanel from '~/components/sidepanel/sidepanel.vue'
+import Header from '~/components/default/header.vue'
 useHead({
     title: 'Motion Collect',
     meta: [
@@ -16,6 +17,7 @@ useHead({
     <main class="app">
         <Sidepanel />
         <section class="content">
+            <Header />
             <slot />
         </section>
     </main>

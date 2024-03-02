@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { IMovieDB } from '~/types/MovieDB.type'
-import Carrousel from '~/components/carrousel.vue'
+import Carrousel from '~/components/index/carrousel.vue'
 
 const config = useRuntimeConfig()
 const { data } = await useFetch<IMovieDB>(
-    'https://api.themoviedb.org/3/trending/all/day?language=en-US',
+    'https://api.themoviedb.org/3/trending/all/week?language=en-US',
     {
         headers: {
             Authorization: 'Bearer ' + config.public.moviedbApiKey,
