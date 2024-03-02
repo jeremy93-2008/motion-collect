@@ -44,7 +44,7 @@ const route = useRoute()
                 <div class="title">
                     <img src="../../assets/collections.svg" alt="Collections" />
                     <span>Collections</span>
-                    <Iconbutton size="16px" :icon="plusIcon" />
+                    <Iconbutton class-name="mr-3" size="16px" :icon="plusIcon" />
                 </div>
             </div>
         </section>

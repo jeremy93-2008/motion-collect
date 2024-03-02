@@ -19,7 +19,6 @@ defineProps({
 <template>
     <button class="iconbutton">
         <img
-            class="mr-4"
             :class="`h-[${size}] w-[${size}] ${className} ${variant === 'primary' ? 'primary' : ''}`"
             :src="icon"
             alt="icon"

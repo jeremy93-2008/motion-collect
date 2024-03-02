@@ -4,21 +4,28 @@ const props = defineProps({
     length: Number,
 })
 const carrousel = ref<HTMLUListElement | null>(null)
+const interval = ref<number | null>(null)
 const carrouselIndex = ref(0)
 
-const onCarrouselChangeClick = (index: number) => {
+const onCarrouselChangeClick = (index: number, isResetInterval?: boolean) => {
     const carrouselElement = carrousel.value!
     carrouselIndex.value = index >= props.length! ? 0 : index ?? 0
+    if(isResetInterval) restartInterval()
     if (carrouselElement) {
         carrouselElement.scrollLeft =
             carrouselIndex.value * carrouselElement.clientWidth
     }
 }
 
-onMounted(() => {
-    window.setInterval(() => {
+const restartInterval = () => {
+    if (interval.value) clearInterval(interval.value)
+    interval.value = window.setInterval(() => {
         onCarrouselChangeClick(carrouselIndex.value + 1)
     }, 7000)
+}
+
+onMounted(() => {
+    restartInterval()
 })
 </script>
 
@@ -42,7 +49,7 @@ onMounted(() => {
         <ul class="carrousel_menu">
             <li v-for="(item, index) in data" :key="item.id">
                 <button
-                    @click="onCarrouselChangeClick(index)"
+                    @click="onCarrouselChangeClick(index, true)"
                     class="carrousel_button"
                     :class="{ active: index === carrouselIndex }"
                 />
@@ -111,13 +118,13 @@ section.carrousel_container {
             height: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            &:hover {
-                background-color: var(--color-accent);
-                border-color: var(--color-accent);
-            }
             &:hover,
             &.active {
                 width: 20px;
+            }
+            &.active {
+                background-color: var(--color-accent);
+                border-color: var(--color-accent);
             }
         }
     }
