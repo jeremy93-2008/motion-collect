@@ -8,9 +8,12 @@ export default defineNuxtConfig({
             enabled: true,
         },
     },
+    plugins: ['plugins/clerk.ts'],
     runtimeConfig: {
         public: {
-            moviedbApiKey: '',
+            moviedbApiKey: process.env.NUXT_PUBLIC_MOVIEDB_API_KEY,
+            clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+            clerkDomainUrl: process.env.NUXT_PUBLIC_CLERK_DOMAIN_URL,
         },
     },
 })

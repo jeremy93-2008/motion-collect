@@ -24,7 +24,7 @@ const title = computed(() => {
             <Iconbutton
                 size="24px"
                 :icon="searchIcon"
-                class-name="mr-0 ml-[-2px]"
+                class-name="mr-0 ml-[-2px] w-[26px]"
                 variant="primary"
             />
         </div>

@@ -14,6 +14,7 @@ useHead({
 </script>
 
 <template>
+    <NuxtLoadingIndicator />
     <main class="app">
         <Sidepanel />
         <section class="content">

@@ -44,7 +44,11 @@ const route = useRoute()
                 <div class="title">
                     <img src="../../assets/collections.svg" alt="Collections" />
                     <span>Collections</span>
-                    <Iconbutton class-name="mr-3" size="16px" :icon="plusIcon" />
+                    <Iconbutton
+                        class-name="mr-3"
+                        size="16px"
+                        :icon="plusIcon"
+                    />
                 </div>
             </div>
         </section>
@@ -58,8 +62,7 @@ const route = useRoute()
     align-items: center;
     width: 300px;
     flex: 0 0 300px;
-    margin: 0 10px;
-    padding-top: 24px;
+    padding: 24px 10px 0 10px;
 
     & .logo {
         display: flex;

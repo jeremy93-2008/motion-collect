@@ -7,21 +7,21 @@ const carrousel = ref<HTMLUListElement | null>(null)
 const interval = ref<number | null>(null)
 const carrouselIndex = ref(0)
 
-const onCarrouselChangeClick = (index: number, isResetInterval?: boolean) => {
-    const carrouselElement = carrousel.value!
-    carrouselIndex.value = index >= props.length! ? 0 : index ?? 0
-    if(isResetInterval) restartInterval()
-    if (carrouselElement) {
-        carrouselElement.scrollLeft =
-            carrouselIndex.value * carrouselElement.clientWidth
-    }
-}
-
 const restartInterval = () => {
     if (interval.value) clearInterval(interval.value)
     interval.value = window.setInterval(() => {
         onCarrouselChangeClick(carrouselIndex.value + 1)
     }, 7000)
+}
+
+const onCarrouselChangeClick = (index: number, isResetInterval?: boolean) => {
+    const carrouselElement = carrousel.value!
+    carrouselIndex.value = index >= props.length! ? 0 : index ?? 0
+    if (isResetInterval) restartInterval()
+    if (carrouselElement) {
+        carrouselElement.scrollLeft =
+            carrouselIndex.value * carrouselElement.clientWidth
+    }
 }
 
 onMounted(() => {
