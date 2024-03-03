@@ -11,14 +11,24 @@ useHead({
         },
     ],
 })
+const refContent = ref<HTMLElement | null>(null)
+const refIsScrolling = ref(false)
+
+const onScrollContent = () => {
+    if (refContent.value?.scrollTop! > 0) {
+        return refIsScrolling.value = true
+    }
+    refIsScrolling.value = false
+}
+
 </script>
 
 <template>
-    <NuxtLoadingIndicator />
+    <NuxtLoadingIndicator color="#D80032" />
     <main class="app">
         <Sidepanel />
-        <section class="content">
-            <Header />
+        <section ref="refContent" class="content" @scroll="onScrollContent">
+            <Header :class="{small: refIsScrolling}" :isSmall="refIsScrolling" />
             <slot />
         </section>
     </main>
@@ -34,9 +44,10 @@ useHead({
 }
 
 .content {
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 20px 0 20px 8px;
+    padding: 0 0 20px 8px;
 }
 </style>

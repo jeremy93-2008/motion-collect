@@ -8,7 +8,7 @@ export default defineNuxtConfig({
             enabled: true,
         },
     },
-    plugins: ['plugins/clerk.ts'],
+    plugins: ['plugins/clerk.client.ts'],
     runtimeConfig: {
         public: {
             moviedbApiKey: process.env.NUXT_PUBLIC_MOVIEDB_API_KEY,
