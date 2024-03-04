@@ -2,6 +2,7 @@
 import '@/styles/base.css'
 import Sidepanel from '~/components/sidepanel/sidepanel.vue'
 import Header from '~/components/default/header.vue'
+
 useHead({
     title: 'Motion Collect',
     meta: [
@@ -11,24 +12,23 @@ useHead({
         },
     ],
 })
-const refContent = ref<HTMLElement | null>(null)
-const refIsScrolling = ref(false)
+const isScrolling = useState<boolean>('isScrolling', () => false)
+const scrollElement = useState<HTMLElement | null>('scrollElement', () => null)
 
 const onScrollContent = () => {
-    if (refContent.value?.scrollTop! > 0) {
-        return refIsScrolling.value = true
+    if (scrollElement.value?.scrollTop! > 0) {
+        return (isScrolling.value = true)
     }
-    refIsScrolling.value = false
+    isScrolling.value = false
 }
-
 </script>
 
 <template>
     <NuxtLoadingIndicator color="#D80032" />
     <main class="app">
         <Sidepanel />
-        <section ref="refContent" class="content" @scroll="onScrollContent">
-            <Header :class="{small: refIsScrolling}" :isSmall="refIsScrolling" />
+        <section ref="scrollElement" class="content" @scroll="onScrollContent">
+            <Header :class="{ small: isScrolling }" :isSmall="isScrolling" />
             <slot />
         </section>
     </main>

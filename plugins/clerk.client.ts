@@ -1,5 +1,5 @@
 import { clerkPlugin } from 'vue-clerk/plugin'
-import { dark } from '@clerk/themes';
+import { dark } from '@clerk/themes'
 
 export default defineNuxtPlugin((nuxtApp) => {
     const config = useRuntimeConfig()
@@ -10,13 +10,12 @@ export default defineNuxtPlugin((nuxtApp) => {
             appearance: {
                 baseTheme: dark,
                 variables: {
-                    colorAlphaShade: '#EDF2F4',
                     colorText: '#EDF2F4',
                     colorBackground: '#32364b',
                     colorPrimary: '#D80032',
                     colorDanger: '#FF0000',
-                }
+                },
             },
-        }
+        },
     })
 })
