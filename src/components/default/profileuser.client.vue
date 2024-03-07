@@ -8,13 +8,12 @@ const { isSignedIn } = useAuth()
     <section class="profile-user">
         <ClerkLoaded>
             <UserButton v-if="isSignedIn" />
-            <SignInButton v-else />
+            <SignInButton mode="modal" v-else />
         </ClerkLoaded>
     </section>
-
 </template>
 
-<style scoped>
+<style>
 section.profile-user {
     display: flex;
     flex-direction: column;

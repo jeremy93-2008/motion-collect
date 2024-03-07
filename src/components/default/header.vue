@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps(["isSmall"])
+defineProps(['isSmall'])
 import Profileuser from '@/components/default/profileuser.client.vue'
 import searchIcon from '@/assets/search.svg'
 import loadingIcon from '@/assets/loading.svg'
@@ -18,7 +18,6 @@ const title = computed(() => {
             return 'Motion Collect'
     }
 })
-
 </script>
 
 <template>
@@ -34,7 +33,11 @@ const title = computed(() => {
             <client-only>
                 <Profileuser />
                 <template #fallback>
-                    <img class="loading" :src="loadingIcon" alt="loading" />
+                    <img
+                        class="mini-loading"
+                        :src="loadingIcon"
+                        alt="loading"
+                    />
                 </template>
             </client-only>
         </div>
@@ -62,11 +65,11 @@ section.header {
         display: flex;
         gap: 14px;
         align-items: center;
-        img.loading {
+        img.mini-loading {
             animation: spinning 1s linear infinite;
         }
         & button.iconbutton {
-            flex:1;
+            flex: 1;
         }
         margin-right: 8px;
     }

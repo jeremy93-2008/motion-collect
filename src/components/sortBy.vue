@@ -1,14 +1,22 @@
 <script setup lang="ts">
-defineEmits(['onChange'])
-const selectedValue = useState('selectedValue')
+const app = useNuxtApp()
 const isScrolling = useState<boolean>('isScrolling')
+const selectedSortBy = ref('popularity.desc')
+
+onMounted(() => {
+    navigateTo({ query: { sort_by: selectedSortBy.value } })
+})
+
+watch(selectedSortBy, () => {
+    navigateTo({ query: { sort_by: selectedSortBy.value } })
+})
 </script>
 
 <template>
     <div class="sort-by__container" :class="{ small: isScrolling }">
         <p>Sort by</p>
         <div class="sort-by">
-            <select v-model="selectedValue" @change="$emit('onChange')">
+            <select v-model="selectedSortBy" @change="$emit('onChange')">
                 <option value="popularity.desc">Popularity</option>
                 <option value="vote_average.desc">Rating</option>
                 <option value="primary_release_date.desc">Release Date</option>
