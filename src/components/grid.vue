@@ -28,7 +28,7 @@ defineProps({
 <style scoped>
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
     margin: 0 24px 0 16px;
     & .poster_item {
@@ -44,6 +44,12 @@ defineProps({
         &:hover {
             transform: scale(1.05);
             border: solid 6px var(--color-accent);
+        }
+
+        & .poster--item_img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         & .poster--item_info {

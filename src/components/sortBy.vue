@@ -1,9 +1,11 @@
 <script setup lang="ts">
-const app = useNuxtApp()
+const route = useRoute()
+
 const isScrolling = useState<boolean>('isScrolling')
-const selectedSortBy = ref('popularity.desc')
+const selectedSortBy = ref(route.query.sort_by ?? 'popularity.desc')
 
 onMounted(() => {
+    if (route.query.sort_by) return
     navigateTo({ query: { sort_by: selectedSortBy.value } })
 })
 
@@ -58,6 +60,7 @@ watch(selectedSortBy, () => {
     }
 
     &.small {
+        box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.4);
         p {
             font-size: 14px;
         }
