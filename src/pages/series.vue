@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import type { IMovieDB } from '@/types/MovieDB.type'
+import type { IMovieDB, Movie } from '@/types/MovieDB.type'
 import SortBy from '~/components/sortBy.vue'
 import Wait from '~/components/wait.vue'
+import useInfiniteFetch from '~/composables/useInfiniteFetch'
+import Infinitescroll from '~/components/infinitescroll.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 
 const sortBy = computed(() => route.query.sort_by || 'popularity.desc')
 
-const { data, status } = await useFetch<IMovieDB>(
+const page = ref(1)
+
+const { results, fetcher } = await useInfiniteFetch<IMovieDB, Movie>(
     `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false
         &language=en-US`,
     {
@@ -17,15 +21,20 @@ const { data, status } = await useFetch<IMovieDB>(
         },
         query: {
             sort_by: sortBy || 'popularity.desc',
-            page: 1,
+            page: page || 1,
         },
-    }
+    },
+    (data) => data.results,
+    page,
+    [sortBy]
 )
 </script>
 
 <template>
     <SortBy />
-    <Wait :is-loading="status === 'pending'">
-        <Grid :items="(data as IMovieDB).results" />
+    <Wait :is-loading="fetcher.status.value === 'pending'" :overlay="page > 1">
+        <Infinitescroll :distance="100" @onReachEnd="page++">
+            <Grid :items="results" />
+        </Infinitescroll>
     </Wait>
 </template>
