@@ -1,30 +1,75 @@
 import type { UseFetchOptions } from '#app'
 import type { NitroFetchRequest } from 'nitropack'
 
-export default async function useInfiniteFetch<TData, TResult>(
+interface PageParams {
+    page: Ref<number>
+    pageSize: Ref<number>
+}
+
+export default async function useInfiniteFetch<TData>(
     url: NitroFetchRequest,
-    options: UseFetchOptions<any, any, any, any, any, any>,
-    extractDataValues: (data: TData) => any[],
-    currentPageRef: globalThis.Ref<number>,
-    resetPageRef: globalThis.ComputedRef<any>[] | globalThis.Ref<any>
+    options: (
+        pageParams: PageParams
+    ) => UseFetchOptions<any, any, any, any, any, any>,
+    initialPage: number = 1
 ) {
-    const fetcher = await useFetch(url, options)
+    const isPaginationChanging = ref(false)
 
-    const { data: latestData } = fetcher
+    const page = ref(initialPage ?? 1)
+    const pageSize = ref(10)
 
-    const results = ref<TResult[]>(
-        latestData?.value ? extractDataValues(latestData.value!) : []
-    )
+    const resolvedOptions = computed(() => options({ page, pageSize }))
+
+    const {
+        data: latestData,
+        status,
+        error,
+        pending,
+        execute,
+        refresh,
+    } = await useFetch(url, resolvedOptions.value)
+
+    const data = ref<TData[]>(latestData.value ? [latestData.value] : [])
 
     watch(latestData, () => {
-        if (currentPageRef.value === 1)
-            results.value = extractDataValues(latestData.value!)
-        else results.value.push(...extractDataValues(latestData.value!))
+        if (!isPaginationChanging.value) {
+            data.value = [latestData.value]
+            return (page.value = 1)
+        }
+        data.value.push(latestData.value)
+        isPaginationChanging.value = false
     })
 
-    watch(resetPageRef, () => {
-        currentPageRef.value = 1
-    })
+    const pageParams = computed(() => ({
+        page: page.value,
+        pageSize: pageSize.value,
+    }))
 
-    return { results, fetcher }
+    const validateNotPendingAndSetPaginationFlag = () => {
+        if (status.value === 'pending') return
+        isPaginationChanging.value = true
+        return true
+    }
+
+    return {
+        data,
+        latestData,
+        status,
+        pending,
+        execute,
+        refresh,
+        pageParams,
+        previousPage() {
+            if (!validateNotPendingAndSetPaginationFlag()) return
+            if (page.value > 1) page.value--
+        },
+        nextPage() {
+            if (!validateNotPendingAndSetPaginationFlag()) return
+            page.value++
+        },
+        setPage(newPage: number) {
+            if (!validateNotPendingAndSetPaginationFlag()) return
+            page.value = newPage
+        },
+    }
 }

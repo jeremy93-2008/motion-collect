@@ -10,12 +10,10 @@ const config = useRuntimeConfig()
 
 const sortBy = computed(() => route.query.sort_by || 'popularity.desc')
 
-const page = ref(1)
-
-const { results, fetcher } = await useInfiniteFetch<IMovieDB, Movie>(
+const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
     `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false
         &language=en-US`,
-    {
+    ({ page }) => ({
         headers: {
             Authorization: 'Bearer ' + config.public.moviedbApiKey,
         },
@@ -23,18 +21,15 @@ const { results, fetcher } = await useInfiniteFetch<IMovieDB, Movie>(
             sort_by: sortBy || 'popularity.desc',
             page: page || 1,
         },
-    },
-    (data) => data.results,
-    page,
-    [sortBy]
+    })
 )
 </script>
 
 <template>
     <SortBy />
-    <Wait :is-loading="fetcher.status.value === 'pending'" :overlay="page > 1">
-        <Infinitescroll :distance="100" @onReachEnd="page++">
-            <Grid :items="results" />
+    <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
+        <Infinitescroll :distance="100" @onReachEnd="nextPage">
+            <Grid :items="data.map((d) => d.results).flat()" />
         </Infinitescroll>
     </Wait>
 </template>

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps({
     data: Array,
-    length: Number,
 })
 const carrousel = ref<HTMLUListElement | null>(null)
 const interval = ref<number | null>(null)
@@ -16,7 +15,7 @@ const restartInterval = () => {
 
 const onCarrouselChangeClick = (index: number, isResetInterval?: boolean) => {
     const carrouselElement = carrousel.value!
-    carrouselIndex.value = index >= props.length! ? 0 : index ?? 0
+    carrouselIndex.value = index >= props.data?.length! ? 0 : index ?? 0
     if (isResetInterval) restartInterval()
     if (carrouselElement) {
         carrouselElement.scrollLeft =
