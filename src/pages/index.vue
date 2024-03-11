@@ -4,6 +4,7 @@ import Carrousel from '~/components/index/carrousel.vue'
 import Grid from '~/components/grid.vue'
 import Infinitescroll from '~/components/infinitescroll.vue'
 import Wait from '~/components/wait.vue'
+import Skeletongrid from '~/components/skeletongrid.vue'
 
 const config = useRuntimeConfig()
 const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
@@ -25,6 +26,7 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
     <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
         <Infinitescroll :distance="100" @onReachEnd="nextPage">
             <Grid :items="data.map((d) => d.results).flat()" />
+            <Skeletongrid />
         </Infinitescroll>
     </Wait>
 </template>

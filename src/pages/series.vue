@@ -4,6 +4,7 @@ import SortBy from '~/components/sortBy.vue'
 import Wait from '~/components/wait.vue'
 import useInfiniteFetch from '~/composables/useInfiniteFetch'
 import Infinitescroll from '~/components/infinitescroll.vue'
+import Skeletongrid from '~/components/skeletongrid.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -30,6 +31,7 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
     <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
         <Infinitescroll :distance="100" @onReachEnd="nextPage">
             <Grid :items="data.map((d) => d.results).flat()" />
+            <Skeletongrid />
         </Infinitescroll>
     </Wait>
 </template>

@@ -33,7 +33,6 @@ onUnmounted(() => {
 <template>
     <div class="infinite-scroll">
         <slot />
-        <button @click="onReachEnd">Load More</button>
     </div>
 </template>
 
