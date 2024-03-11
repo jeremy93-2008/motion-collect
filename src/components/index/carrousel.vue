@@ -2,7 +2,8 @@
 const props = defineProps({
     data: Array,
 })
-const carrousel = ref<HTMLUListElement | null>(null)
+const carrouselList = ref<HTMLUListElement | null>(null)
+const carrouselItems = ref<HTMLLIElement[] | null>([])
 const interval = ref<number | null>(null)
 const carrouselIndex = ref(0)
 
@@ -13,25 +14,34 @@ const restartInterval = () => {
     }, 7000)
 }
 
-const onCarrouselChangeClick = (index: number, isResetInterval?: boolean) => {
-    const carrouselElement = carrousel.value!
+const onCarrouselChangeClick = (
+    index: number,
+    isResetInterval?: boolean,
+    isInstantScroll?: boolean
+) => {
+    const carrouselElement = carrouselList.value!
     carrouselIndex.value = index >= props.data?.length! ? 0 : index ?? 0
     if (isResetInterval) restartInterval()
     if (carrouselElement) {
+        if (isInstantScroll) carrouselElement.style.scrollBehavior = 'auto'
+        else carrouselElement.style.scrollBehavior = 'smooth'
         carrouselElement.scrollLeft =
-            carrouselIndex.value * carrouselElement.clientWidth
+            carrouselItems.value![carrouselIndex.value].offsetLeft
     }
 }
 
 onMounted(() => {
     restartInterval()
+    window.addEventListener('resize', () =>
+        onCarrouselChangeClick(carrouselIndex.value, false, true)
+    )
 })
 </script>
 
 <template>
     <section class="carrousel_container">
-        <ul ref="carrousel" class="carrousel">
-            <li v-for="item in data" :key="item.id">
+        <ul ref="carrouselList" class="carrousel">
+            <li ref="carrouselItems" v-for="item in data" :key="item.id">
                 <img
                     :src="
                         'https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces' +
