@@ -1,9 +1,25 @@
 <script setup lang="ts">
-defineProps({
+import { useSkeletonCount } from '~/composables/useSkeletonCount'
+import { useScrollEnd } from '~/composables/useScrollEnd'
+
+const props = defineProps({
     items: {
         type: Array,
         required: true,
     },
+    hasMoreItems: {
+        type: Boolean,
+        default: false,
+    },
+})
+const emit = defineEmits(['onMoreItems'])
+
+const { skeletonCount } = useSkeletonCount()
+
+useScrollEnd(460, () => {
+    if (props.hasMoreItems) {
+        emit('onMoreItems')
+    }
 })
 </script>
 
@@ -22,6 +38,7 @@ defineProps({
                 <h4>{{ item.title || item.name }}</h4>
             </div>
         </div>
+        <Skeletongrid v-if="hasMoreItems" :count="skeletonCount" />
     </div>
 </template>
 

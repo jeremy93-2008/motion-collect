@@ -2,7 +2,7 @@
 
 <template>
     <div
-        class="flex items-center justify-center w-[250px] h-[380px] bg-gray-300 rounded-xl dark:bg-gray-700"
+        class="flex items-center justify-center bg-gray-300 rounded-xl dark:bg-gray-700"
     >
         <svg
             class="w-10 h-10 text-gray-200 dark:text-gray-600"
