@@ -24,12 +24,18 @@ const title = computed(() => {
     <section class="header">
         <span class="title">{{ title }}</span>
         <div class="top-right">
-            <Iconbutton
-                :size="isSmall ? '16px' : '26px'"
-                :icon="searchIcon"
-                :class-name="`mr-0 ml-[-2px]`"
-                variant="primary"
-            />
+            <NuxtLink
+                class="search-button"
+                :class="{ disabled: route.path.includes('/search') }"
+                :to="route.path === '/' ? '/search' : route.path + '/search'"
+            >
+                <Iconbutton
+                    :size="isSmall ? '16px' : '26px'"
+                    :icon="searchIcon"
+                    :class-name="`mr-0 ml-[-2px]`"
+                    variant="primary"
+                />
+            </NuxtLink>
             <client-only>
                 <Profileuser />
                 <template #fallback>
@@ -67,6 +73,10 @@ section.header {
         align-items: center;
         img.mini-loading {
             animation: spinning 1s linear infinite;
+        }
+        & .search-button.disabled {
+            pointer-events: none;
+            opacity: 0.5;
         }
         & button.iconbutton {
             flex: 1;

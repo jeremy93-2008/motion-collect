@@ -73,7 +73,6 @@ section.carrousel_container {
     display: flex;
     flex-direction: column;
     width: calc(100vw - 328px);
-    min-height: 400px;
 
     ul.carrousel {
         display: flex;

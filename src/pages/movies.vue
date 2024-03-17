@@ -25,6 +25,7 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
 </script>
 
 <template>
+    <NuxtPage />
     <SortBy />
     <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
         <Grid

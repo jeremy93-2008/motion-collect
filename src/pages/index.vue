@@ -19,7 +19,11 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
 </script>
 
 <template>
-    <Carrousel :data="data[0].results.slice(0, 5)" />
+    <NuxtPage />
+    <Carrousel
+        v-if="status === 'success'"
+        :data="data[0].results.slice(0, 5)"
+    />
     <h3 class="small-title">Trending</h3>
     <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
         <Grid

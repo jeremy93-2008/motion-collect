@@ -12,6 +12,7 @@ useHead({
         },
     ],
 })
+
 const isScrolling = useState<boolean>('isScrolling', () => false)
 const scrollElement = useState<HTMLElement | null>('scrollElement', () => null)
 
