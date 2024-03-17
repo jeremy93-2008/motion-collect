@@ -16,15 +16,15 @@ export default defineNuxtModule({
                 .map((page) => {
                     return {
                         ...page,
-                        name: page.name!.replace(/:/gi, ''),
+                        name: page.name!.replace(/@/gi, ''),
                         path: page
-                            .path!.replace(/:/gi, '')
+                            .path!.replace(/@/gi, '')
                             .replaceAll('\\', ''),
                     }
                 })
             // Remove all pages that begin with "@", they will be rendered in parallel in all
             // other top-level route pages
-            removePagesMatching(/:/gi, pages)
+            removePagesMatching(/@/gi, pages)
 
             // Add the parallel pages as nested children of all other top-level route pages
             for (const page of pages) {
