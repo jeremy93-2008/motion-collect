@@ -3,7 +3,6 @@ import type { IMovieDB } from '~/types/MovieDB.type'
 import Carrousel from '~/components/index/carrousel.vue'
 import Grid from '~/components/grid.vue'
 import Wait from '~/components/wait.vue'
-
 const config = useRuntimeConfig()
 const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
     'https://api.themoviedb.org/3/trending/all/week?language=en-US',
