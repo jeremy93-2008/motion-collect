@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     },
     plugins: ['plugins/clerk.client.ts'],
     runtimeConfig: {
+        clerkSecretKey: process.env.NUXT_CLERK_SECRET_KEY,
         public: {
             moviedbApiKey: process.env.NUXT_PUBLIC_MOVIEDB_API_KEY,
             clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
