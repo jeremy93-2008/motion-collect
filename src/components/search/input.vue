@@ -42,7 +42,7 @@ watch(inputVal, (val) => {
     & input.search_input_value {
         width: 100%;
         background-color: transparent;
-        padding: 16px 20px 16px 12px;
+        padding: 16px 20px 12px 12px;
         font-size: 18px;
         &:focus {
             outline: none;
