@@ -11,7 +11,9 @@ export function useSortByRoute(options: { text: string; value: string }[]) {
 
     onMounted(() => {
         if (!route.query.sort_by)
-            return navigateTo({ query: { sort_by: selectedSortBy.value } })
+            return navigateTo({
+                query: { ...route.query, sort_by: selectedSortBy.value },
+            })
         const [sortBy, direction] = (route.query.sort_by as string).split('.')
 
         if (!options.some((option) => option.value === sortBy))

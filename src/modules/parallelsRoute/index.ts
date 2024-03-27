@@ -25,6 +25,7 @@ export default defineNuxtModule({
             // Remove all pages that begin with "@", they will be rendered in parallel in all
             // other top-level route pages
             removePagesMatching(/@/gi, pages)
+            removePagesMatching(/\/search/gi, parallelPages)
 
             // Add the parallel pages as nested children of all other top-level route pages
             for (const page of pages) {

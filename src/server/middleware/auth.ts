@@ -3,7 +3,7 @@ import clerk from '@clerk/clerk-sdk-node'
 import { type SignedInAuthObject } from '@clerk/backend'
 import { User } from '@prisma/client'
 
-import { prisma } from '~~/lib/prisma'
+import { prisma } from '~/lib/prisma'
 
 declare module 'h3' {
     interface H3EventContext {

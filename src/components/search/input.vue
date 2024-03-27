@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import searchIcon from 'assets/search.svg'
 
-const props = defineProps(['defaultValue'])
+const props = defineProps(['value'])
 const emit = defineEmits(['onChange'])
 
-const inputVal = ref(props.defaultValue)
+const inputVal = ref(props.value)
 const refInput = ref()
 onMounted(() => {
-    const input = refInput.value
+    const input = refInput.value as HTMLInputElement
     input.focus()
+    input.setSelectionRange(input.value.length, input.value.length)
 })
+
+watch(
+    () => props.value,
+    (val) => {
+        inputVal.value = val
+    }
+)
 
 watch(inputVal, (val) => {
     emit('onChange', val)
