@@ -1,39 +1,41 @@
 <script setup lang="ts">
 import Input from '~/components/search/input.vue'
 import { useOverlayEvent } from '~/composables/useOverlayEvent'
-import { useSSRAuth } from '~/composables/useSSRAuth'
 import { type Movie } from '~/types/MovieDB.type'
 
 import MovieSvg from '~/assets/movies.svg'
 import TvSvg from '~/assets/tv.svg'
 import CollectionSvg from '~/assets/collections.svg'
-
-const auth = useSSRAuth()
+import useConditionalFetch from '~/composables/useConditionalFetch'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 
 const query = computed(() => route.query.q)
 
-const { data: _data, status } = await useFetch<Movie[]>(
+const headers = useRequestHeaders(['cookie'])
+const fetchedData = await useConditionalFetch<Movie[]>(
     `${config.public.motionCollectUrl}api/search`,
     {
         headers: {
-            Authorization: `Bearer ${auth.token.value}`,
+            ...headers,
         },
         query: {
             q: query,
         },
-    }
+    },
+    computed(() => query.value as string)
 )
 
 const onSearchChange = async (val: string) => {
-    if (!val)
+    if (!val) {
+        const { q, ...rest } = route.query
         return navigateTo({
             query: {
-                ...route.query,
+                ...rest,
             },
         })
+    }
     navigateTo({
         query: {
             ...route.query,
@@ -49,40 +51,56 @@ const { onLeave } = useOverlayEvent()
     <section @click="onLeave" class="search_overlay" />
     <section class="search_container">
         <Input :value="route.query.q ?? ''" @on-change="onSearchChange" />
-        <ul class="search_list" v-if="status !== 'pending'">
-            <li class="search_entry" v-for="movie in _data" :key="movie.id">
-                <div class="search_entry-type">
-                    <img
-                        v-if="movie.media_type === 'movie'"
-                        class="search_entry-type_img"
-                        :src="MovieSvg"
-                    />
-                    <img
-                        v-else-if="movie.media_type === 'tv'"
-                        class="search_entry-type_img"
-                        :src="TvSvg"
-                    />
-                    <img
-                        v-else-if="movie.media_type === 'collection'"
-                        class="search_entry-type_img"
-                        :src="CollectionSvg"
-                    />
-                </div>
+        <Wait
+            :is-loading="
+                fetchedData?.status.value === 'pending' && query !== ''
+            "
+        >
+            <ul
+                class="search_list"
+                v-if="fetchedData?.status.value !== 'pending'"
+            >
+                <li
+                    class="search_entry"
+                    v-for="movie in fetchedData?.data.value ?? []"
+                    :key="movie.id"
+                >
+                    <div class="search_entry-type">
+                        <img
+                            v-if="movie.media_type === 'movie'"
+                            class="search_entry-type_img"
+                            :src="MovieSvg"
+                            alt="movie entry"
+                        />
+                        <img
+                            v-else-if="movie.media_type === 'tv'"
+                            class="search_entry-type_img"
+                            :src="TvSvg"
+                            alt="tv entry"
+                        />
+                        <img
+                            v-else-if="movie.media_type === 'collection'"
+                            class="search_entry-type_img"
+                            :src="CollectionSvg"
+                            alt="collection entry"
+                        />
+                    </div>
 
-                <img
-                    :src="
-                        movie.poster_path
-                            ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                              movie.poster_path
-                            : 'https://fakeimg.pl/270x390?text=image'
-                    "
-                    class="search_entry-poster"
-                />
-                <span class="search_entry-title">{{
-                    movie.title ?? movie.name
-                }}</span>
-            </li>
-        </ul>
+                    <img
+                        :src="
+                            movie.poster_path
+                                ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
+                                  movie.poster_path
+                                : 'https://fakeimg.pl/270x390?text=image'
+                        "
+                        class="search_entry-poster"
+                    />
+                    <span class="search_entry-title">{{
+                        movie.title ?? movie.name
+                    }}</span>
+                </li>
+            </ul>
+        </Wait>
     </section>
 </template>
 
@@ -112,7 +130,7 @@ const { onLeave } = useOverlayEvent()
     background-color: var(--color-background);
     border-radius: 20px;
     z-index: 100;
-    padding: 30px;
+    padding: 0 30px 30px 30px;
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 

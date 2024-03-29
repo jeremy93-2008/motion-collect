@@ -1,4 +1,3 @@
-import { getHeaders } from 'h3'
 import clerk from '@clerk/clerk-sdk-node'
 import { type SignedInAuthObject } from '@clerk/backend'
 import { User } from '@prisma/client'
@@ -19,7 +18,7 @@ export default defineEventHandler(async (event) => {
         request: event.web?.request,
         publishableKey: useRuntimeConfig(event).public.clerkPublishableKey,
         secretKey: useRuntimeConfig(event).clerkSecretKey,
-        headerToken: getHeaders(event).authorization?.replace('Bearer ', ''),
+        headerToken: getCookie(event, '__session'),
         loadSession: true,
         loadUser: true,
     })

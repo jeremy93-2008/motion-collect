@@ -6,6 +6,7 @@ const emit = defineEmits(['onChange'])
 
 const inputVal = ref(props.value)
 const refInput = ref()
+
 onMounted(() => {
     const input = refInput.value as HTMLInputElement
     input.focus()
@@ -26,34 +27,45 @@ watch(inputVal, (val) => {
 
 <template>
     <div class="search_input_container">
-        <img :src="searchIcon" alt="search" />
-        <input
-            v-model="inputVal"
-            ref="refInput"
-            class="search_input_value"
-            placeholder="Search for movies, tv series and collection"
-        />
+        <div class="search_input_border">
+            <img :src="searchIcon" alt="search" />
+            <input
+                v-model="inputVal"
+                ref="refInput"
+                class="search_input_value"
+                placeholder="Search for movies, tv series and collection"
+            />
+        </div>
     </div>
 </template>
 
 <style scoped>
 .search_input_container {
+    position: sticky;
+    top: -16px;
     display: flex;
-    border: 2px solid var(--color-background-shade);
-    border-radius: 10px;
-    &:focus-within {
-        border: 2px solid var(--color-accent);
-    }
+    padding-top: 30px;
+    background-color: var(--color-background);
     & img {
         padding-left: 12px;
     }
-    & input.search_input_value {
-        width: 100%;
-        background-color: transparent;
-        padding: 16px 20px 12px 12px;
-        font-size: 18px;
-        &:focus {
-            outline: none;
+    .search_input_border {
+        display: flex;
+        flex: 1;
+        background-color: var(--color-background);
+        border: 2px solid var(--color-background-shade);
+        border-radius: 10px;
+        &:focus-within {
+            border: 2px solid var(--color-accent);
+        }
+        & input.search_input_value {
+            width: 100%;
+            background-color: transparent;
+            padding: 16px 20px 12px 12px;
+            font-size: 18px;
+            &:focus {
+                outline: none;
+            }
         }
     }
 }
