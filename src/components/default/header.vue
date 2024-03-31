@@ -15,7 +15,7 @@ const title = computed(() => {
         case 'series':
             return 'TV Series'
         default:
-            return 'Motion Collect'
+            return route.params.name ?? 'Motion Collect'
     }
 })
 </script>

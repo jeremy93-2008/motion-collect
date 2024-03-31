@@ -31,13 +31,13 @@ const route = useRoute()
             <Sidebutton
                 @click="() => navigateTo('/movies')"
                 :leftIcon="moviesIcon"
-                :selected="route.matched[0].name === 'movies'"
+                :selected="(route.matched[0].name as string).includes('movie')"
                 >Movies</Sidebutton
             >
             <Sidebutton
                 @click="() => navigateTo('/series')"
                 :leftIcon="tvIcon"
-                :selected="route.matched[0].name === 'series'"
+                :selected="(route.matched[0].name as string).includes('serie')"
                 >TV Series</Sidebutton
             >
             <div class="collection">

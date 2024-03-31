@@ -12,7 +12,7 @@ const props = defineProps({
         default: false,
     },
 })
-const emit = defineEmits(['onMoreItems'])
+const emit = defineEmits(['onMoreItems', 'onClickItem'])
 
 const { skeletonCount } = useSkeletonCount()
 
@@ -27,6 +27,7 @@ useScrollEnd(460, () => {
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <img
+                @click="emit('onClickItem', item)"
                 class="poster--item_img"
                 :src="
                     item.poster_path

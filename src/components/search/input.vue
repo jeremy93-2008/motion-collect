@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import searchIcon from 'assets/search.svg'
+import cancelIcon from 'assets/cancel.svg'
 
 const props = defineProps(['value'])
 const emit = defineEmits(['onChange'])
@@ -28,12 +29,20 @@ watch(inputVal, (val) => {
 <template>
     <div class="search_input_container">
         <div class="search_input_border">
-            <img :src="searchIcon" alt="search" />
+            <img class="search_input_glass" :src="searchIcon" alt="search" />
             <input
                 v-model="inputVal"
                 ref="refInput"
                 class="search_input_value"
                 placeholder="Search for movies, tv series and collection"
+            />
+            <Icon
+                v-if="inputVal !== ''"
+                @click="() => (inputVal = '')"
+                class="search_input_cancel"
+                name="material-symbols:cancel"
+                color="gray"
+                size="34px"
             />
         </div>
     </div>
@@ -46,17 +55,18 @@ watch(inputVal, (val) => {
     display: flex;
     padding-top: 30px;
     background-color: var(--color-background);
-    & img {
-        padding-left: 12px;
-    }
     .search_input_border {
         display: flex;
+        align-items: center;
         flex: 1;
         background-color: var(--color-background);
         border: 2px solid var(--color-background-shade);
         border-radius: 10px;
         &:focus-within {
             border: 2px solid var(--color-accent);
+        }
+        & img.search_input_glass {
+            padding-left: 12px;
         }
         & input.search_input_value {
             width: 100%;
@@ -66,6 +76,10 @@ watch(inputVal, (val) => {
             &:focus {
                 outline: none;
             }
+        }
+        & svg.search_input_cancel {
+            padding-right: 12px;
+            cursor: pointer;
         }
     }
 }

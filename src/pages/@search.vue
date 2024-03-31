@@ -71,18 +71,21 @@ const { onLeave } = useOverlayEvent()
                             class="search_entry-type_img"
                             :src="MovieSvg"
                             alt="movie entry"
+                            title="Movie"
                         />
                         <img
                             v-else-if="movie.media_type === 'tv'"
                             class="search_entry-type_img"
                             :src="TvSvg"
                             alt="tv entry"
+                            title="TV Show"
                         />
                         <img
                             v-else-if="movie.media_type === 'collection'"
                             class="search_entry-type_img"
                             :src="CollectionSvg"
                             alt="collection entry"
+                            title="Collection"
                         />
                     </div>
 
