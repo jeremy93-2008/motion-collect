@@ -27,7 +27,11 @@ const refWatchProviderCountry = ref('')
 watch(
     dataWatchProvider,
     (newVal) => {
-        refWatchProviderCountry.value = Object.keys(newVal.results)[0]
+        if (!newVal || !newVal.results) return
+        const isESExist = Object.keys(newVal.results).includes('ES')
+        refWatchProviderCountry.value = isESExist
+            ? 'ES'
+            : Object.keys(newVal.results)[0]
     },
     { immediate: true }
 )
@@ -55,15 +59,6 @@ watch(
                     <div class="website_link" :title="data.name + ' Webpage'">
                         <NuxtLink :to="data.homepage" external target="_blank">
                             <Icon name="material-symbols:link" />
-                        </NuxtLink>
-                    </div>
-                    <div class="imdb_link" :title="data.name + ' IMDB Webpage'">
-                        <NuxtLink
-                            :to="'https://www.imdb.com/title/' + data.imdb_id"
-                            external
-                            target="_blank"
-                        >
-                            <Icon name="bxl:imdb" />
                         </NuxtLink>
                     </div>
                     <section class="production_countries flex gap-2 ml-1">
@@ -128,11 +123,16 @@ watch(
                     />
                 </div>
             </section>
-            <span class="block text-lg mt-12 mb-4"
+            <span
+                v-if="Object.keys(dataWatchProvider.results).length > 0"
+                class="block text-lg mt-12 mb-4"
                 >Streaming Providers
                 <sub class="text-xs">powered by JustWatch</sub></span
             >
-            <section class="streaming_container flex flex-col gap-6">
+            <section
+                v-if="Object.keys(dataWatchProvider.results).length > 0"
+                class="streaming_container flex flex-col gap-6"
+            >
                 <select
                     v-model="refWatchProviderCountry"
                     class="border border-gray-300 rounded p-2 bg-[#2B2D42] text-white w-fit"
@@ -165,7 +165,7 @@ watch(
                         >
                             <NuxtLink
                                 external
-                                :to="`https://www.themoviedb.org/movie/${data.id}-${data.name.replaceAll(' ', '-')}/watch`"
+                                :to="`https://www.themoviedb.org/tv/${data.id}-${data.name.replaceAll(' ', '-')}/watch`"
                                 target="_blank"
                                 :title="stream.provider_name"
                             >

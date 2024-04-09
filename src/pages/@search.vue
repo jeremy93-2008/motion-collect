@@ -11,6 +11,8 @@ import useConditionalFetch from '~/composables/useConditionalFetch'
 const route = useRoute()
 const config = useRuntimeConfig()
 
+const filterType = ref('all')
+
 const query = computed(() => route.query.q)
 
 const headers = useRequestHeaders(['cookie'])
@@ -22,6 +24,7 @@ const fetchedData = await useConditionalFetch<Movie[]>(
         },
         query: {
             q: query,
+            filter: filterType,
         },
     },
     computed(() => query.value as string)
@@ -44,13 +47,58 @@ const onSearchChange = async (val: string) => {
     })
 }
 
+const onClickFilterType = (type: string) => {
+    filterType.value = type
+}
+
 const { onLeave } = useOverlayEvent()
+
+const onClickSearchEntry = (movie: Movie) => {
+    const type = movie.media_type === 'movie' ? 'movie' : 'serie'
+    navigateTo({
+        path: `/${type}/${movie.id}-${movie.title ?? movie.name}`,
+    })
+}
 </script>
 
 <template>
     <section @click="onLeave" class="search_overlay" />
     <section class="search_container">
         <Input :value="route.query.q ?? ''" @on-change="onSearchChange" />
+        <section v-if="route.query.q" class="tabs_search_filter_container">
+            <div
+                class="tabs_search_filter_button_hover_overlay"
+                :class="'tabs_search_filter_button_hover_overlay_' + filterType"
+            />
+            <button
+                @click="onClickFilterType('all')"
+                class="tabs_search_filter_button"
+                :class="filterType === 'all' ? 'active' : ''"
+            >
+                All
+            </button>
+            <button
+                @click="onClickFilterType('movie')"
+                class="tabs_search_filter_button"
+                :class="filterType === 'movie' ? 'active' : ''"
+            >
+                Movies
+            </button>
+            <button
+                @click="onClickFilterType('tv')"
+                class="tabs_search_filter_button"
+                :class="filterType === 'tv' ? 'active' : ''"
+            >
+                TV Shows
+            </button>
+            <button
+                @click="onClickFilterType('collection')"
+                class="tabs_search_filter_button"
+                :class="filterType === 'collection' ? 'active' : ''"
+            >
+                Collections
+            </button>
+        </section>
         <Wait
             :is-loading="
                 fetchedData?.status.value === 'pending' && query !== ''
@@ -64,6 +112,7 @@ const { onLeave } = useOverlayEvent()
                     class="search_entry"
                     v-for="movie in fetchedData?.data.value ?? []"
                     :key="movie.id"
+                    @click="onClickSearchEntry(movie)"
                 >
                     <div class="search_entry-type">
                         <img
@@ -88,7 +137,6 @@ const { onLeave } = useOverlayEvent()
                             title="Collection"
                         />
                     </div>
-
                     <img
                         :src="
                             movie.poster_path
@@ -137,10 +185,68 @@ const { onLeave } = useOverlayEvent()
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
+    .tabs_search_filter_container {
+        position: sticky;
+        top: 73px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background: var(--color-background);
+        border: 1px solid var(--color-background-shade);
+        border-radius: 10px;
+
+        & .tabs_search_filter_button_hover_overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 25%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: var(--color-background-shade);
+            z-index: -1;
+            transition: transform 0.2s ease-in-out;
+
+            &.tabs_search_filter_button_hover_overlay_all {
+                transform: translateX(0);
+            }
+
+            &.tabs_search_filter_button_hover_overlay_movie {
+                transform: translateX(100%);
+            }
+
+            &.tabs_search_filter_button_hover_overlay_tv {
+                transform: translateX(200%);
+            }
+
+            &.tabs_search_filter_button_hover_overlay_collection {
+                transform: translateX(300%);
+            }
+        }
+
+        & .tabs_search_filter_button {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            color: var(--color-shade);
+
+            &.active {
+                color: var(--color-white);
+            }
+
+            &:hover {
+                color: var(--color-white);
+            }
+        }
+    }
+
     .search_list {
         display: flex;
         flex-direction: column;
-        zoom: 0.8;
 
         & .search_entry {
             display: flex;
@@ -155,11 +261,17 @@ const { onLeave } = useOverlayEvent()
             }
 
             & .search_entry-poster {
-                width: 50px;
-                height: 75px;
+                width: 45px;
+                height: 65px;
                 object-fit: cover;
                 border-radius: 10px;
                 margin-right: 10px;
+            }
+
+            & .search_entry-type_img {
+                width: 16px;
+                height: 16px;
+                margin-right: 5px;
             }
 
             & .search_entry-type {
@@ -169,7 +281,7 @@ const { onLeave } = useOverlayEvent()
             }
 
             & .search_entry-title {
-                font-size: 16px;
+                font-size: 14px;
                 color: var(--color-text);
             }
         }

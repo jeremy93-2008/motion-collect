@@ -15,12 +15,14 @@ useHead({
 
 const isScrolling = useState<boolean>('isScrolling', () => false)
 const scrollElement = useState<HTMLElement | null>('scrollElement', () => null)
+const scrollTop = useState('scrollTop', () => 0)
 
 const onScrollContent = () => {
-    if (scrollElement.value?.scrollTop! > 0) {
+    scrollTop.value = scrollElement.value?.scrollTop!
+    if (scrollElement.value?.scrollTop! > 0 && isScrolling.value) return
+    if (scrollElement.value?.scrollTop! > 30 && !isScrolling.value)
         return (isScrolling.value = true)
-    }
-    isScrolling.value = false
+    else isScrolling.value = false
 }
 </script>
 

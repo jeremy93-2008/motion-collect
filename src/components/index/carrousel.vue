@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Movie } from '~/types/MovieDB.type'
+
 const props = defineProps({
     data: Array,
 })
@@ -30,6 +32,11 @@ const onCarrouselChangeClick = (
     }
 }
 
+const getLinkHref = (item: Movie) => {
+    const type = item.media_type === 'movie' ? 'movie' : 'serie'
+    return `/${type}/${item.id}-${item.title ?? item.name}`
+}
+
 onMounted(() => {
     restartInterval()
     window.addEventListener('resize', () =>
@@ -42,19 +49,21 @@ onMounted(() => {
     <section class="carrousel_container">
         <ul ref="carrouselList" class="carrousel">
             <li ref="carrouselItems" v-for="item in data" :key="item.id">
-                <img
-                    :src="
-                        'https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces' +
-                        item.backdrop_path
-                    "
-                    alt="backdrop"
-                />
+                <NuxtLink :to="getLinkHref(item)">
+                    <img
+                        :src="
+                            'https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces' +
+                            item.backdrop_path
+                        "
+                        alt="backdrop"
+                    />
+                </NuxtLink>
             </li>
         </ul>
         <div class="blue-gradient" />
-        <span class="title">{{
+        <NuxtLink class="title" :to="getLinkHref(data[carrouselIndex])">{{
             data[carrouselIndex].title ?? data[carrouselIndex].name
-        }}</span>
+        }}</NuxtLink>
         <ul class="carrousel_menu">
             <li v-for="(item, index) in data" :key="item.id">
                 <button
@@ -102,7 +111,7 @@ section.carrousel_container {
         );
     }
 
-    & span.title {
+    & a.title {
         position: absolute;
         top: 35px;
         left: 3vw;

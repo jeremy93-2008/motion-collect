@@ -95,7 +95,7 @@ section.header {
             margin-right: 16px;
 
             & button.iconbutton {
-                padding: 4px;
+                padding: 6px;
             }
         }
     }

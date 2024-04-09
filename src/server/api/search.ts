@@ -4,6 +4,11 @@ import type { IMovieDB } from '~/types/MovieDB.type'
 export default defineCachedEventHandler(
     async (event) => {
         const searchTerm = getQuery(event).q as string
+        const filterTerm = getQuery(event).filter as
+            | 'all'
+            | 'movie'
+            | 'tv'
+            | 'collection'
 
         if (!searchTerm)
             throw createError({
@@ -11,8 +16,13 @@ export default defineCachedEventHandler(
                 message: 'No search term provided',
             })
 
+        const endpointKey =
+            filterTerm === 'collection' || filterTerm === 'all'
+                ? 'multi'
+                : filterTerm
+
         const fetchedData = await $fetch<IMovieDB>(
-            `https://api.themoviedb.org/3/search/multi?query=${searchTerm}`,
+            `https://api.themoviedb.org/3/search/${endpointKey}?query=${searchTerm}`,
             {
                 headers: {
                     Authorization:

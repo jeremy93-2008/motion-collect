@@ -27,7 +27,11 @@ const refWatchProviderCountry = ref('')
 watch(
     dataWatchProvider,
     (newVal) => {
-        refWatchProviderCountry.value = Object.keys(newVal.results)[0]
+        if (!newVal || !newVal.results) return
+        const isESExist = Object.keys(newVal.results).includes('ES')
+        refWatchProviderCountry.value = isESExist
+            ? 'ES'
+            : Object.keys(newVal.results)[0]
     },
     { immediate: true }
 )
@@ -88,11 +92,13 @@ watch(
                 <div class="flex">
                     <div class="text-sm">
                         {{
-                            new Intl.DateTimeFormat('en-US', {
-                                day: '2-digit',
-                                month: 'short',
-                                year: 'numeric',
-                            }).format(new Date(data.release_date))
+                            data.release_date
+                                ? new Intl.DateTimeFormat('en-US', {
+                                      day: '2-digit',
+                                      month: 'short',
+                                      year: 'numeric',
+                                  }).format(new Date(data.release_date))
+                                : 'No release date'
                         }}
                     </div>
                 </div>
@@ -163,11 +169,16 @@ watch(
                     />
                 </div>
             </section>
-            <span class="block text-lg mt-12 mb-4"
+            <span
+                v-if="Object.keys(dataWatchProvider.results).length > 0"
+                class="block text-lg mt-12 mb-4"
                 >Streaming Providers
                 <sub class="text-xs">powered by JustWatch</sub></span
             >
-            <section class="streaming_container flex flex-col gap-6">
+            <section
+                v-if="Object.keys(dataWatchProvider.results).length > 0"
+                class="streaming_container flex flex-col gap-6"
+            >
                 <select
                     v-model="refWatchProviderCountry"
                     class="border border-gray-300 rounded p-2 bg-[#2B2D42] text-white w-fit"

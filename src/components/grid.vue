@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSkeletonCount } from '~/composables/useSkeletonCount'
 import { useScrollEnd } from '~/composables/useScrollEnd'
+import type { Movie } from '~/types/MovieDB.type'
 
 const props = defineProps({
     items: {
@@ -11,8 +12,12 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    mediaType: {
+        type: String,
+    },
 })
-const emit = defineEmits(['onMoreItems', 'onClickItem'])
+
+const emit = defineEmits(['onMoreItems'])
 
 const { skeletonCount } = useSkeletonCount()
 
@@ -21,25 +26,32 @@ useScrollEnd(460, () => {
         emit('onMoreItems')
     }
 })
+
+const getLinkHref = (item: Movie) => {
+    const type =
+        props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'serie')
+    return `/${type}/${item.id}-${item.title ?? item.name}`
+}
 </script>
 
 <template>
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
-            <img
-                @click="emit('onClickItem', item)"
-                class="poster--item_img"
-                :src="
-                    item.poster_path
-                        ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                          item.poster_path
-                        : 'https://fakeimg.pl/270x390?text=image'
-                "
-                alt="poster"
-            />
-            <div class="poster--item_info">
-                <h4>{{ item.title || item.name }}</h4>
-            </div>
+            <NuxtLink :to="getLinkHref(item)">
+                <img
+                    class="poster--item_img"
+                    :src="
+                        item.poster_path
+                            ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
+                              item.poster_path
+                            : 'https://fakeimg.pl/270x390?text=image'
+                    "
+                    alt="poster"
+                />
+                <div class="poster--item_info">
+                    <h4>{{ item.title || item.name }}</h4>
+                </div>
+            </NuxtLink>
         </div>
         <Skeletongrid v-if="hasMoreItems" :count="skeletonCount" />
     </div>

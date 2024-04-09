@@ -18,7 +18,7 @@ const onDirectionChange = () => {
     selectedDirection.value = selectedDirection.value === 'asc' ? 'desc' : 'asc'
 }
 
-const isScrolling = useState<boolean>('isScrolling')
+const isScrolling = useState('isScrolling')
 </script>
 
 <template>
@@ -48,7 +48,7 @@ const isScrolling = useState<boolean>('isScrolling')
 <style scoped>
 .sort-by__container {
     position: sticky;
-    top: 55px;
+    top: 70px;
     background-color: var(--color-background);
     z-index: 10;
     display: flex;
@@ -108,6 +108,7 @@ const isScrolling = useState<boolean>('isScrolling')
     }
 
     &.small {
+        top: 55px;
         box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.4);
         p {
             font-size: 14px;

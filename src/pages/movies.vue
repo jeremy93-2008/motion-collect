@@ -32,15 +32,7 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
             :items="data.map((d) => d.results).flat()"
             :hasMoreItems="pageParams.page < data[0].total_pages"
             @onMoreItems="nextPage"
-            @onClickItem="
-                navigateTo(
-                    route.path.replace('movies', 'movie') +
-                        '/' +
-                        $event.id +
-                        '-' +
-                        $event.title
-                )
-            "
+            media-type="movie"
         />
     </Wait>
 </template>
