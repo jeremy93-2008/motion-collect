@@ -53,11 +53,16 @@ const onClickFilterType = (type: string) => {
 
 const { onLeave } = useOverlayEvent()
 
-const onClickSearchEntry = (movie: Movie) => {
-    const type = movie.media_type === 'movie' ? 'movie' : 'serie'
-    navigateTo({
-        path: `/${type}/${movie.id}-${movie.title ?? movie.name}`,
-    })
+const getFilterTypePath = (media_type: string) => {
+    if (media_type === 'all') return 'all'
+    if (media_type === 'movie') return 'movie'
+    if (media_type === 'tv') return 'serie'
+    if (media_type === 'collection') return 'collection'
+}
+
+const getMediaUrl = (movie: Movie) => {
+    const type = getFilterTypePath(movie.media_type ?? filterType.value)
+    return `/${type}/${movie.id}-${movie.title ?? movie.name}`
 }
 </script>
 
@@ -112,43 +117,44 @@ const onClickSearchEntry = (movie: Movie) => {
                     class="search_entry"
                     v-for="movie in fetchedData?.data.value ?? []"
                     :key="movie.id"
-                    @click="onClickSearchEntry(movie)"
                 >
-                    <div class="search_entry-type">
+                    <NuxtLink :to="getMediaUrl(movie)">
+                        <div class="search_entry-type">
+                            <img
+                                v-if="movie.media_type === 'movie'"
+                                class="search_entry-type_img"
+                                :src="MovieSvg"
+                                alt="movie entry"
+                                title="Movie"
+                            />
+                            <img
+                                v-else-if="movie.media_type === 'tv'"
+                                class="search_entry-type_img"
+                                :src="TvSvg"
+                                alt="tv entry"
+                                title="TV Show"
+                            />
+                            <img
+                                v-else-if="movie.media_type === 'collection'"
+                                class="search_entry-type_img"
+                                :src="CollectionSvg"
+                                alt="collection entry"
+                                title="Collection"
+                            />
+                        </div>
                         <img
-                            v-if="movie.media_type === 'movie'"
-                            class="search_entry-type_img"
-                            :src="MovieSvg"
-                            alt="movie entry"
-                            title="Movie"
+                            :src="
+                                movie.poster_path
+                                    ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
+                                      movie.poster_path
+                                    : 'https://fakeimg.pl/270x390?text=image'
+                            "
+                            class="search_entry-poster"
                         />
-                        <img
-                            v-else-if="movie.media_type === 'tv'"
-                            class="search_entry-type_img"
-                            :src="TvSvg"
-                            alt="tv entry"
-                            title="TV Show"
-                        />
-                        <img
-                            v-else-if="movie.media_type === 'collection'"
-                            class="search_entry-type_img"
-                            :src="CollectionSvg"
-                            alt="collection entry"
-                            title="Collection"
-                        />
-                    </div>
-                    <img
-                        :src="
-                            movie.poster_path
-                                ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                                  movie.poster_path
-                                : 'https://fakeimg.pl/270x390?text=image'
-                        "
-                        class="search_entry-poster"
-                    />
-                    <span class="search_entry-title">{{
-                        movie.title ?? movie.name
-                    }}</span>
+                        <span class="search_entry-title">{{
+                            movie.title ?? movie.name
+                        }}</span>
+                    </NuxtLink>
                 </li>
             </ul>
         </Wait>
@@ -258,6 +264,12 @@ const onClickSearchEntry = (movie: Movie) => {
 
             &:hover {
                 background-color: var(--color-background-shade);
+            }
+
+            & a {
+                display: flex;
+                align-items: center;
+                flex: 1;
             }
 
             & .search_entry-poster {
