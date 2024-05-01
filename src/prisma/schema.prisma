@@ -30,6 +30,7 @@ model Collection {
   description String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  visibility  String     @default("private")
   userId      String
   user        User       @relation(fields: [userId], references: [id])
   Movies      Movies[]
