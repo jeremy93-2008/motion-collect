@@ -31,6 +31,11 @@ export function CollectionRepository(event: H3Event<EventHandlerRequest>) {
                 },
                 data: {
                     ...collection,
+                    user: {
+                        connect: {
+                            id: event.context.user.id,
+                        },
+                    },
                     updatedAt: collection.updatedAt ?? new Date(),
                 },
             })
@@ -50,10 +55,16 @@ export function CollectionRepository(event: H3Event<EventHandlerRequest>) {
             const prismaCriteria = criteria.getPrismaCriteria()
 
             if (type === 'first') {
-                return prisma.collection.findFirst(prismaCriteria)
+                return prisma.collection.findFirst({
+                    ...prismaCriteria,
+                    orderBy: { ...prismaCriteria.orderBy, user: undefined },
+                })
             }
 
-            return prisma.collection.findMany(prismaCriteria)
+            return prisma.collection.findMany({
+                ...prismaCriteria,
+                orderBy: { ...prismaCriteria.orderBy, user: undefined },
+            })
         },
     }
 }
