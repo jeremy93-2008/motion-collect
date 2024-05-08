@@ -9,6 +9,7 @@ async function getCollection(event: H3Event<EventHandlerRequest>) {
 
     const criteria = CriteriaProvider<CollectionObject>()
         .type('first')
+        .include(['user', 'Movies', 'TVSeries'])
         .or({
             id,
             user: {
