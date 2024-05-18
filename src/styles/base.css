@@ -25,7 +25,46 @@ img.loading {
     animation: spin 1.5s linear infinite;
 }
 
+.subpage_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.15s linear both;
+}
+
+input.collectionInput, textarea.collectionInput, select.collectionInput {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid var(--color-background-shade);
+    border-radius: 5px;
+    background-color: var(--color-background);
+    color: var(--color-white);
+
+    &:focus {
+        outline: none;
+        border: 2px solid var(--color-accent);
+    }
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@keyframes slideToTop {
+    0% {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

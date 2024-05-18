@@ -51,7 +51,7 @@ const onClickFilterType = (type: string) => {
     filterType.value = type
 }
 
-const { onLeave } = useOverlayEvent()
+const { onLeave } = useOverlayEvent('/search')
 
 const getFilterTypePath = (media_type: string) => {
     if (media_type === 'all') return 'all'
@@ -67,7 +67,7 @@ const getMediaUrl = (movie: Movie) => {
 </script>
 
 <template>
-    <section @click="onLeave" class="search_overlay" />
+    <section @click="onLeave" class="subpage_overlay" />
     <section class="search_container">
         <Input :value="route.query.q ?? ''" @on-change="onSearchChange" />
         <section v-if="route.query.q" class="tabs_search_filter_container">
@@ -162,19 +162,6 @@ const getMediaUrl = (movie: Movie) => {
 </template>
 
 <style scoped>
-.search_overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.15s linear both;
-}
 .search_container {
     position: fixed;
     top: 12vh;
@@ -305,17 +292,6 @@ const getMediaUrl = (movie: Movie) => {
         opacity: 0;
     }
     100% {
-        opacity: 1;
-    }
-}
-
-@keyframes slideToTop {
-    0% {
-        transform: translateY(-10%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
         opacity: 1;
     }
 }

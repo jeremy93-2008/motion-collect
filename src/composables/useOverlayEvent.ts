@@ -1,8 +1,8 @@
-export function useOverlayEvent() {
+export function useOverlayEvent(path: string) {
     const route = useRoute()
 
     const onLeave = () => {
-        navigateTo(route.path.replace('/search', ''))
+        navigateTo(route.path.replace(path, ''))
     }
 
     onMounted(() => {
