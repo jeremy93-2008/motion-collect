@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuth } from 'vue-clerk'
 import type { MediaObject } from '~/domain/media'
 
 import homeIcon from 'assets/home.svg'
@@ -11,7 +12,6 @@ import plusIcon from 'assets/plus.svg'
 import Sidebutton from './sidebutton.vue'
 import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
-import { useAuth } from 'vue-clerk'
 
 const route = useRoute()
 const config = useRuntimeConfig()
