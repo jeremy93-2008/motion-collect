@@ -7,6 +7,10 @@
     --color-accent-shade: #c2919c;
     --color-white: #EDF2F4;
     --color-shade: #8D99AE;
+
+    --color-error: #dc2626;
+    --color-warning: #f59e0b;
+    --color-info: #3b82f6;
 }
 
 html, body {

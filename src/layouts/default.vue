@@ -27,6 +27,7 @@ const onScrollContent = () => {
 </script>
 
 <template>
+    <Alert />
     <NuxtLoadingIndicator color="#D80032" />
     <main class="app">
         <Sidepanel />

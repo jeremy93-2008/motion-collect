@@ -28,6 +28,9 @@ const { data } = await useFetch<MediaObject[]>(
         watch: [path],
     }
 )
+
+const { isLogged } = useLogged()
+const { showErrorAlert } = useAlert()
 </script>
 
 <template>
@@ -64,7 +67,15 @@ const { data } = await useFetch<MediaObject[]>(
                     <img src="../../assets/collections.svg" alt="Collections" />
                     <span>Collections</span>
                     <Iconbutton
-                        @click="() => navigateTo('/collection/add')"
+                        @click="
+                            () =>
+                                isLogged
+                                    ? navigateTo('/collection/add')
+                                    : showErrorAlert(
+                                          'Error',
+                                          'You need to be logged in to create a collection'
+                                      )
+                        "
                         class-name="mr-3"
                         size="18px"
                         :icon="plusIcon"
