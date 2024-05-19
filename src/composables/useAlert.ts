@@ -8,7 +8,7 @@ export interface AlertProvider {
 }
 
 export function useAlert() {
-    const alert = inject('alert') as Ref<AlertProvider>
+    const alert = inject('alertProvider') as Ref<AlertProvider>
     return {
         showInfoAlert: (title: string, message: string) => {
             alert.value.type = 'info'

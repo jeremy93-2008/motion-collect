@@ -1,49 +1,53 @@
 <script setup lang="ts">
-import type { AlertProvider } from '~/composables/useAlert'
+import type { ConfirmationProvider } from '~/composables/useConfirmation'
 import MaterialSymbolsInfo from '~/components/icons/info.vue'
 import MaterialSymbolsWarning from '~/components/icons/warning.vue'
 import MaterialSymbolsError from '~/components/icons/error.vue'
 
 const app = useNuxtApp()
 
-const alert = ref<AlertProvider>({
+const confirmation = ref<ConfirmationProvider>({
     type: 'info',
     title: '',
     message: '',
     show: false,
+    onOk: () => {},
+    onCancel: () => {},
 })
 
-app.vueApp.provide('alertProvider', alert)
-
-const onClose = () => {
-    alert.value.show = false
-}
+app.vueApp.provide('confirmationProvider', confirmation)
 </script>
 
 <template>
-    <section v-if="alert.show">
-        <section @click="onClose" class="subpage_overlay" />
-        <section class="alert_container">
+    <section v-if="confirmation.show">
+        <section @click="confirmation.onCancel" class="subpage_overlay" />
+        <section class="confirmation_container">
             <h1>
                 <MaterialSymbolsInfo
-                    :class="`icon_${alert.type}`"
-                    v-if="alert.type === 'info'"
+                    :class="`icon_${confirmation.type}`"
+                    v-if="confirmation.type === 'info'"
                 />
                 <MaterialSymbolsWarning
-                    :class="`icon_${alert.type}`"
-                    v-if="alert.type === 'warning'"
+                    :class="`icon_${confirmation.type}`"
+                    v-if="confirmation.type === 'warning'"
                 />
                 <MaterialSymbolsError
-                    :class="`icon_${alert.type}`"
-                    v-if="alert.type === 'error'"
+                    :class="`icon_${confirmation.type}`"
+                    v-if="confirmation.type === 'error'"
                 />
-                {{ alert.title }}
+                {{ confirmation.title }}
             </h1>
-            <p>{{ alert.message }}</p>
-            <div class="flex justify-end mt-4">
+            <p>{{ confirmation.message }}</p>
+            <div class="flex justify-end gap-4 mt-4">
                 <button
-                    @click="onClose"
-                    class="bg-[--color-accent] py-2 px-5 rounded-3xl border border-transparent hover:border-white active:bg-[--color-accent-shade] disabled:bg-gray-500 disabled:pointer-events-none"
+                    @click="confirmation.onCancel"
+                    class="bg-transparent py-2 px-5 rounded-3xl border border-gray-600 hover:border-gray-300 active:border-gray-300 active:bg-gray-900 disabled:pointer-events-none"
+                >
+                    Cancel
+                </button>
+                <button
+                    @click="confirmation.onOk"
+                    class="bg-[--color-accent] py-2 px-5 rounded-3xl border border-transparent hover:border-white active:bg-[--color-accent-shade] disabled:pointer-events-none"
                 >
                     Ok
                 </button>
@@ -53,7 +57,7 @@ const onClose = () => {
 </template>
 
 <style scoped>
-.alert_container {
+.confirmation_container {
     position: fixed;
     top: 12vh;
     left: calc(50vw - 250px);

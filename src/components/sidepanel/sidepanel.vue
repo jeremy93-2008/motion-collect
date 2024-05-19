@@ -32,8 +32,6 @@ const { data } = await useFetch<MediaObject[]>(
 
 const { isSignedIn } = useAuth()
 const { showErrorAlert } = useAlert()
-
-console.log(route.path)
 </script>
 
 <template>
