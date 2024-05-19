@@ -16,6 +16,7 @@ defineEmits(['click'])
 <style scoped>
 .button {
     display: flex;
+    width: 100%;
     align-items: center;
     color: var(--color-white);
     padding: 8px 18px;

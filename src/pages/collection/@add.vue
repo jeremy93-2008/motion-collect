@@ -9,7 +9,7 @@ const title = ref('')
 const type = ref('private' as Visibility)
 const description = ref('')
 
-const { onLeave } = useOverlayEvent('collection/add')
+const { onLeave } = useOverlayEvent('/collection/add')
 
 const onClick = () => {
     $fetch(`${config.public.motionCollectUrl}api/collection/create`, {

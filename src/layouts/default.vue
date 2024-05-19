@@ -2,6 +2,7 @@
 import '@/styles/base.css'
 import Sidepanel from '~/components/sidepanel/sidepanel.vue'
 import Header from '~/components/default/header.vue'
+import AlertProvider from '~/components/provider/alert.provider.vue'
 
 useHead({
     title: 'Motion Collect',
@@ -27,7 +28,7 @@ const onScrollContent = () => {
 </script>
 
 <template>
-    <Alert />
+    <AlertProvider />
     <NuxtLoadingIndicator color="#D80032" />
     <main class="app">
         <Sidepanel />

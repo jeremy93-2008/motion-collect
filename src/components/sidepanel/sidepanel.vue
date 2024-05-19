@@ -32,6 +32,8 @@ const { data } = await useFetch<MediaObject[]>(
 
 const { isSignedIn } = useAuth()
 const { showErrorAlert } = useAlert()
+
+console.log(route.path)
 </script>
 
 <template>
@@ -71,7 +73,11 @@ const { showErrorAlert } = useAlert()
                         @click="
                             () =>
                                 isSignedIn
-                                    ? navigateTo('/collection/add')
+                                    ? navigateTo(
+                                          route.path === '/'
+                                              ? '/collection/add'
+                                              : `${route.path}/collection/add`
+                                      )
                                     : showErrorAlert(
                                           'Error',
                                           'You need to be logged in to create a collection'
