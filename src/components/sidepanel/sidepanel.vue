@@ -77,6 +77,12 @@ const { showErrorAlert } = useAlert()
                                           'You need to be logged in to create a collection'
                                       )
                         "
+                        :disabled="!isSignedIn"
+                        :title="
+                            isSignedIn
+                                ? 'Create Collection'
+                                : 'You need to be logged in to create a collection'
+                        "
                         class-name="mr-3"
                         size="18px"
                         :icon="plusIcon"

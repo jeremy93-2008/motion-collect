@@ -13,11 +13,15 @@ defineProps({
         type: String,
         default: '',
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 })
 </script>
 
 <template>
-    <button class="iconbutton">
+    <button :class="disabled ? 'disabled' : ''" class="iconbutton">
         <img
             :class="`h-[${size}] w-[${size}] ${className} ${variant === 'primary' ? 'primary' : ''}`"
             :src="icon"
@@ -37,19 +41,24 @@ defineProps({
     cursor: pointer;
     border: solid 2px transparent;
 
-    &:hover {
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    &:hover:not(.disabled) {
         border: solid 2px var(--color-shade);
     }
-    &:active {
+    &:active:not(.disabled) {
         border: solid 2px var(--color-white);
     }
 
-    &:has(.primary):hover {
+    &:has(.primary):hover:not(.disabled) {
         background-color: var(--color-accent);
         border: solid 2px var(--color-accent);
     }
 
-    &:has(.primary):active {
+    &:has(.primary):active:not(.disabled) {
         background-color: var(--color-accent);
         border: solid 2px var(--color-white);
     }
