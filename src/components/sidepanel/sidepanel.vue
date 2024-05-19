@@ -11,6 +11,7 @@ import plusIcon from 'assets/plus.svg'
 import Sidebutton from './sidebutton.vue'
 import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
+import { useAuth } from 'vue-clerk'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -29,7 +30,7 @@ const { data } = await useFetch<MediaObject[]>(
     }
 )
 
-const { isLogged } = useLogged()
+const { isSignedIn } = useAuth()
 const { showErrorAlert } = useAlert()
 </script>
 
@@ -69,7 +70,7 @@ const { showErrorAlert } = useAlert()
                     <Iconbutton
                         @click="
                             () =>
-                                isLogged
+                                isSignedIn
                                     ? navigateTo('/collection/add')
                                     : showErrorAlert(
                                           'Error',
