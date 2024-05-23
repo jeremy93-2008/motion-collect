@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from 'vue-clerk'
+import { useAlert } from '~/composables/useAlert'
 import type { MediaObject } from '~/domain/media'
 
 import homeIcon from 'assets/home.svg'
@@ -96,7 +97,12 @@ const { showErrorAlert } = useAlert()
             <div class="collection_list">
                 <Sidemediabutton
                     v-for="collection in data"
-                    @click="() => {}"
+                    @click="
+                        () =>
+                            navigateTo(
+                                `/collection/${collection.title}/${collection.id}`
+                            )
+                    "
                     :leftIcon="collectionIcon"
                     :selected="
                         (route.matched[0].name as string).includes(

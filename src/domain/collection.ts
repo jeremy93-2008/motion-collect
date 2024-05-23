@@ -9,7 +9,7 @@ export type CollectionObject = InferType<typeof collectionObject> & {
 export const collectionObject = object({
     id: string().required(),
     title: string().required(),
-    description: string().required(),
+    description: string(),
     createdAt: string(),
     updatedAt: string(),
     visibility: mixed().oneOf(Object.values(Visibility)),

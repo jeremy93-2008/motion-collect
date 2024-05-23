@@ -56,7 +56,7 @@ const onClick = () => {
             <section class="collection_container_column justify-end pt-2">
                 <button
                     @click="onClick"
-                    :disabled="title === '' || description === ''"
+                    :disabled="title === ''"
                     class="bg-[--color-accent] py-2 px-5 rounded-3xl border border-transparent hover:border-white active:bg-[--color-accent-shade] disabled:bg-gray-500 disabled:pointer-events-none"
                 >
                     Save
