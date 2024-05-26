@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { MediaObject } from '~/domain/media.js'
+import type { CollectionObject } from '~/domain/collection'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
-const [name, id] = route.params.slug
+const [id, name] = route.params.slug
 
-const { data } = await useFetch<MediaObject[]>(
+const motion_page_title = useState('motion_page_title')
+motion_page_title.value = name
+
+const { data, pending } = await useFetch<CollectionObject>(
     `${config.public.motionCollectUrl}api/collection/${id}`,
     {
         headers: {
@@ -15,8 +18,9 @@ const { data } = await useFetch<MediaObject[]>(
         },
     }
 )
-
-console.log(data)
 </script>
-<template>Hola mundo</template>
+<template>
+    <NuxtPage />
+    <Wait :isLoading="pending"> {{ data }} </Wait>
+</template>
 <style></style>

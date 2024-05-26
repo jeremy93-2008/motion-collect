@@ -6,6 +6,11 @@ import loadingIcon from '@/assets/loading.svg'
 
 const route = useRoute()
 
+const motion_page_title = useState(
+    'motion_page_title',
+    () => route.params.name ?? ''
+)
+
 const title = computed(() => {
     switch (route.matched[0].name) {
         case 'index':
@@ -15,7 +20,7 @@ const title = computed(() => {
         case 'series':
             return 'TV Series'
         default:
-            return route.params.name ?? route.params.slug[0] ?? 'Motion Collect'
+            return motion_page_title.value
     }
 })
 </script>

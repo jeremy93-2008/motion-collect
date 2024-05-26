@@ -100,14 +100,17 @@ const { showErrorAlert } = useAlert()
                     @click="
                         () =>
                             navigateTo(
-                                `/collection/${collection.title}/${collection.id}`
+                                `/collection/${collection.id}/${collection.title}`
                             )
                     "
                     :leftIcon="collectionIcon"
                     :selected="
-                        (route.matched[0].name as string).includes(
-                            collection.title
-                        )
+                        (route.params.slug &&
+                            route.params.slug.length >= 2 &&
+                            (route.params.slug as string[])[1].includes(
+                                collection.title
+                            )) ||
+                        false
                     "
                     >{{ collection.title }}</Sidemediabutton
                 >
@@ -165,6 +168,9 @@ const { showErrorAlert } = useAlert()
         }
 
         & .collection_list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             height: calc(100vh - 428px);
             overflow: auto;
             scrollbar-width: thin;
