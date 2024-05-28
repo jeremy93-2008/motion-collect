@@ -3,7 +3,13 @@ import { useSkeletonCount } from '~/composables/useSkeletonCount'
 import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
+import PlusIcon from '../assets/plus.svg'
+
 const props = defineProps({
+    hasAddAction: {
+        type: Boolean,
+        default: false,
+    },
     items: {
         type: Array,
         required: true,
@@ -38,18 +44,27 @@ const getLinkHref = (item: Movie) => {
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <NuxtLink :to="getLinkHref(item)">
-                <img
-                    class="poster--item_img"
-                    :src="
-                        item.poster_path
-                            ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                              item.poster_path
-                            : 'https://fakeimg.pl/270x390?text=image'
-                    "
-                    alt="poster"
-                />
-                <div class="poster--item_info">
-                    <h4>{{ item.title || item.name }}</h4>
+                <div class="poster--item_add" v-if="hasAddAction">
+                    <img
+                        :src="PlusIcon"
+                        alt="Add to a collection"
+                        title="Add to a collection"
+                    />
+                </div>
+                <div class="poster_item_interactive">
+                    <img
+                        class="poster--item_img"
+                        :src="
+                            item.poster_path
+                                ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
+                                  item.poster_path
+                                : 'https://fakeimg.pl/270x390?text=image'
+                        "
+                        alt="poster"
+                    />
+                    <div class="poster--item_info">
+                        <h4>{{ item.title || item.name }}</h4>
+                    </div>
                 </div>
             </NuxtLink>
         </div>
@@ -65,36 +80,61 @@ const getLinkHref = (item: Movie) => {
     margin: 0 24px 0 16px;
     & .poster_item {
         position: relative;
-        border-radius: 16px;
-        overflow: hidden;
-        cursor: pointer;
-        transition:
-            transform 0.3s ease-in-out,
-            border 0.3s ease-in-out;
         border: solid 6px transparent;
 
-        &:hover {
-            transform: scale(1.05);
-            border: solid 6px var(--color-accent);
+        & .poster_item_interactive {
+            position: relative;
+            border-radius: 16px;
+            cursor: pointer;
+            transition:
+                transform 0.3s ease-in-out,
+                border 0.3s ease-in-out;
+            border: solid 6px transparent;
+            overflow: hidden;
+
+            &:hover {
+                transform: scale(1.05);
+                border: solid 6px var(--color-accent);
+            }
+
+            & .poster--item_img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            & .poster--item_info {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 12px;
+                background-color: rgba(0, 0, 0, 0.7);
+                & h4 {
+                    color: white;
+                    font-size: 16px;
+                    margin: 0;
+                }
+            }
         }
 
-        & .poster--item_img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        & .poster--item_info {
+        & .poster--item_add {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px;
-            background-color: rgba(0, 0, 0, 0.7);
-            & h4 {
-                color: white;
-                font-size: 16px;
-                margin: 0;
+            top: 4px;
+            right: 4px;
+            z-index: 2;
+            display: flex;
+            padding: 8px;
+            border-radius: 50%;
+            border: solid 3px transparent;
+
+            &:hover {
+                border-color: var(--color-accent);
+            }
+
+            & img {
+                width: 24px;
+                height: 24px;
             }
         }
     }
