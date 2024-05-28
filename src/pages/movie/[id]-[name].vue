@@ -35,6 +35,9 @@ watch(
     },
     { immediate: true }
 )
+
+const motion_page_title = useState('motion_page_title')
+motion_page_title.value = 'Movie'
 </script>
 
 <template>

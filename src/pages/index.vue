@@ -15,6 +15,9 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
         },
     })
 )
+
+const motion_page_title = useState('motion_page_title')
+motion_page_title.value = ''
 </script>
 
 <template>

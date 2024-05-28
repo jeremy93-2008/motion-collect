@@ -59,10 +59,10 @@ const { showErrorAlert } = useAlert()
                 >Movies</Sidebutton
             >
             <Sidebutton
-                @click="() => navigateTo('/series')"
+                @click="() => navigateTo('/shows')"
                 :leftIcon="tvIcon"
-                :selected="(route.matched[0].name as string).includes('serie')"
-                >TV Series</Sidebutton
+                :selected="(route.matched[0].name as string).includes('show')"
+                >TV Shows</Sidebutton
             >
             <div class="collection">
                 <div class="title">

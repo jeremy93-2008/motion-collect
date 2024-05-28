@@ -6,9 +6,6 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
 const [id, name] = route.params.slug
 
-const motion_page_title = useState('motion_page_title')
-motion_page_title.value = name
-
 const { data, pending } = await useFetch<CollectionObject>(
     `${config.public.motionCollectUrl}api/collection/${id}`,
     {
@@ -18,6 +15,9 @@ const { data, pending } = await useFetch<CollectionObject>(
         },
     }
 )
+
+const motion_page_title = useState('motion_page_title')
+motion_page_title.value = name
 </script>
 <template>
     <NuxtPage />

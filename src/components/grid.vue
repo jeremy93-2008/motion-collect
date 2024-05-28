@@ -29,7 +29,7 @@ useScrollEnd(460, () => {
 
 const getLinkHref = (item: Movie) => {
     const type =
-        props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'serie')
+        props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'show')
     return `/${type}/${item.id}-${item.title ?? item.name}`
 }
 </script>

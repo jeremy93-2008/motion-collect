@@ -12,16 +12,7 @@ const motion_page_title = useState(
 )
 
 const title = computed(() => {
-    switch (route.matched[0].name) {
-        case 'index':
-            return 'Home'
-        case 'movies':
-            return 'Movies'
-        case 'series':
-            return 'TV Series'
-        default:
-            return motion_page_title.value
-    }
+    return motion_page_title.value
 })
 </script>
 

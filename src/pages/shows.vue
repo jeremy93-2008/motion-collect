@@ -22,6 +22,9 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
         },
     })
 )
+
+const motion_page_title = useState('motion_page_title')
+motion_page_title.value = 'TV Shows'
 </script>
 
 <template>
@@ -32,7 +35,7 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
             :items="data.map((d) => d.results).flat()"
             :hasMoreItems="pageParams.page < data[0].total_pages"
             @onMoreItems="nextPage"
-            media-type="serie"
+            media-type="show"
         />
     </Wait>
 </template>
