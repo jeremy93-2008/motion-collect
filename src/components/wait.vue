@@ -27,9 +27,6 @@ defineProps({
 </template>
 
 <style scoped>
-.loading {
-    margin-top: 32px;
-}
 .wait.overlay {
     position: absolute;
     top: 0;

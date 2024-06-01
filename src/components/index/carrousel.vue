@@ -33,7 +33,7 @@ const onCarrouselChangeClick = (
 }
 
 const getLinkHref = (item: Movie) => {
-    const type = item.media_type === 'movie' ? 'movie' : 'serie'
+    const type = item.media_type === 'movie' ? 'movie' : 'show'
     return `/${type}/${item.id}-${item.title ?? item.name}`
 }
 

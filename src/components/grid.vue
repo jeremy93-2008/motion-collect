@@ -4,6 +4,7 @@ import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
 import PlusIcon from '../assets/plus.svg'
+import Gridactions from '~/components/grid/gridactions.vue'
 
 const props = defineProps({
     hasAddAction: {
@@ -43,14 +44,10 @@ const getLinkHref = (item: Movie) => {
 <template>
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
+            <div class="poster--item_add-floating">
+                <gridactions v-if="hasAddAction" />
+            </div>
             <NuxtLink :to="getLinkHref(item)">
-                <div class="poster--item_add" v-if="hasAddAction">
-                    <img
-                        :src="PlusIcon"
-                        alt="Add to a collection"
-                        title="Add to a collection"
-                    />
-                </div>
                 <div class="poster_item_interactive">
                     <img
                         class="poster--item_img"
@@ -78,22 +75,25 @@ const getLinkHref = (item: Movie) => {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
     margin: 0 24px 0 16px;
+
     & .poster_item {
         position: relative;
         border: solid 6px transparent;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
 
         & .poster_item_interactive {
             position: relative;
             border-radius: 16px;
             cursor: pointer;
-            transition:
-                transform 0.3s ease-in-out,
-                border 0.3s ease-in-out;
+            transition: border 0.3s ease-in-out;
             border: solid 6px transparent;
             overflow: hidden;
 
             &:hover {
-                transform: scale(1.05);
                 border: solid 6px var(--color-accent);
             }
 
@@ -110,6 +110,7 @@ const getLinkHref = (item: Movie) => {
                 right: 0;
                 padding: 12px;
                 background-color: rgba(0, 0, 0, 0.7);
+
                 & h4 {
                     color: white;
                     font-size: 16px;
@@ -118,24 +119,11 @@ const getLinkHref = (item: Movie) => {
             }
         }
 
-        & .poster--item_add {
+        & .poster--item_add-floating {
             position: absolute;
-            top: 4px;
-            right: 4px;
+            top: 0;
+            right: 0;
             z-index: 2;
-            display: flex;
-            padding: 8px;
-            border-radius: 50%;
-            border: solid 3px transparent;
-
-            &:hover {
-                border-color: var(--color-accent);
-            }
-
-            & img {
-                width: 24px;
-                height: 24px;
-            }
         }
     }
 }

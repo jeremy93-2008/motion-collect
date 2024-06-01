@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import 'floating-vue/dist/style.css'
+
 import type { IMovieDB } from '~/types/MovieDB.type'
 import Carrousel from '~/components/index/carrousel.vue'
 import Grid from '~/components/grid.vue'
@@ -32,6 +34,7 @@ motion_page_title.value = ''
             :items="data.map((d) => d.results).flat()"
             :hasMoreItems="pageParams.page < data[0].total_pages"
             @onMoreItems="nextPage"
+            has-add-action
         />
     </Wait>
 </template>
