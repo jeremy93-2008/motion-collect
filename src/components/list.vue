@@ -20,19 +20,18 @@ const { data, pending } = await useLazyFetch<MediaObject[]>(
 )
 
 const filteredData = computed(() => {
-    return data.filter((item) =>
-        item.title.toLowerCase().includes(search.value.toLowerCase())
-    )
+    return data.value?.filter((item) => {
+        if (!search.value) return true
+        return item.title.toLowerCase().includes(search.value.toLowerCase())
+    })
 })
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
-onMounted(() => {
-    // Due to the animation of the dropdown, we need to wait a bit before focusing the input
+watchEffect(() => {
     window.setTimeout(() => {
-        if (!inputRef.value) return
-        inputRef.value.focus()
-    }, 100)
+        if (inputRef.value && !pending.value) inputRef.value.focus()
+    }, 400)
 })
 </script>
 <template>
@@ -48,7 +47,7 @@ onMounted(() => {
                 type="text"
             />
             <ul>
-                <li v-for="item in data" :key="item.id">
+                <li v-for="item in filteredData" :key="item.id">
                     <span>{{ item.title }}</span>
                     <VTooltip placement="top" distance="8">
                         <button>

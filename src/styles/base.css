@@ -83,7 +83,9 @@ input.collectionInput, textarea.collectionInput, select.collectionInput {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     .v-popper__arrow-container {
-        display: none;
+        .v-popper__arrow-outer, .v-popper__arrow-inner {
+            border-color: var(--color-background);
+        }
     }
 }
 
