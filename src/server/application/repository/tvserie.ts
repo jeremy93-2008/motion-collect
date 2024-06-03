@@ -14,7 +14,7 @@ export function TvSerieRepository(event: H3Event<EventHandlerRequest>) {
             return prisma.tVSeries.create({
                 data: {
                     title: tvSerie.title,
-                    description: tvSerie.description,
+                    description: tvSerie.description ?? 'Unknown',
                     releaseDate:
                         tvSerie.releaseDate ?? new Date().toISOString(),
                     rating: tvSerie.rating ?? 0,
@@ -25,6 +25,7 @@ export function TvSerieRepository(event: H3Event<EventHandlerRequest>) {
                     trailer: tvSerie.trailer ?? 'Unknown',
                     createdAt: tvSerie.createdAt ?? new Date(),
                     updatedAt: tvSerie.updatedAt ?? new Date(),
+                    externalId: tvSerie.externalId,
                     Collection: {
                         connect: {
                             id: CollectionId,

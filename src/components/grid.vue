@@ -3,7 +3,6 @@ import { useSkeletonCount } from '~/composables/useSkeletonCount'
 import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
-import PlusIcon from '../assets/plus.svg'
 import Gridactions from '~/components/grid/gridactions.vue'
 
 const props = defineProps({
@@ -45,7 +44,7 @@ const getLinkHref = (item: Movie) => {
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
-                <gridactions v-if="hasAddAction" />
+                <gridactions v-if="hasAddAction" :mediaItem="item" />
             </div>
             <NuxtLink :to="getLinkHref(item)">
                 <div class="poster_item_interactive">

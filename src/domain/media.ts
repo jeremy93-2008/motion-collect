@@ -19,6 +19,8 @@ export const mediaObject = object({
     trailer: string(),
     createdAt: string(),
     updatedAt: string(),
+    media_type: string(),
+    externalId: string().required(),
 })
 
 export async function validateMedia(

@@ -14,6 +14,7 @@ export interface Movie {
     original_language: string
     original_title: string
     overview: string
+    description?: string
     poster_path: string
     media_type: string
     genre_ids: number[]

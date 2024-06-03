@@ -1,9 +1,12 @@
 import { type InferType, mixed, object, string } from 'yup'
 import { Visibility } from '~/types/collections.type'
 import { validate } from '~/server/application/services/validate'
+import type { MediaObject } from '~/domain/media'
 
 export type CollectionObject = InferType<typeof collectionObject> & {
     user?: { id: string }
+    Movies?: MediaObject[]
+    TVSeries?: MediaObject[]
 }
 
 export const collectionObject = object({

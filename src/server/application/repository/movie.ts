@@ -14,7 +14,7 @@ export function MovieRepository(event: H3Event<EventHandlerRequest>) {
             return prisma.movies.create({
                 data: {
                     title: movie.title,
-                    description: movie.description,
+                    description: movie.description ?? 'Unknown',
                     releaseDate: movie.releaseDate ?? new Date().toISOString(),
                     rating: movie.rating ?? 0,
                     genre: movie.genre ?? 'Unknown',
@@ -24,6 +24,7 @@ export function MovieRepository(event: H3Event<EventHandlerRequest>) {
                     trailer: movie.trailer ?? 'Unknown',
                     createdAt: movie.createdAt ?? new Date(),
                     updatedAt: movie.updatedAt ?? new Date(),
+                    externalId: movie.externalId,
                     Collection: {
                         connect: {
                             id: CollectionId,

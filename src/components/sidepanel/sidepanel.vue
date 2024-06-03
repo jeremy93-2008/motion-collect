@@ -20,6 +20,7 @@ const headers = useRequestHeaders(['cookie'])
 
 const path = computed(() => route.path)
 
+const { data: cachedData } = useNuxtData('collections')
 const { data } = await useFetch<MediaObject[]>(
     `${config.public.motionCollectUrl}api/collections`,
     {
@@ -28,6 +29,10 @@ const { data } = await useFetch<MediaObject[]>(
             'Content-Type': 'application/json',
         },
         watch: [path],
+        key: 'collections',
+        default() {
+            return cachedData.value
+        },
     }
 )
 
@@ -37,14 +42,14 @@ const { showErrorAlert } = useAlert()
 
 <template>
     <aside class="sidepanel">
-        <section class="logo">
+        <NuxtLink class="logo" href="/">
             <img
                 class="h-[48px]"
                 src="../../assets/logo.svg"
                 alt="Motion Collect"
             />
             <span>Motion Collect</span>
-        </section>
+        </NuxtLink>
         <section class="list">
             <Sidebutton
                 @click="() => navigateTo('/')"

@@ -36,7 +36,7 @@ async function addMedia(event: H3Event<EventHandlerRequest>) {
 
     const { id: CollectionId, movieType } = event.context.params as {
         id: string
-        movieType: 'movie' | 'tv'
+        movieType: 'movie' | 'show'
     }
 
     if (!CollectionId) {
@@ -46,7 +46,7 @@ async function addMedia(event: H3Event<EventHandlerRequest>) {
         })
     }
 
-    if (movieType === 'tv')
+    if (movieType === 'show')
         return TvSerieRepository(event).create({
             title: body.title,
             description: body.description,
@@ -59,6 +59,7 @@ async function addMedia(event: H3Event<EventHandlerRequest>) {
             trailer: body.trailer ?? 'Unknown',
             createdAt: body.createdAt ?? new Date().toISOString(),
             updatedAt: body.updatedAt ?? new Date().toISOString(),
+            externalId: body.externalId,
         })
 
     return MovieRepository(event).create({
@@ -73,6 +74,7 @@ async function addMedia(event: H3Event<EventHandlerRequest>) {
         trailer: body.trailer ?? 'Unknown',
         createdAt: body.createdAt ?? new Date().toISOString(),
         updatedAt: body.updatedAt ?? new Date().toISOString(),
+        externalId: body.externalId,
     })
 }
 
