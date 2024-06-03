@@ -4,6 +4,10 @@ defineProps({
         type: Boolean,
         required: true,
     },
+    size: {
+        type: Number,
+        default: 32,
+    },
     overlay: {
         type: Boolean,
         default: false,
@@ -18,7 +22,12 @@ defineProps({
 <template>
     <template v-if="!overlay && !overlayPortal">
         <div v-if="isLoading" class="wait">
-            <img class="loading" src="@/assets/loading.svg" alt="loading" />
+            <img
+                class="loading"
+                :style="{ width: `${size}px`, height: `${size}px` }"
+                src="@/assets/loading.svg"
+                alt="loading"
+            />
         </div>
         <slot v-else />
     </template>

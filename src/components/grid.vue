@@ -4,6 +4,8 @@ import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
 import Gridactions from '~/components/grid/gridactions.vue'
+import type { CollectionObject } from '~/domain/collection'
+import type { MediaObject } from '~/domain/media'
 
 const props = defineProps({
     hasAddAction: {
@@ -38,13 +40,36 @@ const getLinkHref = (item: Movie) => {
         props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'show')
     return `/${type}/${item.id}-${item.title ?? item.name}`
 }
+
+const config = useRuntimeConfig()
+const headers = useRequestHeaders(['cookie'])
+
+const { data: cachedCollectionData } =
+    useNuxtData<CollectionObject[]>('collections')
+const { data: collections } = await useLazyFetch<CollectionObject[]>(
+    `${config.public.motionCollectUrl}api/collections`,
+    {
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+        },
+        key: 'collections',
+        default() {
+            return cachedCollectionData.value
+        },
+    }
+)
 </script>
 
 <template>
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
-                <gridactions v-if="hasAddAction" :mediaItem="item" />
+                <Gridactions
+                    v-if="hasAddAction"
+                    :collections="collections as CollectionObject[]"
+                    :mediaItem="item as Movie"
+                />
             </div>
             <NuxtLink :to="getLinkHref(item)">
                 <div class="poster_item_interactive">

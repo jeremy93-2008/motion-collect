@@ -56,7 +56,7 @@ const { onLeave } = useOverlayEvent('/search')
 const getFilterTypePath = (media_type: string) => {
     if (media_type === 'all') return 'all'
     if (media_type === 'movie') return 'movie'
-    if (media_type === 'tv') return 'serie'
+    if (media_type === 'tv') return 'show'
     if (media_type === 'collection') return 'collection'
 }
 

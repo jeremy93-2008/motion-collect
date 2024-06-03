@@ -3,20 +3,19 @@ import CollectionList from '~/components/grid/collectionlist.vue'
 import PlusIcon from 'assets/plus.svg'
 import CollectionIcon from 'assets/collection.svg'
 import type { CollectionObject } from '~/domain/collection'
-import type { MediaObject } from '~/domain/media'
-import { placements } from 'floating-vue'
-import collection from '~/server/application/controllers/collection'
+import type { Movie } from '~/types/MovieDB.type'
 
-const props = defineProps<{ mediaItem: MediaObject }>()
+const props = defineProps<{
+    mediaItem: Movie
+    collections: CollectionObject[]
+}>()
 
 const dropdownId = useId()
 const tooltipId = useId()
 
-const { data } = useNuxtData<CollectionObject[]>('collections')
-
 const collectionsIncludingMediaItem = computed(() => {
-    if (!data.value) return []
-    return data.value.filter(
+    if (!props.collections) return []
+    return props.collections.filter(
         (collection) =>
             collection.Movies?.some(
                 (movie) =>
@@ -53,16 +52,13 @@ const nOfCollectionsIncludingMediaItem = computed(() => {
             <img width="16px" :src="CollectionIcon" alt="Collections" />
             <span>{{ nOfCollectionsIncludingMediaItem }}</span>
         </section>
-
         <VDropdown :aria-id="dropdownId" distance="8">
             <VTooltip :aria-id="tooltipId" placement="bottom" distance="8">
                 <div
                     class="poster--item_add-button"
-                    :class="
-                        nOfCollectionsIncludingMediaItem > 0
-                            ? ''
-                            : 'border-full'
-                    "
+                    :class="{
+                        'border-full': nOfCollectionsIncludingMediaItem === 0,
+                    }"
                 >
                     <img :src="PlusIcon" alt="Add to a collection" />
                 </div>
