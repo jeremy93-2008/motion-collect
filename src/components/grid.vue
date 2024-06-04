@@ -3,7 +3,7 @@ import { useSkeletonCount } from '~/composables/useSkeletonCount'
 import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
-import Gridactions from '~/components/grid/gridactions.vue'
+import Mediaactions from '~/components/mediaactions.vue'
 import type { CollectionObject } from '~/domain/collection'
 
 const props = defineProps({
@@ -64,7 +64,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
-                <Gridactions
+                <Mediaactions
                     v-if="hasAddAction"
                     :collections="collections as CollectionObject[]"
                     :mediaItem="item as Movie"

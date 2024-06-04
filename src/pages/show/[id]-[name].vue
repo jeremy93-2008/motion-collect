@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { FullMovie, FullTV, MovieJustWatch } from '~/types/MovieDB.type'
+import type { FullTV, MovieJustWatch } from '~/types/MovieDB.type'
 import { toCapitalize } from '~/utils/toCapitalize'
 import type { CollectionObject } from '~/domain/collection'
-import Gridactions from '~/components/grid/gridactions.vue'
+import Mediaactions from '~/components/mediaactions.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -65,7 +65,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     <section class="movie_details">
         <section class="poster_container">
             <section class="poster_actions">
-                <Gridactions
+                <Mediaactions
                     :collections="collections as CollectionObject[]"
                     :mediaItem="data as FullTV"
                 />
