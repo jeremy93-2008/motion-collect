@@ -5,7 +5,6 @@ import type { Movie } from '~/types/MovieDB.type'
 
 import Gridactions from '~/components/grid/gridactions.vue'
 import type { CollectionObject } from '~/domain/collection'
-import type { MediaObject } from '~/domain/media'
 
 const props = defineProps({
     hasAddAction: {

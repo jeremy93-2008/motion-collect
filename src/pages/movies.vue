@@ -36,6 +36,7 @@ motion_page_title.value = 'Movies'
             :hasMoreItems="pageParams.page < data[0].total_pages"
             @onMoreItems="nextPage"
             media-type="movie"
+            has-add-action
         />
     </Wait>
 </template>

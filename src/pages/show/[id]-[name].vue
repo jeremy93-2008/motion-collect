@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FullMovie, FullTV, MovieJustWatch } from '~/types/MovieDB.type'
 import { toCapitalize } from '~/utils/toCapitalize'
+import type { CollectionObject } from '~/domain/collection'
+import Gridactions from '~/components/grid/gridactions.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -38,12 +40,36 @@ watch(
 
 const motion_page_title = useState('motion_page_title')
 motion_page_title.value = 'TV Show'
+
+const headers = useRequestHeaders(['cookie'])
+
+const { data: cachedCollectionData } =
+    useNuxtData<CollectionObject[]>('collections')
+const { data: collections } = await useLazyFetch<CollectionObject[]>(
+    `${config.public.motionCollectUrl}api/collections`,
+    {
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json',
+        },
+        key: 'collections',
+        default() {
+            return cachedCollectionData.value
+        },
+    }
+)
 </script>
 
 <template>
     <NuxtPage />
     <section class="movie_details">
-        <section>
+        <section class="poster_container">
+            <section class="poster_actions">
+                <Gridactions
+                    :collections="collections as CollectionObject[]"
+                    :mediaItem="data as FullTV"
+                />
+            </section>
             <img
                 class="poster"
                 :src="
@@ -194,6 +220,14 @@ motion_page_title.value = 'TV Show'
 .movie_details {
     display: flex;
     gap: 16px;
+    .poster_container {
+        position: relative;
+        .poster_actions {
+            position: absolute;
+            right: -12px;
+            top: 0;
+        }
+    }
     .poster {
         border-radius: 10px;
     }

@@ -36,6 +36,7 @@ motion_page_title.value = 'TV Shows'
             :hasMoreItems="pageParams.page < data[0].total_pages"
             @onMoreItems="nextPage"
             media-type="show"
+            has-add-action
         />
     </Wait>
 </template>
