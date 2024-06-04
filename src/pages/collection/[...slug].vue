@@ -21,6 +21,17 @@ motion_page_title.value = name
 </script>
 <template>
     <NuxtPage />
-    <Wait :isLoading="pending"> {{ data }} </Wait>
+    <Wait :isLoading="pending">
+        <Grid
+            :items="[
+                ...(data as CollectionObject).Movies.map((m) => ({
+                    ...m,
+                    media_type: 'movie',
+                }))!,
+                ...(data as CollectionObject).TVSeries!,
+            ]"
+            :hasMoreItems="false"
+        />
+    </Wait>
 </template>
 <style></style>

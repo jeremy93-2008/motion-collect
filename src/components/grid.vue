@@ -5,6 +5,7 @@ import type { Movie } from '~/types/MovieDB.type'
 
 import Mediaactions from '~/components/mediaactions.vue'
 import type { CollectionObject } from '~/domain/collection'
+import type { MediaObject } from '~/domain/media'
 
 const props = defineProps({
     hasAddAction: {
@@ -34,10 +35,10 @@ useScrollEnd(460, () => {
     }
 })
 
-const getLinkHref = (item: Movie) => {
+const getLinkHref = (item: MediaObject & Movie) => {
     const type =
         props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'show')
-    return `/${type}/${item.id}-${item.title ?? item.name}`
+    return `/${type}/${item.externalId ?? item.id}-${item.title ?? item.name}`
 }
 
 const config = useRuntimeConfig()
@@ -75,9 +76,9 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
                     <img
                         class="poster--item_img"
                         :src="
-                            item.poster_path
+                            item.poster_path || item.poster
                                 ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
-                                  item.poster_path
+                                  (item.poster_path || item.poster)
                                 : 'https://fakeimg.pl/270x390?text=image'
                         "
                         alt="poster"
