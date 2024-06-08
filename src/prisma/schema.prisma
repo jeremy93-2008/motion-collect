@@ -38,41 +38,39 @@ model Collection {
 }
 
 model Movies {
-  id           String      @id @default(uuid())
-  title        String
-  description  String
-  releaseDate  DateTime
-  rating       Float
-  genre        String
-  director     String
-  actors       String[]
-  poster       String
-  trailer      String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  externalId   String
-  userId       String
-  user         User        @relation(fields: [userId], references: [id])
-  Collection   Collection? @relation(fields: [collectionId], references: [id])
-  collectionId String?
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  releaseDate DateTime
+  rating      Float
+  genre       String
+  director    String
+  actors      String[]
+  poster      String
+  trailer     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  externalId  String       @unique
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  Collection  Collection[]
 }
 
 model TVSeries {
-  id           String      @id @default(uuid())
-  title        String
-  description  String
-  releaseDate  DateTime
-  rating       Float
-  genre        String
-  director     String
-  actors       String[]
-  poster       String
-  trailer      String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  externalId   String
-  userId       String
-  user         User        @relation(fields: [userId], references: [id])
-  Collection   Collection? @relation(fields: [collectionId], references: [id])
-  collectionId String?
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  releaseDate DateTime
+  rating      Float
+  genre       String
+  director    String
+  actors      String[]
+  poster      String
+  trailer     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  externalId  String       @unique
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  Collection  Collection[]
 }

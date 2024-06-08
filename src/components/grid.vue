@@ -4,7 +4,7 @@ import { useScrollEnd } from '~/composables/useScrollEnd'
 import type { Movie } from '~/types/MovieDB.type'
 
 import Mediaactions from '~/components/mediaactions.vue'
-import type { CollectionObject } from '~/domain/collection'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 import type { MediaObject } from '~/domain/media'
 
 const props = defineProps({
@@ -45,20 +45,19 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
 
 const { data: cachedCollectionData } =
-    useNuxtData<CollectionObject[]>('collections')
-const { data: collections } = await useLazyFetch<CollectionObject[]>(
-    `${config.public.motionCollectUrl}api/collections`,
-    {
-        headers: {
-            ...headers,
-            'Content-Type': 'application/json',
-        },
-        key: 'collections',
-        default() {
-            return cachedCollectionData.value
-        },
-    }
-)
+    useNuxtData<CollectionObjectWithIncludes[]>('collections')
+const { data: collections } = await useLazyFetch<
+    CollectionObjectWithIncludes[]
+>(`${config.public.motionCollectUrl}api/collections`, {
+    headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+    },
+    key: 'collections',
+    default() {
+        return cachedCollectionData.value
+    },
+})
 </script>
 
 <template>
@@ -67,7 +66,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
             <div class="poster--item_add-floating">
                 <Mediaactions
                     v-if="hasAddAction"
-                    :collections="collections as CollectionObject[]"
+                    :collections="collections as CollectionObjectWithIncludes[]"
                     :mediaItem="item as Movie"
                 />
             </div>

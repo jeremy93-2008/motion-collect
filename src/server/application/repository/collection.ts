@@ -10,7 +10,7 @@ export function CollectionRepository(event: H3Event<EventHandlerRequest>) {
             return prisma.collection.create({
                 data: {
                     title: collection.title,
-                    description: collection.description,
+                    description: collection.description ?? 'Unknown',
                     createdAt: collection.createdAt ?? new Date(),
                     updatedAt: collection.updatedAt ?? new Date(),
                     visibility:
@@ -30,13 +30,10 @@ export function CollectionRepository(event: H3Event<EventHandlerRequest>) {
                     id: collection.id,
                 },
                 data: {
-                    ...collection,
-                    user: {
-                        connect: {
-                            id: event.context.user.id,
-                        },
-                    },
-                    updatedAt: collection.updatedAt ?? new Date(),
+                    title: collection.title ?? undefined,
+                    description: collection.description ?? undefined,
+                    updatedAt: collection.updatedAt ?? undefined,
+                    visibility: collection.visibility ?? undefined,
                 },
             })
         },

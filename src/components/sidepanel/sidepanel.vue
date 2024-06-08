@@ -117,6 +117,7 @@ const { showErrorAlert } = useAlert()
                             )) ||
                         false
                     "
+                    :tooltipContent="collection.title"
                     >{{ collection.title }}</Sidemediabutton
                 >
             </div>

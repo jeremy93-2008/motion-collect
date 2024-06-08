@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import type { FullTV, MovieJustWatch } from '~/types/MovieDB.type'
+import type { FullMovie, FullTV, MovieJustWatch } from '~/types/MovieDB.type'
 import { toCapitalize } from '~/utils/toCapitalize'
-import type { CollectionObject } from '~/domain/collection'
+import type {
+    CollectionObject,
+    CollectionObjectWithIncludes,
+} from '~/domain/collection'
 import Mediaactions from '~/components/mediaactions.vue'
 
 const route = useRoute()
@@ -66,8 +69,8 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
         <section class="poster_container">
             <section class="poster_actions">
                 <Mediaactions
-                    :collections="collections as CollectionObject[]"
-                    :mediaItem="data as FullTV"
+                    :collections="collections as CollectionObjectWithIncludes[]"
+                    :mediaItem="{ ...data, media_type: 'show' } as FullTV"
                 />
             </section>
             <img

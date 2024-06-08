@@ -10,32 +10,40 @@ export function MovieRepository(event: H3Event<EventHandlerRequest>) {
     }
 
     return {
-        async create(movie: Omit<MediaObject, 'id'>) {
-            return prisma.movies.create({
-                data: {
-                    title: movie.title,
-                    description: movie.description ?? 'Unknown',
-                    releaseDate: movie.releaseDate ?? new Date().toISOString(),
-                    rating: movie.rating ?? 0,
-                    genre: movie.genre ?? 'Unknown',
-                    director: movie.director ?? 'Unknown',
-                    actors: movie.actors,
-                    poster: movie.poster ?? 'Unknown',
-                    trailer: movie.trailer ?? 'Unknown',
-                    createdAt: movie.createdAt ?? new Date(),
-                    updatedAt: movie.updatedAt ?? new Date(),
-                    externalId: movie.externalId,
-                    Collection: {
-                        connect: {
-                            id: CollectionId,
-                        },
-                    },
-                    user: {
-                        connect: {
-                            id: event.context.user.id,
-                        },
+        getMovieObject(movie: Omit<MediaObject, 'id'>) {
+            return {
+                title: movie.title,
+                description: movie.description ?? 'Unknown',
+                releaseDate: movie.releaseDate ?? new Date().toISOString(),
+                rating: movie.rating ?? 0,
+                genre: movie.genre ?? 'Unknown',
+                director: movie.director ?? 'Unknown',
+                actors: movie.actors,
+                poster: movie.poster ?? 'Unknown',
+                trailer: movie.trailer ?? 'Unknown',
+                createdAt: movie.createdAt ?? new Date(),
+                updatedAt: movie.updatedAt ?? new Date(),
+                externalId: movie.externalId,
+                Collection: {
+                    connect: {
+                        id: CollectionId,
                     },
                 },
+                user: {
+                    connect: {
+                        id: event.context.user.id,
+                    },
+                },
+            }
+        },
+        async create(movie: Omit<MediaObject, 'id'>) {
+            const newMovieObject = this.getMovieObject(movie)
+            return prisma.movies.upsert({
+                where: {
+                    externalId: movie.externalId,
+                },
+                create: newMovieObject,
+                update: newMovieObject,
             })
         },
         async update(movie: Partial<MediaObject> & { id: string }) {
@@ -55,6 +63,11 @@ export function MovieRepository(event: H3Event<EventHandlerRequest>) {
                     trailer: movie.trailer,
                     createdAt: movie.createdAt ?? new Date(),
                     updatedAt: movie.updatedAt ?? new Date(),
+                    Collection: {
+                        connect: {
+                            id: CollectionId,
+                        },
+                    },
                 },
             })
         },
@@ -66,7 +79,9 @@ export function MovieRepository(event: H3Event<EventHandlerRequest>) {
                         id: event.context.user.id,
                     },
                     Collection: {
-                        id: CollectionId,
+                        every: {
+                            id: CollectionId,
+                        },
                     },
                 },
             })

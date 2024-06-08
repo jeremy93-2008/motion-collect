@@ -10,33 +10,40 @@ export function TvSerieRepository(event: H3Event<EventHandlerRequest>) {
     }
 
     return {
-        async create(tvSerie: Omit<MediaObject, 'id'>) {
-            return prisma.tVSeries.create({
-                data: {
-                    title: tvSerie.title,
-                    description: tvSerie.description ?? 'Unknown',
-                    releaseDate:
-                        tvSerie.releaseDate ?? new Date().toISOString(),
-                    rating: tvSerie.rating ?? 0,
-                    genre: tvSerie.genre ?? 'Unknown',
-                    director: tvSerie.director ?? 'Unknown',
-                    actors: tvSerie.actors ?? [],
-                    poster: tvSerie.poster ?? 'Unknown',
-                    trailer: tvSerie.trailer ?? 'Unknown',
-                    createdAt: tvSerie.createdAt ?? new Date(),
-                    updatedAt: tvSerie.updatedAt ?? new Date(),
-                    externalId: tvSerie.externalId,
-                    Collection: {
-                        connect: {
-                            id: CollectionId,
-                        },
-                    },
-                    user: {
-                        connect: {
-                            id: event.context.user.id,
-                        },
+        getTvSerieObject: (tvSerie: Omit<MediaObject, 'id'>) => {
+            return {
+                title: tvSerie.title,
+                description: tvSerie.description ?? 'Unknown',
+                releaseDate: tvSerie.releaseDate ?? new Date().toISOString(),
+                rating: tvSerie.rating ?? 0,
+                genre: tvSerie.genre ?? 'Unknown',
+                director: tvSerie.director ?? 'Unknown',
+                actors: tvSerie.actors ?? [],
+                poster: tvSerie.poster ?? 'Unknown',
+                trailer: tvSerie.trailer ?? 'Unknown',
+                createdAt: tvSerie.createdAt ?? new Date(),
+                updatedAt: tvSerie.updatedAt ?? new Date(),
+                externalId: tvSerie.externalId,
+                Collection: {
+                    connect: {
+                        id: CollectionId,
                     },
                 },
+                user: {
+                    connect: {
+                        id: event.context.user.id,
+                    },
+                },
+            }
+        },
+        async create(tvSerie: Omit<MediaObject, 'id'>) {
+            const newTvSerieObject = this.getTvSerieObject(tvSerie)
+            return prisma.tVSeries.upsert({
+                where: {
+                    externalId: tvSerie.externalId,
+                },
+                create: newTvSerieObject,
+                update: newTvSerieObject,
             })
         },
         async update(tvSerie: Partial<MediaObject> & { id: string }) {
@@ -56,6 +63,11 @@ export function TvSerieRepository(event: H3Event<EventHandlerRequest>) {
                     trailer: tvSerie.trailer,
                     createdAt: tvSerie.createdAt ?? new Date(),
                     updatedAt: tvSerie.updatedAt ?? new Date(),
+                    Collection: {
+                        connect: {
+                            id: CollectionId,
+                        },
+                    },
                 },
             })
         },
@@ -67,7 +79,9 @@ export function TvSerieRepository(event: H3Event<EventHandlerRequest>) {
                         id: event.context.user.id,
                     },
                     Collection: {
-                        id: CollectionId,
+                        every: {
+                            id: CollectionId,
+                        },
                     },
                 },
             })

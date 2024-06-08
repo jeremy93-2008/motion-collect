@@ -5,7 +5,7 @@ import CloseIcon from 'assets/close.svg'
 
 import type { ModelRef } from 'vue'
 
-import type { CollectionObject } from '~/domain/collection'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 import type { MediaObject } from '~/domain/media'
 import type { Movie } from '~/types/MovieDB.type'
 
@@ -16,22 +16,21 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
 
 const { data: cachedData } = useNuxtData('collections')
-const { data, status, execute } = await useLazyFetch<CollectionObject[]>(
-    `${config.public.motionCollectUrl}api/collections`,
-    {
-        headers: {
-            ...headers,
-            'Content-Type': 'application/json',
-        },
-        key: 'collections',
-        default() {
-            return cachedData.value
-        },
-        onResponse: () => {
-            saving.value = false
-        },
-    }
-)
+const { data, status, execute } = await useLazyFetch<
+    CollectionObjectWithIncludes[]
+>(`${config.public.motionCollectUrl}api/collections`, {
+    headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+    },
+    key: 'collections',
+    default() {
+        return cachedData.value
+    },
+    onResponse: () => {
+        saving.value = false
+    },
+})
 
 const filteredData = computed(() => {
     return data.value?.filter((item) => {
@@ -51,7 +50,7 @@ onMounted(() => {
 
 const saving = ref(false)
 
-const onAddToCollection = (collection: CollectionObject) => {
+const onAddToCollection = (collection: CollectionObjectWithIncludes) => {
     const mediaType = props.mediaItem.media_type === 'movie' ? 'movie' : 'show'
     saving.value = true
     $fetch(
@@ -90,7 +89,7 @@ watch(filteredData, () => {
     includedIcons.value = filteredData.value?.map(() => CheckIcon)
 })
 
-const onRemoveFromCollection = (collection: CollectionObject) => {
+const onRemoveFromCollection = (collection: CollectionObjectWithIncludes) => {
     const mediaType = props.mediaItem.media_type === 'movie' ? 'movie' : 'show'
     saving.value = true
     $fetch(

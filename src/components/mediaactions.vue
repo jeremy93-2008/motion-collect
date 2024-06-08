@@ -2,12 +2,12 @@
 import CollectionList from '~/components/grid/collectionlist.vue'
 import PlusIcon from 'assets/plus.svg'
 import CollectionIcon from 'assets/collection.svg'
-import type { CollectionObject } from '~/domain/collection'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 import type { FullMovie, FullTV, Movie } from '~/types/MovieDB.type'
 
 const props = defineProps<{
     mediaItem: Movie | FullMovie | FullTV
-    collections: CollectionObject[]
+    collections: CollectionObjectWithIncludes[]
 }>()
 
 const dropdownId = useId()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { FullMovie, Movie, MovieJustWatch } from '~/types/MovieDB.type'
+import type { FullMovie, MovieJustWatch } from '~/types/MovieDB.type'
 import { toCapitalize } from '~/utils/toCapitalize'
-import type { CollectionObject } from '~/domain/collection'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 import Mediaactions from '~/components/mediaactions.vue'
 
 const route = useRoute()
@@ -44,20 +44,19 @@ motion_page_title.value = 'Movie'
 const headers = useRequestHeaders(['cookie'])
 
 const { data: cachedCollectionData } =
-    useNuxtData<CollectionObject[]>('collections')
-const { data: collections } = await useLazyFetch<CollectionObject[]>(
-    `${config.public.motionCollectUrl}api/collections`,
-    {
-        headers: {
-            ...headers,
-            'Content-Type': 'application/json',
-        },
-        key: 'collections',
-        default() {
-            return cachedCollectionData.value
-        },
-    }
-)
+    useNuxtData<CollectionObjectWithIncludes[]>('collections')
+const { data: collections } = await useLazyFetch<
+    CollectionObjectWithIncludes[]
+>(`${config.public.motionCollectUrl}api/collections`, {
+    headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+    },
+    key: 'collections',
+    default() {
+        return cachedCollectionData.value
+    },
+})
 </script>
 
 <template>
@@ -66,8 +65,8 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
         <section class="poster_container">
             <section class="poster_actions">
                 <Mediaactions
-                    :collections="collections as CollectionObject[]"
-                    :mediaItem="data as FullMovie"
+                    :collections="collections as CollectionObjectWithIncludes[]"
+                    :mediaItem="{ ...data, media_type: 'movie' } as FullMovie"
                 />
             </section>
             <img

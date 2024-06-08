@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { CollectionObject } from '~/domain/collection'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie'])
 const [id, name] = route.params.slug
 
-const { data, pending } = await useFetch<CollectionObject>(
+const { data, pending } = await useFetch<CollectionObjectWithIncludes>(
     `${config.public.motionCollectUrl}api/collection/${id}`,
     {
         headers: {
@@ -23,12 +23,18 @@ motion_page_title.value = name
     <NuxtPage />
     <Wait :isLoading="pending">
         <Grid
+            v-if="data"
             :items="[
-                ...(data as CollectionObject).Movies.map((m) => ({
+                ...(data as CollectionObjectWithIncludes).Movies?.map((m) => ({
                     ...m,
                     media_type: 'movie',
                 }))!,
-                ...(data as CollectionObject).TVSeries!,
+                ...(data as CollectionObjectWithIncludes).TVSeries?.map(
+                    (m) => ({
+                        ...m,
+                        media_type: 'show',
+                    })
+                )!,
             ]"
             :hasMoreItems="false"
         />

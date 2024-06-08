@@ -3,11 +3,13 @@ import { Visibility } from '~/types/collections.type'
 import { validate } from '~/server/application/services/validate'
 import type { MediaObject } from '~/domain/media'
 
-export type CollectionObject = InferType<typeof collectionObject> & {
-    user?: { id: string }
-    Movies?: MediaObject[]
-    TVSeries?: MediaObject[]
+export type CollectionObjectWithIncludes = CollectionObject & {
+    Movies: MediaObject[]
+    TVSeries: MediaObject[]
+    user: { id: string }
 }
+
+export type CollectionObject = InferType<typeof collectionObject>
 
 export const collectionObject = object({
     id: string().required(),

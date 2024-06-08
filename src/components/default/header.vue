@@ -6,10 +6,7 @@ import loadingIcon from '@/assets/loading.svg'
 
 const route = useRoute()
 
-const motion_page_title = useState(
-    'motion_page_title',
-    () => route.params.name ?? ''
-)
+const motion_page_title = useState('motion_page_title', () => '')
 
 const title = computed(() => {
     return motion_page_title.value
