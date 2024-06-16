@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useHeaderTitle } from '~/composables/useHeaderTitle'
+
 defineProps(['isSmall'])
 import Profileuser from '@/components/default/profileuser.client.vue'
 import searchIcon from '@/assets/search.svg'
@@ -6,16 +8,12 @@ import loadingIcon from '@/assets/loading.svg'
 
 const route = useRoute()
 
-const motion_page_title = useState('motion_page_title', () => '')
-
-const title = computed(() => {
-    return motion_page_title.value
-})
+const motion_page_title = useHeaderTitle()
 </script>
 
 <template>
     <section class="header">
-        <span class="title">{{ title }}</span>
+        <span class="title">{{ motion_page_title }}</span>
         <div class="top-right">
             <NuxtLink
                 class="search-button"

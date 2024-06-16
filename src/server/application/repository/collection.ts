@@ -1,5 +1,8 @@
 import { prisma } from '~/lib/prisma'
-import { type CollectionObject } from '~/domain/collection'
+import {
+    type CollectionObject,
+    CollectionObjectWithIncludes,
+} from '~/domain/collection'
 import { EventHandlerRequest, H3Event } from 'h3'
 import { Visibility } from '~/types/collections.type'
 import { ICriteriaProvider } from '~/server/application/providers/criteria'

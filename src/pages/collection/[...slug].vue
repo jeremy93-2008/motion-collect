@@ -16,8 +16,11 @@ const { data, pending } = await useFetch<CollectionObjectWithIncludes>(
     }
 )
 
-const motion_page_title = useState('motion_page_title')
-motion_page_title.value = name
+const titles = useState<Record<string, string>>('titles')
+titles.value = {
+    ...titles.value,
+    '/collection/:slug(.*)*': data.value?.title ?? '',
+}
 </script>
 <template>
     <NuxtPage />
@@ -40,4 +43,3 @@ motion_page_title.value = name
         />
     </Wait>
 </template>
-<style></style>

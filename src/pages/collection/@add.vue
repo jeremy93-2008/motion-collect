@@ -23,22 +23,45 @@ const onClick = () => {
             type: type.value,
             description: description.value,
         }),
-    }).then(() => {
-        onLeave()
     })
+        .then(() => {
+            saving.value = false
+            onLeave()
+        })
+        .catch(() => {
+            saving.value = false
+        })
+}
+
+const saving = ref(false)
+const refInput = ref()
+onMounted(() => {
+    const input = refInput.value as HTMLInputElement
+    input.focus()
+    input.setSelectionRange(input.value.length, input.value.length)
+})
+
+const onKeyPress = (event: KeyboardEvent) => {
+    if (title && !saving.value && event.key === 'Enter') {
+        saving.value = true
+        onClick()
+    }
 }
 </script>
 
 <template>
     <section @click="onLeave" class="subpage_overlay" />
     <section class="collection_container">
+        <Wait overlay-portal :is-loading="saving" />
         <section class="collection_container_row">
             <h1 class="text-xl mt-6">Create a new Collection</h1>
             <section class="collection_container_column">
                 <input
+                    ref="refInput"
                     class="collectionInput h-10"
                     v-model="title"
                     placeholder="Title of Collection"
+                    @keydown="onKeyPress"
                 />
                 <select v-model="type" class="collectionInput h-10">
                     <option value="private">Private</option>

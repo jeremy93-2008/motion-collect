@@ -137,8 +137,11 @@ const onRemoveFromCollection = (collection: CollectionObjectWithIncludes) => {
                     v-for="(collection, index) in filteredData"
                     :key="collection.id"
                 >
-                    <span>{{ collection.title }}</span>
-
+                    <span class="w-40 mr-2 overflow-hidden">
+                        <Text :tooltip-content="collection.title">{{
+                            collection.title
+                        }}</Text>
+                    </span>
                     <VTooltip
                         v-if="
                             !collection.Movies?.find(

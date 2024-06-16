@@ -25,6 +25,7 @@ const fetchedData = await useConditionalFetch<Movie[]>(
         query: {
             q: query,
             filter: filterType,
+            visibility: 'public',
         },
     },
     computed(() => query.value as string)
@@ -62,6 +63,9 @@ const getFilterTypePath = (media_type: string) => {
 
 const getMediaUrl = (movie: Movie) => {
     const type = getFilterTypePath(movie.media_type ?? filterType.value)
+    if (type === 'collection') {
+        return `/${type}/${movie.id}/${movie.title ?? movie.name}`
+    }
     return `/${type}/${movie.id}-${movie.title ?? movie.name}`
 }
 </script>
@@ -147,7 +151,9 @@ const getMediaUrl = (movie: Movie) => {
                                 movie.poster_path
                                     ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
                                       movie.poster_path
-                                    : 'https://fakeimg.pl/270x390?text=image'
+                                    : movie.media_type === 'collection'
+                                      ? `https://fakeimg.pl/270x390?text=${movie.title ?? movie.name}`
+                                      : 'https://fakeimg.pl/270x390?text=image'
                             "
                             class="search_entry-poster"
                         />

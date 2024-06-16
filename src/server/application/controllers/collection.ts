@@ -1,5 +1,9 @@
 import { EventHandlerRequest, H3Event } from 'h3'
-import { type CollectionObject, validateCollection } from '~/domain/collection'
+import {
+    type CollectionObject,
+    CollectionObjectWithIncludes,
+    validateCollection,
+} from '~/domain/collection'
 import { Visibility } from '~/types/collections.type'
 import { CollectionRepository } from '~/server/application/repository/collection'
 import { CriteriaProvider } from '~/server/application/providers/criteria'
@@ -7,7 +11,7 @@ import { CriteriaProvider } from '~/server/application/providers/criteria'
 async function getCollection(event: H3Event<EventHandlerRequest>) {
     const { id } = event.context.params as { id: string }
 
-    const criteria = CriteriaProvider<CollectionObject>()
+    const criteria = CriteriaProvider<CollectionObjectWithIncludes>()
         .type('first')
         .include(['user', 'Movies', 'TVSeries'])
         .or({
@@ -51,7 +55,7 @@ async function updateCollection(event: H3Event<EventHandlerRequest>) {
     const body = (await validateCollection(
         await readBody(event),
         'update'
-    )) as Partial<CollectionObject>
+    )) as Partial<CollectionObjectWithIncludes>
 
     if (!body.id)
         throw createError({
@@ -73,7 +77,7 @@ async function deleteCollection(event: H3Event<EventHandlerRequest>) {
     const body = (await validateCollection(
         await readBody(event),
         'delete'
-    )) as Pick<CollectionObject, 'id'>
+    )) as Pick<CollectionObjectWithIncludes, 'id'>
 
     await CollectionRepository(event).delete({ id: body.id })
 }

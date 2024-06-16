@@ -58,7 +58,7 @@ input.collectionInput, textarea.collectionInput, select.collectionInput {
     }
 }
 
-.v-popper--theme-tooltip {
+html body .v-popper--theme-tooltip {
     .v-popper__inner {
         background-color: var(--color-background-shade);
         color: var(--color-white);
@@ -71,7 +71,7 @@ input.collectionInput, textarea.collectionInput, select.collectionInput {
     }
 }
 
-.v-popper--theme-dropdown {
+html body .v-popper--theme-dropdown {
     .v-popper__wrapper {
         position: relative;
     }
