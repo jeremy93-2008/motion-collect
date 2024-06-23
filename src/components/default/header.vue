@@ -13,7 +13,9 @@ const motion_page_title = useHeaderTitle()
 
 <template>
     <section class="header">
-        <span class="title">{{ motion_page_title }}</span>
+        <span class="title">
+            {{ motion_page_title }}
+        </span>
         <div class="top-right">
             <NuxtLink
                 class="search-button"

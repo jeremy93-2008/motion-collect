@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { useOverlayEvent } from '~/composables/useOverlayEvent'
 import { Visibility } from '~/types/collections.type'
 
@@ -26,6 +26,7 @@ const onClick = () => {
     })
         .then(() => {
             saving.value = false
+            error.value.title = ''
             onLeave()
         })
         .catch(() => {
@@ -34,6 +35,8 @@ const onClick = () => {
 }
 
 const saving = ref(false)
+const wasSubmitted = ref(false)
+const error = ref({ title: '' })
 const refInput = ref()
 onMounted(() => {
     const input = refInput.value as HTMLInputElement
@@ -42,9 +45,16 @@ onMounted(() => {
 })
 
 const onKeyPress = (event: KeyboardEvent) => {
-    if (title && !saving.value && event.key === 'Enter') {
+    if (event.key === 'Enter') {
+        wasSubmitted.value = true
+    }
+    if (title.value && !saving.value && event.key === 'Enter') {
         saving.value = true
-        onClick()
+        return onClick()
+    } else if (title.value === '' && wasSubmitted.value) {
+        error.value.title = 'Name is required'
+    } else if (title.value && wasSubmitted.value) {
+        error.value.title = ''
     }
 }
 </script>
@@ -56,13 +66,16 @@ const onKeyPress = (event: KeyboardEvent) => {
         <section class="collection_container_row">
             <h1 class="text-xl mt-6">Create a new Collection</h1>
             <section class="collection_container_column">
-                <input
-                    ref="refInput"
-                    class="collectionInput h-10"
-                    v-model="title"
-                    placeholder="Title of Collection"
-                    @keydown="onKeyPress"
-                />
+                <fieldset class="flex flex-col">
+                    <input
+                        ref="refInput"
+                        class="collectionInput h-10"
+                        v-model="title"
+                        placeholder="Title of Collection"
+                        @keyup="onKeyPress"
+                    />
+                    <span class="mt-1 text-red-500">{{ error.title }}</span>
+                </fieldset>
                 <select v-model="type" class="collectionInput h-10">
                     <option value="private">Private</option>
                     <option value="unlisted">Unlisted</option>

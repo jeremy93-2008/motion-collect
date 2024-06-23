@@ -46,7 +46,7 @@ img.loading {
 
 input.collectionInput, textarea.collectionInput, select.collectionInput {
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
     border: 2px solid var(--color-background-shade);
     border-radius: 5px;
     background-color: var(--color-background);
