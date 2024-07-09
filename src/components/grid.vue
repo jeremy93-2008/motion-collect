@@ -43,7 +43,7 @@ const getLinkHref = (item: MediaObject & Movie) => {
 }
 
 const config = useRuntimeConfig()
-const { isSignedIn } = useAuth()
+const { isSignedIn, isLoaded } = useAuth()
 const { data: cachedCollectionData } =
     useNuxtData<CollectionObjectWithIncludes[]>('collections')
 const { data: collections, pending } = await useLazyFetch<
@@ -64,8 +64,10 @@ const { data: collections, pending } = await useLazyFetch<
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
                 <Wait
-                    v-if="isSignedIn"
-                    :is-loading="!cachedCollectionData || pending"
+                    v-if="isSignedIn || cachedCollectionData"
+                    :is-loading="
+                        (!isLoaded || pending) && !cachedCollectionData
+                    "
                 >
                     <Mediaactions
                         v-if="hasAddAction"

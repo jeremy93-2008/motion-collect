@@ -13,6 +13,7 @@ import plusIcon from 'assets/plus.svg'
 import Sidebutton from './sidebutton.vue'
 import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
+import type { CollectionObjectWithIncludes } from '~/domain/collection'
 
 const { isSignedIn, isLoaded } = useAuth()
 
@@ -21,6 +22,8 @@ const config = useRuntimeConfig()
 
 const path = computed(() => route.path)
 
+const { data: cachedCollectionData } =
+    useNuxtData<CollectionObjectWithIncludes[]>('collections')
 const { data, pending } = await useLazyFetch<MediaObject[]>(
     `${config.public.motionCollectUrl}api/collections`,
     {
@@ -29,6 +32,9 @@ const { data, pending } = await useLazyFetch<MediaObject[]>(
         },
         watch: [path, isLoaded],
         key: 'collections',
+        default() {
+            return cachedCollectionData.value
+        },
     }
 )
 
@@ -94,8 +100,15 @@ const { showErrorAlert } = useAlert()
                     />
                 </div>
             </div>
-            <div v-if="isSignedIn" class="collection_list">
-                <Wait :is-loading="!isLoaded || pending">
+            <div
+                v-if="isSignedIn || cachedCollectionData"
+                class="collection_list"
+            >
+                <Wait
+                    :is-loading="
+                        (!isLoaded || pending) && !cachedCollectionData
+                    "
+                >
                     <Sidemediabutton
                         v-for="collection in data"
                         @click="
