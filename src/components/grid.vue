@@ -42,15 +42,13 @@ const getLinkHref = (item: MediaObject & Movie) => {
 }
 
 const config = useRuntimeConfig()
-const headers = useRequestHeaders(['cookie'])
 
 const { data: cachedCollectionData } =
     useNuxtData<CollectionObjectWithIncludes[]>('collections')
-const { data: collections } = await useLazyFetch<
+const { data: collections, pending } = await useLazyFetch<
     CollectionObjectWithIncludes[]
 >(`${config.public.motionCollectUrl}api/collections`, {
     headers: {
-        ...headers,
         'Content-Type': 'application/json',
     },
     key: 'collections',
@@ -64,11 +62,15 @@ const { data: collections } = await useLazyFetch<
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
-                <Mediaactions
-                    v-if="hasAddAction"
-                    :collections="collections as CollectionObjectWithIncludes[]"
-                    :mediaItem="item as Movie"
-                />
+                <Wait :is-loading="!cachedCollectionData || pending">
+                    <Mediaactions
+                        v-if="hasAddAction"
+                        :collections="
+                            collections as CollectionObjectWithIncludes[]
+                        "
+                        :mediaItem="item as Movie"
+                    />
+                </Wait>
             </div>
             <NuxtLink :to="getLinkHref(item)">
                 <div class="poster_item_interactive">

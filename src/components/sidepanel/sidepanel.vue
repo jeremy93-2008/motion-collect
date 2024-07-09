@@ -14,25 +14,24 @@ import Sidebutton from './sidebutton.vue'
 import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
 
+const { isSignedIn } = useAuth()
+
 const route = useRoute()
 const config = useRuntimeConfig()
-const headers = useRequestHeaders(['cookie'])
 
 const path = computed(() => route.path)
 
-const { data } = await useLazyFetch<MediaObject[]>(
+const { data, pending } = await useLazyFetch<MediaObject[]>(
     `${config.public.motionCollectUrl}api/collections`,
     {
         headers: {
-            ...headers,
             'Content-Type': 'application/json',
         },
-        watch: [path],
+        watch: [path, isSignedIn],
         key: 'collections',
     }
 )
 
-const { isSignedIn } = useAuth()
 const { showErrorAlert } = useAlert()
 </script>
 
@@ -96,26 +95,28 @@ const { showErrorAlert } = useAlert()
                 </div>
             </div>
             <div class="collection_list">
-                <Sidemediabutton
-                    v-for="collection in data"
-                    @click="
-                        () =>
-                            navigateTo(
-                                `/collection/${collection.id}/${collection.title}`
-                            )
-                    "
-                    :leftIcon="collectionIcon"
-                    :selected="
-                        (route.params.slug &&
-                            route.params.slug.length >= 2 &&
-                            (route.params.slug as string[])[1].includes(
-                                collection.title
-                            )) ||
-                        false
-                    "
-                    :tooltipContent="collection.title"
-                    >{{ collection.title }}</Sidemediabutton
-                >
+                <Wait :is-loading="!isSignedIn || pending">
+                    <Sidemediabutton
+                        v-for="collection in data"
+                        @click="
+                            () =>
+                                navigateTo(
+                                    `/collection/${collection.id}/${collection.title}`
+                                )
+                        "
+                        :leftIcon="collectionIcon"
+                        :selected="
+                            (route.params.slug &&
+                                route.params.slug.length >= 2 &&
+                                (route.params.slug as string[])[1].includes(
+                                    collection.title
+                                )) ||
+                            false
+                        "
+                        :tooltipContent="collection.title"
+                        >{{ collection.title }}</Sidemediabutton
+                    >
+                </Wait>
             </div>
         </section>
     </aside>
