@@ -9,6 +9,7 @@ export function useHeaderTitle() {
         '/show/:id()-:name()': 'TV Show',
         '/movie/:id()-:name()': 'Movie',
         '/collection/:slug(.*)*': '',
+        '/results': 'Search Results',
     }))
 
     const pathname = ref(requestURL.pathname)

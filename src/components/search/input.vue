@@ -3,7 +3,7 @@ import searchIcon from 'assets/search.svg'
 import cancelIcon from 'assets/cancel.svg'
 
 const props = defineProps(['value'])
-const emit = defineEmits(['onChange'])
+const emit = defineEmits(['onChange', 'onEnter'])
 
 const inputVal = ref(props.value)
 const refInput = ref()
@@ -35,6 +35,7 @@ watch(inputVal, (val) => {
                 ref="refInput"
                 class="search_input_value"
                 placeholder="Search for movies, tv series and collection"
+                @keydown.enter="() => emit('onEnter', inputVal)"
             />
             <Icon
                 v-if="inputVal !== ''"

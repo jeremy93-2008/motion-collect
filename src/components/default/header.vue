@@ -19,8 +19,11 @@ const motion_page_title = useHeaderTitle()
         <div class="top-right">
             <NuxtLink
                 class="search-button"
-                :class="{ disabled: route.path.includes('/search') }"
-                :to="route.path === '/' ? '/search' : route.path + '/search'"
+                :class="{
+                    disabled: route.path.includes('/search'),
+                    selected: route.path.includes('/results'),
+                }"
+                :to="route.path === '/' ? `/search` : route.path + `/search`"
             >
                 <Iconbutton
                     :size="isSmall ? '16px' : '26px'"
@@ -70,6 +73,16 @@ section.header {
         & .search-button.disabled {
             pointer-events: none;
             opacity: 0.5;
+        }
+        & .search-button.selected {
+            background-color: var(--color-accent);
+            color: var(--color-background);
+            border-radius: 50%;
+            border: solid 2px transparent;
+
+            &:hover {
+                border: solid 2px white;
+            }
         }
         & button.iconbutton {
             flex: 1;

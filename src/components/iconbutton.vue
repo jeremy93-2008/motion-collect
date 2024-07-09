@@ -53,12 +53,12 @@ defineProps({
         border: solid 2px var(--color-white);
     }
 
-    &:has(.primary):hover:not(.disabled) {
+    &:has(.primary):hover:not(.disabled):not(.selected) {
         background-color: var(--color-accent);
         border: solid 2px var(--color-accent);
     }
 
-    &:has(.primary):active:not(.disabled) {
+    &:has(.primary):active:not(.disabled):not(.selected) {
         background-color: var(--color-accent);
         border: solid 2px var(--color-white);
     }

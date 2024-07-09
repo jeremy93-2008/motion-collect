@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Input from '~/components/search/input.vue'
 import { useOverlayEvent } from '~/composables/useOverlayEvent'
-import { type Movie } from '~/types/MovieDB.type'
+import { type IMovieDB, type Movie } from '~/types/MovieDB.type'
 
 import MovieSvg from '~/assets/movies.svg'
 import TvSvg from '~/assets/tv.svg'
@@ -16,7 +16,7 @@ const filterType = ref('all')
 const query = computed(() => route.query.q)
 
 const headers = useRequestHeaders(['cookie'])
-const fetchedData = await useConditionalFetch<Movie[]>(
+const fetchedData = await useConditionalFetch<IMovieDB>(
     `${config.public.motionCollectUrl}api/search`,
     {
         headers: {
@@ -68,12 +68,21 @@ const getMediaUrl = (movie: Movie) => {
     }
     return `/${type}/${movie.id}-${movie.title ?? movie.name}`
 }
+
+const goToResultPage = () => {
+    navigateTo('/results?q=' + query.value)
+    useState('results-query').value = query.value
+}
 </script>
 
 <template>
     <section @click="onLeave" class="subpage_overlay" />
     <section class="search_container">
-        <Input :value="route.query.q ?? ''" @on-change="onSearchChange" />
+        <Input
+            :value="route.query.q ?? ''"
+            @on-change="onSearchChange"
+            @on-enter="goToResultPage"
+        />
         <section v-if="route.query.q" class="tabs_search_filter_container">
             <div
                 class="tabs_search_filter_button_hover_overlay"
@@ -119,7 +128,7 @@ const getMediaUrl = (movie: Movie) => {
             >
                 <li
                     class="search_entry"
-                    v-for="movie in fetchedData?.data.value ?? []"
+                    v-for="movie in fetchedData?.data.value?.results ?? []"
                     :key="movie.id"
                 >
                     <NuxtLink :to="getMediaUrl(movie)">
@@ -163,6 +172,12 @@ const getMediaUrl = (movie: Movie) => {
                     </NuxtLink>
                 </li>
             </ul>
+            <section v-if="route.query.q" class="search_helper">
+                <p @click="goToResultPage">
+                    Click <em>Enter</em> to navigate to the result page, or
+                    click here
+                </p>
+            </section>
         </Wait>
     </section>
 </template>
@@ -288,6 +303,24 @@ const getMediaUrl = (movie: Movie) => {
             & .search_entry-title {
                 font-size: 14px;
                 color: var(--color-text);
+            }
+        }
+    }
+    .search_helper {
+        position: sticky;
+        background-color: var(--color-background);
+        padding: 14px 0 20px 0;
+        bottom: -36px;
+        & p {
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 8px;
+            width: fit-content;
+            padding: 4px 8px;
+            background-color: var(--color-background-shade);
+
+            &:hover {
+                background-color: var(--color-accent);
             }
         }
     }

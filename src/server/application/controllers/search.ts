@@ -11,6 +11,7 @@ async function Search(event: H3Event<EventHandlerRequest>) {
         | 'movie'
         | 'tv'
         | 'collection'
+    const page = getQuery(event).page as number
 
     if (!searchTerm)
         throw createError({
@@ -42,22 +43,29 @@ async function Search(event: H3Event<EventHandlerRequest>) {
             },
             query: {
                 sort_by: 'popularity.desc',
-                page: 1,
+                page: page ?? 1,
             },
         }
     )
 
-    return [
-        ...collections.map((collection) => ({
-            ...collection,
-            media_type: 'collection',
-        })),
-        ...fetchedData.results.filter(
-            (entry) =>
-                entry.media_type !== 'person' &&
-                entry.media_type != 'collection'
-        ),
-    ]
+    return {
+        page: fetchedData.page,
+        results: [
+            ...(!page || page === 1
+                ? collections.map((collection) => ({
+                      ...collection,
+                      media_type: 'collection',
+                  }))
+                : []),
+            ...fetchedData.results.filter(
+                (entry) =>
+                    entry.media_type !== 'person' &&
+                    entry.media_type != 'collection'
+            ),
+        ],
+        total_results: fetchedData.total_results,
+        total_pages: fetchedData.total_pages,
+    }
 }
 
 function getCacheOptions() {
