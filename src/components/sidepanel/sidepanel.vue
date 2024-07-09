@@ -30,6 +30,7 @@ const { data } = await useFetch<MediaObject[]>(
         },
         watch: [path],
         key: 'collections',
+        cache: 'only-if-cached',
         default() {
             return cachedData.value
         },
