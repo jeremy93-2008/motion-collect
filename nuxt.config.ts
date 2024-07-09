@@ -20,4 +20,15 @@ export default defineNuxtConfig({
             motionCollectUrl: process.env.NUXT_PUBLIC_MOTION_URL,
         },
     },
+    css: ['~/styles/variables.css', '~/styles/base.css'],
+    app: {
+        head: {
+            link: [
+                {
+                    rel: 'stylesheet',
+                    href: 'https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap',
+                },
+            ],
+        },
+    },
 })

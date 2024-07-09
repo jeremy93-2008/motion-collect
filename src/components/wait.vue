@@ -44,7 +44,6 @@ defineProps({
         <slot />
     </template>
 </template>
-
 <style scoped>
 .wait.overlay {
     position: absolute;

@@ -1,17 +1,3 @@
-:root {
-    --color-background: #2B2D42;
-    --color-background-shade: #484c6e;
-    --color-accent-darker: #85011e;
-    --color-accent: #D80032;
-    --color-accent-shade: #c2919c;
-    --color-white: #EDF2F4;
-    --color-shade: #8D99AE;
-
-    --color-error: #dc2626;
-    --color-warning: #f59e0b;
-    --color-info: #3b82f6;
-}
-
 html, body {
     margin: 0;
     padding: 0;
