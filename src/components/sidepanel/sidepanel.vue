@@ -20,7 +20,7 @@ const headers = useRequestHeaders(['cookie'])
 
 const path = computed(() => route.path)
 
-const { data } = await useFetch<MediaObject[]>(
+const { data } = await useLazyFetch<MediaObject[]>(
     `${config.public.motionCollectUrl}api/collections`,
     {
         headers: {
