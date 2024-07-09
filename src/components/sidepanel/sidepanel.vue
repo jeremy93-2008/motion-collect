@@ -20,7 +20,6 @@ const headers = useRequestHeaders(['cookie'])
 
 const path = computed(() => route.path)
 
-const { data: cachedData } = useNuxtData('collections')
 const { data } = await useFetch<MediaObject[]>(
     `${config.public.motionCollectUrl}api/collections`,
     {
@@ -30,10 +29,6 @@ const { data } = await useFetch<MediaObject[]>(
         },
         watch: [path],
         key: 'collections',
-        cache: 'only-if-cached',
-        default() {
-            return cachedData.value
-        },
     }
 )
 
