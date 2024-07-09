@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import '@/styles/base.css'
+import '@/styles/font.css'
 import Sidepanel from '~/components/sidepanel/sidepanel.vue'
 import Header from '~/components/default/header.vue'
 import AlertProvider from '~/components/provider/alert.provider.vue'
