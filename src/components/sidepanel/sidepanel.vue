@@ -14,7 +14,7 @@ import Sidebutton from './sidebutton.vue'
 import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
 
-const { isSignedIn } = useAuth()
+const { isSignedIn, isLoaded } = useAuth()
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -27,7 +27,7 @@ const { data, pending } = await useLazyFetch<MediaObject[]>(
         headers: {
             'Content-Type': 'application/json',
         },
-        watch: [path, isSignedIn],
+        watch: [path, isLoaded],
         key: 'collections',
     }
 )
@@ -94,8 +94,8 @@ const { showErrorAlert } = useAlert()
                     />
                 </div>
             </div>
-            <div class="collection_list">
-                <Wait :is-loading="!isSignedIn || pending">
+            <div v-if="isSignedIn" class="collection_list">
+                <Wait :is-loading="!isLoaded || pending">
                     <Sidemediabutton
                         v-for="collection in data"
                         @click="

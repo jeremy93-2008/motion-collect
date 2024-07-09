@@ -6,6 +6,7 @@ import type { Movie } from '~/types/MovieDB.type'
 import Mediaactions from '~/components/mediaactions.vue'
 import type { CollectionObjectWithIncludes } from '~/domain/collection'
 import type { MediaObject } from '~/domain/media'
+import { useAuth } from 'vue-clerk'
 
 const props = defineProps({
     hasAddAction: {
@@ -42,7 +43,7 @@ const getLinkHref = (item: MediaObject & Movie) => {
 }
 
 const config = useRuntimeConfig()
-
+const { isSignedIn } = useAuth()
 const { data: cachedCollectionData } =
     useNuxtData<CollectionObjectWithIncludes[]>('collections')
 const { data: collections, pending } = await useLazyFetch<
@@ -62,7 +63,10 @@ const { data: collections, pending } = await useLazyFetch<
     <div class="grid">
         <div class="poster_item" v-for="item in items" :key="item.id">
             <div class="poster--item_add-floating">
-                <Wait :is-loading="!cachedCollectionData || pending">
+                <Wait
+                    v-if="isSignedIn"
+                    :is-loading="!cachedCollectionData || pending"
+                >
                     <Mediaactions
                         v-if="hasAddAction"
                         :collections="
