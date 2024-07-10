@@ -82,7 +82,7 @@ const { data: collections } = await useLazyFetch<
         </section>
         <section class="summary">
             <section class="title">
-                <div class="flex gap-2">
+                <div class="title-header flex gap-2">
                     {{ data.title }}
                     <div class="website_link" :title="data.title + ' Webpage'">
                         <NuxtLink :to="data.homepage" external target="_blank">
@@ -118,7 +118,7 @@ const { data: collections } = await useLazyFetch<
                     </section>
                 </div>
                 <div class="flex">
-                    <div class="text-sm">
+                    <div class="release-date text-sm">
                         {{
                             data.release_date
                                 ? new Intl.DateTimeFormat('en-US', {
@@ -138,13 +138,14 @@ const { data: collections } = await useLazyFetch<
                 </div>
             </div>
             <p class="description">{{ data.overview }}</p>
-            <section class="grid grid-cols-2 items-center my-3">
+            <section class="grid-info grid grid-cols-2 items-center my-3">
                 <div class="flex items-center gap-4 mt-3 mb-4">
                     Rating
                     <div
                         class="progress-bar"
                         :title="data.vote_average + '/10'"
                         :style="`
+                        min-width: 32px;
                         background: radial-gradient(
                                 closest-side,
                                 #2b2d42 79%,
@@ -267,6 +268,9 @@ const { data: collections } = await useLazyFetch<
     gap: 16px;
     .poster_container {
         position: relative;
+        @media (max-width: 768px) {
+            flex: 1;
+        }
         .poster_actions {
             position: absolute;
             right: -12px;
@@ -278,6 +282,11 @@ const { data: collections } = await useLazyFetch<
     }
     .summary {
         flex: 1;
+
+        @media (max-width: 768px) {
+            flex: 2;
+        }
+
         a:hover {
             transition: color 0.2s ease-in-out;
             color: var(--color-accent);
@@ -293,11 +302,23 @@ const { data: collections } = await useLazyFetch<
             .website_link {
                 cursor: pointer;
             }
+
+            .production_countries,
+            .release-date {
+                @media (max-width: 768px) {
+                    display: none;
+                }
+            }
         }
         .genres_container {
             display: flex;
             gap: 8px;
             margin-top: 8px;
+
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+
             .genre {
                 padding: 4px 8px;
                 background: var(--color-accent);
@@ -305,8 +326,29 @@ const { data: collections } = await useLazyFetch<
                 user-select: none;
             }
         }
+        .company_container {
+            display: flex;
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+        }
+        .streaming_container {
+            display: flex;
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+        }
         .description {
             margin: 16px 132px 2px 0;
+
+            @media (max-width: 768px) {
+                margin: 16px 8px 2px 2px;
+            }
+        }
+        .grid-info {
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
         }
     }
     .progress-bar {

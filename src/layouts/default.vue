@@ -25,6 +25,8 @@ const onScrollContent = () => {
         return (isScrolling.value = true)
     else isScrolling.value = false
 }
+
+useState('MenuIsOpen', () => false)
 </script>
 
 <template>

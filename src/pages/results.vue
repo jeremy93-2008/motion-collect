@@ -30,9 +30,34 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
 
 watchEffect(() => {
     const titles = useState<Record<string, string>>('titles')
+    const outerWidth = window ? window.outerWidth : 1280
     titles.value = {
         ...titles.value,
-        '/results': query.value ? `Results for "${query.value}"` : 'Results',
+        '/results': query.value
+            ? outerWidth <= 768
+                ? `‟${query.value}”`
+                : `Results for "${query.value}"`
+            : 'Results',
+    }
+})
+
+onMounted(() => {
+    const handleResize = () => {
+        const titles = useState<Record<string, string>>('titles')
+        const outerWidth = window ? window.outerWidth : 1280
+        titles.value = {
+            ...titles.value,
+            '/results': query.value
+                ? outerWidth <= 768
+                    ? `‟${query.value}”`
+                    : `Results for "${query.value}"`
+                : 'Results',
+        }
+    }
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+        window.removeEventListener('resize', handleResize)
     }
 })
 
@@ -66,7 +91,7 @@ const onClickFilterType = (type: string) => {
             class="tabs_results_filter_button"
             :class="filterType === 'tv' ? 'active' : ''"
         >
-            TV Shows
+            Shows
         </button>
         <button
             @click="onClickFilterType('collection')"
@@ -103,6 +128,11 @@ const onClickFilterType = (type: string) => {
     border: 1px solid var(--color-background-shade);
     border-radius: 10px;
 
+    @media (max-width: 768px) {
+        margin-right: 16px;
+        align-items: center;
+    }
+
     & .tabs_results_filter_button_hover_overlay {
         position: absolute;
         top: 0;
@@ -116,18 +146,33 @@ const onClickFilterType = (type: string) => {
 
         &.tabs_results_filter_button_hover_overlay_all {
             transform: translateX(0);
+            @media (max-width: 768px) {
+                width: 24%;
+            }
         }
 
         &.tabs_results_filter_button_hover_overlay_movie {
             transform: translateX(100%);
+            @media (max-width: 768px) {
+                transform: translateX(105%);
+                width: 24%;
+            }
         }
 
         &.tabs_results_filter_button_hover_overlay_tv {
             transform: translateX(200%);
+            @media (max-width: 768px) {
+                transform: translateX(235%);
+                width: 22%;
+            }
         }
 
         &.tabs_results_filter_button_hover_overlay_collection {
             transform: translateX(300%);
+            @media (max-width: 768px) {
+                transform: translateX(272%);
+                width: 27%;
+            }
         }
     }
 
@@ -140,6 +185,15 @@ const onClickFilterType = (type: string) => {
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
         color: var(--color-shade);
+
+        @media (max-width: 768px) {
+            padding: 8px 4px;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            align-items: center;
+        }
 
         &.active {
             color: var(--color-white);

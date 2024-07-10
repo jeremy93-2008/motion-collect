@@ -107,6 +107,12 @@ const { data: collections, pending } = await useLazyFetch<
     gap: 16px;
     margin: 0 24px 0 16px;
 
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 8px;
+        margin: 0 8px;
+    }
+
     & .poster_item {
         position: relative;
         border: solid 6px transparent;

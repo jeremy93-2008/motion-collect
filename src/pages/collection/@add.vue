@@ -119,6 +119,12 @@ const onKeyPress = (event: KeyboardEvent) => {
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
+    @media (max-width: 768px) {
+        left: calc(50vw - 100% / 2);
+        width: 85%;
+        min-width: auto;
+    }
+
     .collection_container_row {
         display: flex;
 

@@ -1,21 +1,21 @@
 <script setup lang="ts">
 defineProps({
-  leftIcon: String,
-  selected: Boolean,
-});
-defineEmits(['click']);
-
+    leftIcon: String,
+    selected: Boolean,
+    small: Boolean,
+})
+defineEmits(['click'])
 </script>
 
 <template>
-  <button @click="$emit('click');" class="button" :class="{selected}">
-    <img class="h-[24px] w-[24px] mr-4" :src="leftIcon" alt="icon" />
-    <slot />
-  </button>
+    <button @click="$emit('click')" class="button" :class="{ selected, small }">
+        <img class="h-[24px] w-[24px] mr-4" :src="leftIcon" alt="icon" />
+        <slot />
+    </button>
 </template>
 
 <style scoped>
-  .button {
+.button {
     display: flex;
     align-items: center;
     color: var(--color-white);
@@ -25,17 +25,27 @@ defineEmits(['click']);
     cursor: pointer;
     border: 2px solid transparent;
 
+    &.small {
+        padding: 8px 24px;
+        font-size: 12px;
+
+        img {
+            height: 18px;
+            width: 18px;
+        }
+    }
+
     &.selected {
-      background-color: var(--color-accent);
-      border: 2px solid transparent;
+        background-color: var(--color-accent);
+        border: 2px solid transparent;
     }
 
     &:hover {
-      border: 2px solid var(--color-shade);
+        border: 2px solid var(--color-shade);
     }
 
     &.selected:hover {
-      border: 2px solid var(--color-white);
+        border: 2px solid var(--color-white);
     }
-  }
+}
 </style>

@@ -7,21 +7,32 @@ import searchIcon from '@/assets/search.svg'
 import loadingIcon from '@/assets/loading.svg'
 
 const route = useRoute()
-
 const motion_page_title = useHeaderTitle()
+
+const menuIsOpen = useState('MenuIsOpen')
 </script>
 
 <template>
     <section class="header">
-        <span class="title">
-            {{ motion_page_title }}
-        </span>
+        <section class="top-left flex gap-4 items-top">
+            <section @click="menuIsOpen = true" class="logo-responsive">
+                <img
+                    class="h-[32px]"
+                    src="../../assets/logo.svg"
+                    alt="Motion Collect"
+                />
+            </section>
+            <Text :tooltip-content="motion_page_title">
+                <span class="title">
+                    {{ motion_page_title }}
+                </span>
+            </Text>
+        </section>
         <div class="top-right">
             <NuxtLink
                 class="search-button"
                 :class="{
                     disabled: route.path.includes('/search'),
-                    selected: route.path.includes('/results'),
                 }"
                 :to="route.path === '/' ? `/search` : route.path + `/search`"
             >
@@ -58,9 +69,40 @@ section.header {
     padding: 26px 16px 12px 0;
     transition: padding 0.1s linear;
 
-    & span.title {
-        font-size: 28px;
-        transition: font-size 0.1s linear;
+    & .logo-responsive {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        align-items: center;
+        & .logo-responsive {
+            margin-left: 8px;
+            display: block;
+        }
+    }
+
+    & section.top-left {
+        @media (max-width: 768px) {
+            min-width: 70%;
+            flex: 0;
+        }
+        .logo-responsive {
+            flex-basis: 64px;
+        }
+        & span.title {
+            font-size: 28px;
+            transition: font-size 0.1s linear;
+
+            @media (max-width: 768px) {
+                flex: 1;
+                font-size: 22px;
+                width: 50%;
+
+                overflow-x: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
     }
 
     & div.top-right {
@@ -73,16 +115,6 @@ section.header {
         & .search-button.disabled {
             pointer-events: none;
             opacity: 0.5;
-        }
-        & .search-button.selected {
-            background-color: var(--color-accent);
-            color: var(--color-background);
-            border-radius: 50%;
-            border: solid 2px transparent;
-
-            &:hover {
-                border: solid 2px white;
-            }
         }
         & button.iconbutton {
             flex: 1;

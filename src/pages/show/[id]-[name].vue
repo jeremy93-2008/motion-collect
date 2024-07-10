@@ -86,7 +86,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
         </section>
         <section class="summary">
             <section class="title">
-                <div class="flex gap-2">
+                <div class="title-header flex gap-2">
                     {{ data.name }}
                     <div class="website_link" :title="data.name + ' Webpage'">
                         <NuxtLink :to="data.homepage" external target="_blank">
@@ -127,6 +127,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
                         class="progress-bar"
                         :title="data.vote_average + '/10'"
                         :style="`
+                        min-width: 32px;
                         background: radial-gradient(
                                 closest-side,
                                 #2b2d42 79%,
@@ -225,6 +226,9 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     gap: 16px;
     .poster_container {
         position: relative;
+        @media (max-width: 768px) {
+            flex: 1;
+        }
         .poster_actions {
             position: absolute;
             right: -12px;
@@ -236,6 +240,11 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     }
     .summary {
         flex: 1;
+
+        @media (max-width: 768px) {
+            flex: 2;
+        }
+
         a:hover {
             transition: color 0.2s ease-in-out;
             color: var(--color-accent);
@@ -256,6 +265,11 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
             display: flex;
             gap: 8px;
             margin-top: 8px;
+
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+
             .genre {
                 padding: 4px 8px;
                 background: var(--color-accent);
@@ -263,8 +277,24 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
                 user-select: none;
             }
         }
+        .company_container {
+            display: flex;
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+        }
+        .streaming_container {
+            display: flex;
+            @media (max-width: 768px) {
+                flex-wrap: wrap;
+            }
+        }
         .description {
             margin: 16px 132px 2px 0;
+
+            @media (max-width: 768px) {
+                margin: 16px 0 2px 0;
+            }
         }
     }
     .progress-bar {

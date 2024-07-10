@@ -7,6 +7,7 @@ import homeIcon from 'assets/home.svg'
 import moviesIcon from 'assets/movies.svg'
 import tvIcon from 'assets/tv.svg'
 import collectionIcon from 'assets/collection.svg'
+import searchIcon from 'assets/search.svg'
 
 import plusIcon from 'assets/plus.svg'
 
@@ -15,7 +16,7 @@ import Sidemediabutton from './sidemediabutton.vue'
 import Iconbutton from '../iconbutton.vue'
 import type { CollectionObjectWithIncludes } from '~/domain/collection'
 
-const { isSignedIn, isLoaded } = useAuth()
+const { isSignedIn, isLoaded, userId } = useAuth()
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -30,7 +31,7 @@ const { data, pending } = await useLazyFetch<MediaObject[]>(
         headers: {
             'Content-Type': 'application/json',
         },
-        watch: [path, isLoaded],
+        watch: [path, isLoaded, isSignedIn, userId],
         key: 'collections',
         default() {
             return cachedCollectionData.value
@@ -38,11 +39,22 @@ const { data, pending } = await useLazyFetch<MediaObject[]>(
     }
 )
 
+watch(path, () => {
+    isOpen.value = false
+})
+
+const isOpen = useState('MenuIsOpen')
+
 const { showErrorAlert } = useAlert()
 </script>
 
 <template>
-    <aside class="sidepanel">
+    <section
+        @click="isOpen = false"
+        class="overlay-responsive"
+        :class="isOpen ? 'open' : ''"
+    ></section>
+    <aside class="sidepanel" :class="isOpen ? 'open' : ''">
         <NuxtLink class="logo" href="/">
             <img
                 class="h-[48px]"
@@ -56,20 +68,30 @@ const { showErrorAlert } = useAlert()
                 @click="() => navigateTo('/')"
                 :leftIcon="homeIcon"
                 :selected="route.matched[0].name === 'index'"
-                >Home</Sidebutton
-            >
+                >Home
+            </Sidebutton>
             <Sidebutton
                 @click="() => navigateTo('/movies')"
                 :leftIcon="moviesIcon"
                 :selected="(route.matched[0].name as string).includes('movie')"
-                >Movies</Sidebutton
-            >
+                >Movies
+            </Sidebutton>
             <Sidebutton
                 @click="() => navigateTo('/shows')"
                 :leftIcon="tvIcon"
                 :selected="(route.matched[0].name as string).includes('show')"
-                >TV Shows</Sidebutton
+                >TV Shows
+            </Sidebutton>
+            <Sidebutton
+                class="mt-2"
+                v-if="route.matched[0].name === 'results'"
+                @click="isOpen = false"
+                :leftIcon="searchIcon"
+                :selected="route.matched[0].name === 'results'"
+                small
             >
+                <span>Results</span>
+            </Sidebutton>
             <div class="collection">
                 <div class="title">
                     <img src="../../assets/collections.svg" alt="Collections" />
@@ -100,10 +122,7 @@ const { showErrorAlert } = useAlert()
                     />
                 </div>
             </div>
-            <div
-                v-if="isSignedIn || cachedCollectionData"
-                class="collection_list"
-            >
+            <div class="collection_list">
                 <Wait
                     :is-loading="
                         (!isLoaded || pending) && !cachedCollectionData
@@ -136,6 +155,22 @@ const { showErrorAlert } = useAlert()
 </template>
 
 <style scoped>
+.overlay-responsive {
+    display: none;
+
+    @media (max-width: 768px) {
+        &.open {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+    }
+}
 .sidepanel {
     display: flex;
     flex-direction: column;
@@ -143,6 +178,18 @@ const { showErrorAlert } = useAlert()
     width: 300px;
     flex: 0 0 300px;
     padding: 24px 10px 0 10px;
+
+    @media (max-width: 768px) {
+        position: absolute;
+        background-color: var(--color-background);
+        z-index: 100;
+        height: 100vh;
+        left: -300px;
+        transition: left 0.3s ease-in-out;
+        &.open {
+            left: 0;
+        }
+    }
 
     & .logo {
         display: flex;

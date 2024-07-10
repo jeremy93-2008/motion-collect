@@ -107,7 +107,7 @@ const goToResultPage = () => {
                 class="tabs_search_filter_button"
                 :class="filterType === 'tv' ? 'active' : ''"
             >
-                TV Shows
+                Shows
             </button>
             <button
                 @click="onClickFilterType('collection')"
@@ -199,6 +199,12 @@ const goToResultPage = () => {
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
+    @media (max-width: 768px) {
+        left: calc(50vw - 100% / 2);
+        width: 85%;
+        min-width: auto;
+    }
+
     .tabs_search_filter_container {
         position: sticky;
         top: 73px;
@@ -209,6 +215,11 @@ const goToResultPage = () => {
         background: var(--color-background);
         border: 1px solid var(--color-background-shade);
         border-radius: 10px;
+
+        @media (max-width: 768px) {
+            padding-right: 8px;
+            align-items: center;
+        }
 
         & .tabs_search_filter_button_hover_overlay {
             position: absolute;
@@ -223,18 +234,33 @@ const goToResultPage = () => {
 
             &.tabs_search_filter_button_hover_overlay_all {
                 transform: translateX(0);
+                @media (max-width: 768px) {
+                    width: 24%;
+                }
             }
 
             &.tabs_search_filter_button_hover_overlay_movie {
                 transform: translateX(100%);
+                @media (max-width: 768px) {
+                    transform: translateX(110%);
+                    width: 23%;
+                }
             }
 
             &.tabs_search_filter_button_hover_overlay_tv {
                 transform: translateX(200%);
+                @media (max-width: 768px) {
+                    transform: translateX(225%);
+                    width: 22%;
+                }
             }
 
             &.tabs_search_filter_button_hover_overlay_collection {
                 transform: translateX(300%);
+                @media (max-width: 768px) {
+                    transform: translateX(255%);
+                    width: 28%;
+                }
             }
         }
 
@@ -247,6 +273,15 @@ const goToResultPage = () => {
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
             color: var(--color-shade);
+
+            @media (max-width: 768px) {
+                padding: 8px 4px;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 14px;
+                align-items: center;
+            }
 
             &.active {
                 color: var(--color-white);
