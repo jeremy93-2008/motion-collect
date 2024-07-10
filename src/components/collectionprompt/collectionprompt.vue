@@ -57,7 +57,6 @@ const onKeyPress = (event: KeyboardEvent) => {
         error.value.title = ''
     }
 }
-console.log(props.header)
 </script>
 
 <template>

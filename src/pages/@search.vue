@@ -134,21 +134,30 @@ const goToResultPage = () => {
                     <NuxtLink :to="getMediaUrl(movie)">
                         <div class="search_entry-type">
                             <img
-                                v-if="movie.media_type === 'movie'"
+                                v-if="
+                                    movie.media_type === 'movie' &&
+                                    filterType === 'all'
+                                "
                                 class="search_entry-type_img"
                                 :src="MovieSvg"
                                 alt="movie entry"
                                 title="Movie"
                             />
                             <img
-                                v-else-if="movie.media_type === 'tv'"
+                                v-else-if="
+                                    movie.media_type === 'tv' &&
+                                    filterType === 'all'
+                                "
                                 class="search_entry-type_img"
                                 :src="TvSvg"
                                 alt="tv entry"
                                 title="TV Show"
                             />
                             <img
-                                v-else-if="movie.media_type === 'collection'"
+                                v-else-if="
+                                    movie.media_type === 'collection' &&
+                                    filterType === 'all'
+                                "
                                 class="search_entry-type_img"
                                 :src="CollectionSvg"
                                 alt="collection entry"

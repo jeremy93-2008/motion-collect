@@ -38,7 +38,15 @@ useScrollEnd(460, () => {
 
 const getLinkHref = (item: MediaObject & Movie) => {
     const type =
-        props.mediaType ?? (item.media_type === 'movie' ? 'movie' : 'show')
+        props.mediaType ??
+        (item.media_type === 'movie'
+            ? 'movie'
+            : item.media_type === 'collection'
+              ? 'collection'
+              : 'show')
+    if (type === 'collection') {
+        return `/${type}/${item.id}/${item.title}`
+    }
     return `/${type}/${item.externalId ?? item.id}-${item.title ?? item.name}`
 }
 
@@ -70,7 +78,7 @@ const { data: collections, pending } = await useLazyFetch<
                     "
                 >
                     <Mediaactions
-                        v-if="hasAddAction"
+                        v-if="hasAddAction && item.media_type !== 'collection'"
                         :collections="
                             collections as CollectionObjectWithIncludes[]
                         "
@@ -86,12 +94,21 @@ const { data: collections, pending } = await useLazyFetch<
                             item.poster_path || item.poster
                                 ? 'https://image.tmdb.org/t/p/w300_and_h450_bestv2' +
                                   (item.poster_path || item.poster)
-                                : 'https://fakeimg.pl/270x390?text=image'
+                                : item.media_type === 'collection'
+                                  ? 'https://fakeimg.pl/270x404?text=Collection'
+                                  : 'https://fakeimg.pl/270x390?text=image'
                         "
                         alt="poster"
                     />
                     <div class="poster--item_info">
-                        <h4>{{ item.title || item.name }}</h4>
+                        <h4>
+                            {{ item.title || item.name
+                            }}{{
+                                item.media_type === 'collection'
+                                    ? ' (Collection)'
+                                    : ''
+                            }}
+                        </h4>
                     </div>
                 </div>
             </NuxtLink>

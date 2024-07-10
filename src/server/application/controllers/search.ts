@@ -26,10 +26,24 @@ async function Search(event: H3Event<EventHandlerRequest>) {
             (await CollectionsController.getCollections(
                 event
             )) as unknown as CollectionObjectWithIncludes[]
-        ).filter((collection) =>
-            collection.title.toLowerCase().includes(searchTerm.toLowerCase())
         )
-        if (filterTerm === 'collection') return collections
+            .filter((collection) =>
+                collection.title
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+            )
+            .map((collection) => ({
+                ...collection,
+                media_type: 'collection',
+            }))
+
+        if (filterTerm === 'collection')
+            return {
+                results: collections,
+                page: 1,
+                total_pages: 1,
+                total_results: collections.length,
+            }
     }
 
     const endpointKey = filterTerm === 'all' ? 'multi' : filterTerm
@@ -51,7 +65,7 @@ async function Search(event: H3Event<EventHandlerRequest>) {
     return {
         page: fetchedData.page,
         results: [
-            ...(!page || page === 1
+            ...(!page || page == 1
                 ? collections.map((collection) => ({
                       ...collection,
                       media_type: 'collection',

@@ -65,6 +65,15 @@ const { showErrorAlert } = useAlert()
         </NuxtLink>
         <section class="list">
             <Sidebutton
+                v-if="route.matched[0].name === 'results'"
+                @click="isOpen = false"
+                :leftIcon="searchIcon"
+                :selected="route.matched[0].name === 'results'"
+                small
+            >
+                <span>Results</span>
+            </Sidebutton>
+            <Sidebutton
                 @click="() => navigateTo('/')"
                 :leftIcon="homeIcon"
                 :selected="route.matched[0].name === 'index'"
@@ -81,16 +90,6 @@ const { showErrorAlert } = useAlert()
                 :leftIcon="tvIcon"
                 :selected="(route.matched[0].name as string).includes('show')"
                 >TV Shows
-            </Sidebutton>
-            <Sidebutton
-                class="mt-2"
-                v-if="route.matched[0].name === 'results'"
-                @click="isOpen = false"
-                :leftIcon="searchIcon"
-                :selected="route.matched[0].name === 'results'"
-                small
-            >
-                <span>Results</span>
             </Sidebutton>
             <div class="collection">
                 <div class="title">
