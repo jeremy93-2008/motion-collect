@@ -241,6 +241,12 @@ const { showErrorAlert } = useAlert()
             overflow: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--color-accent) var(--color-background-shade);
+
+            @media (max-width: 768px) {
+                height: auto;
+                overflow: visible;
+                margin-bottom: 22px;
+            }
         }
     }
 }
