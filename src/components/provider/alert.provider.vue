@@ -18,6 +18,19 @@ app.vueApp.provide('alertProvider', alert)
 const onClose = () => {
     alert.value.show = false
 }
+
+onMounted(() => {
+    const handle = (evt: KeyboardEvent) => {
+        if (evt.key === 'Escape' || evt.key === 'Enter')
+            alert.value.show = false
+    }
+
+    window.addEventListener('keyup', handle)
+
+    return () => {
+        window.removeEventListener('keyup', handle)
+    }
+})
 </script>
 
 <template>
@@ -68,6 +81,13 @@ const onClose = () => {
     padding: 0 30px 30px 30px;
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
+
+    @media (max-width: 768px) {
+        width: calc(100% - 60px);
+        left: 0;
+        min-width: 0;
+        min-height: 0;
+    }
 
     h1 {
         font-size: 24px;

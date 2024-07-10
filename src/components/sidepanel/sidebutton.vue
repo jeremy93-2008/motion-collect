@@ -20,10 +20,10 @@ defineEmits(['click'])
     align-items: center;
     color: var(--color-white);
     padding: 16px 24px;
-    border: none;
     border-radius: 48px;
     cursor: pointer;
     border: 2px solid transparent;
+    outline: none;
 
     &.small {
         padding: 8px 24px;

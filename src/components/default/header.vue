@@ -6,8 +6,12 @@ import Profileuser from '@/components/default/profileuser.client.vue'
 import searchIcon from '@/assets/search.svg'
 import loadingIcon from '@/assets/loading.svg'
 import { useHeaderLink } from '~/composables/useHeaderLink'
+import { useHeaderIsMobile } from '~/composables/useHeaderIsMobile'
 
 const route = useRoute()
+
+useHeaderIsMobile()
+
 const motion_page_title = useHeaderTitle()
 const link_href = useHeaderLink()
 
@@ -32,8 +36,9 @@ const menuIsOpen = useState('MenuIsOpen')
                     <span v-else>{{ motion_page_title }}</span>
                 </span>
             </Text>
+            <section id="top-left-slot" class="top-left-slot"></section>
         </section>
-        <div class="top-right">
+        <section class="top-right">
             <NuxtLink
                 class="search-button"
                 :class="{
@@ -58,7 +63,7 @@ const menuIsOpen = useState('MenuIsOpen')
                     />
                 </template>
             </client-only>
-        </div>
+        </section>
     </section>
 </template>
 
@@ -87,6 +92,7 @@ section.header {
     }
 
     & section.top-left {
+        align-items: center;
         @media (max-width: 1024px) {
             min-width: 70%;
             flex: 0;
@@ -110,7 +116,7 @@ section.header {
         }
     }
 
-    & div.top-right {
+    & section.top-right {
         display: flex;
         gap: 14px;
         align-items: center;

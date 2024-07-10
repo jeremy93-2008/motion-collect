@@ -26,6 +26,7 @@ defineEmits(['click'])
     border-radius: 48px;
     cursor: pointer;
     border: 2px solid transparent;
+    outline: none;
 
     &.selected {
         background-color: var(--color-accent);

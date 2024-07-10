@@ -73,6 +73,13 @@ app.vueApp.provide('confirmationProvider', confirmation)
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
+    @media (max-width: 768px) {
+        width: calc(100% - 60px);
+        left: 0;
+        min-width: 0;
+        min-height: 0;
+    }
+
     h1 {
         font-size: 24px;
         margin: 24px 0 12px 0;

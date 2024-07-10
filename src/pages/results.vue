@@ -28,36 +28,17 @@ const { data, status, pageParams, nextPage } = await useInfiniteFetch<IMovieDB>(
     })
 )
 
+const windowWidth = useState<number>('windowWidth')
+
 watchEffect(() => {
     const titles = useState<Record<string, string>>('titles')
-    const outerWidth = window ? window.outerWidth : 1280
     titles.value = {
         ...titles.value,
         '/results': query.value
-            ? outerWidth <= 768
+            ? windowWidth.value <= 1024
                 ? `‟${query.value}”`
                 : `Results for "${query.value}"`
             : 'Results',
-    }
-})
-
-onMounted(() => {
-    const handleResize = () => {
-        const titles = useState<Record<string, string>>('titles')
-        const outerWidth = window ? window.outerWidth : 1280
-        titles.value = {
-            ...titles.value,
-            '/results': query.value
-                ? outerWidth <= 768
-                    ? `‟${query.value}”`
-                    : `Results for "${query.value}"`
-                : 'Results',
-        }
-    }
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-        window.removeEventListener('resize', handleResize)
     }
 })
 
