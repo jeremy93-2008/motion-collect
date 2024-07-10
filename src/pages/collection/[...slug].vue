@@ -164,7 +164,10 @@ watch([data, pending], () => {
         <section
             @click="onShowMore"
             class="single_collections_description"
-            :class="{ showMore: isShowMore }"
+            :class="{
+                showMore: isShowMore,
+                showMoreVisible: isShowMoreVisible,
+            }"
         >
             {{ data?.description }}
         </section>
@@ -225,6 +228,7 @@ watch([data, pending], () => {
     min-height: 0;
     display: flex;
     padding: 8px 16px 0 4px;
+    margin-bottom: 8px;
     font-size: 14px;
     cursor: default;
     overflow: hidden;
@@ -234,6 +238,10 @@ watch([data, pending], () => {
 
     &.showMore {
         -webkit-line-clamp: unset;
+    }
+
+    &.showMoreVisible {
+        margin-bottom: 0;
     }
 }
 .show_more {
