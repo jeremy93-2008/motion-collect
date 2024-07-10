@@ -176,8 +176,11 @@ const { showErrorAlert } = useAlert()
     flex-direction: column;
     align-items: center;
     width: 300px;
+    height: 98vh;
     flex: 0 0 300px;
     padding: 24px 10px 0 10px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 
     @media (max-width: 768px) {
         position: absolute;
