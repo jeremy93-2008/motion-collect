@@ -5,9 +5,11 @@ defineProps(['isSmall'])
 import Profileuser from '@/components/default/profileuser.client.vue'
 import searchIcon from '@/assets/search.svg'
 import loadingIcon from '@/assets/loading.svg'
+import { useHeaderLink } from '~/composables/useHeaderLink'
 
 const route = useRoute()
 const motion_page_title = useHeaderTitle()
+const link_href = useHeaderLink()
 
 const menuIsOpen = useState('MenuIsOpen')
 </script>
@@ -24,7 +26,10 @@ const menuIsOpen = useState('MenuIsOpen')
             </section>
             <Text :tooltip-content="motion_page_title">
                 <span class="title">
-                    {{ motion_page_title }}
+                    <NuxtLink v-if="link_href" :to="link_href">
+                        {{ motion_page_title }}
+                    </NuxtLink>
+                    <span v-else>{{ motion_page_title }}</span>
                 </span>
             </Text>
         </section>
