@@ -226,7 +226,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     gap: 16px;
     .poster_container {
         position: relative;
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             flex: 1;
         }
         .poster_actions {
@@ -241,7 +241,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
     .summary {
         flex: 1;
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             flex: 2;
         }
 
@@ -266,7 +266,7 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
             gap: 8px;
             margin-top: 8px;
 
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 flex-wrap: wrap;
             }
 
@@ -279,20 +279,20 @@ const { data: collections } = await useLazyFetch<CollectionObject[]>(
         }
         .company_container {
             display: flex;
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 flex-wrap: wrap;
             }
         }
         .streaming_container {
             display: flex;
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 flex-wrap: wrap;
             }
         }
         .description {
             margin: 16px 132px 2px 0;
 
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 margin: 16px 0 2px 0;
             }
         }

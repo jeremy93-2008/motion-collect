@@ -78,7 +78,7 @@ section.header {
         display: none;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         align-items: center;
         & .logo-responsive {
             margin-left: 8px;
@@ -87,7 +87,7 @@ section.header {
     }
 
     & section.top-left {
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             min-width: 70%;
             flex: 0;
         }
@@ -98,7 +98,7 @@ section.header {
             font-size: 28px;
             transition: font-size 0.1s linear;
 
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 flex: 1;
                 font-size: 22px;
                 width: 50%;

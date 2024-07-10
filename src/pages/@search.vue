@@ -199,9 +199,9 @@ const goToResultPage = () => {
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
-    @media (max-width: 768px) {
-        left: calc(50vw - 100% / 2);
-        width: 85%;
+    @media (max-width: 1024px) {
+        left: 0;
+        width: calc(100% - 60px);
         min-width: auto;
     }
 
@@ -216,7 +216,7 @@ const goToResultPage = () => {
         border: 1px solid var(--color-background-shade);
         border-radius: 10px;
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             padding-right: 8px;
             align-items: center;
         }
@@ -234,14 +234,14 @@ const goToResultPage = () => {
 
             &.tabs_search_filter_button_hover_overlay_all {
                 transform: translateX(0);
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     width: 24%;
                 }
             }
 
             &.tabs_search_filter_button_hover_overlay_movie {
                 transform: translateX(100%);
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     transform: translateX(110%);
                     width: 23%;
                 }
@@ -249,7 +249,7 @@ const goToResultPage = () => {
 
             &.tabs_search_filter_button_hover_overlay_tv {
                 transform: translateX(200%);
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     transform: translateX(225%);
                     width: 22%;
                 }
@@ -257,7 +257,7 @@ const goToResultPage = () => {
 
             &.tabs_search_filter_button_hover_overlay_collection {
                 transform: translateX(300%);
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     transform: translateX(255%);
                     width: 28%;
                 }
@@ -274,7 +274,7 @@ const goToResultPage = () => {
             transition: background-color 0.2s ease-in-out;
             color: var(--color-shade);
 
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 padding: 8px 4px;
                 overflow-x: hidden;
                 text-overflow: ellipsis;

@@ -83,7 +83,7 @@ section.carrousel_container {
     flex-direction: column;
     width: calc(100vw - 328px);
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         width: calc(100vw - 16px);
     }
 
@@ -99,7 +99,7 @@ section.carrousel_container {
                 border-top-right-radius: 26px;
                 min-width: calc(100vw - 328px);
                 height: auto;
-                @media (max-width: 768px) {
+                @media (max-width: 1024px) {
                     min-width: calc(100vw - 16px);
                 }
             }
@@ -125,7 +125,7 @@ section.carrousel_container {
         font-size: 48px;
         max-width: 200px;
         text-shadow: 0 0 20px var(--color-background);
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             font-size: 24px;
         }
     }

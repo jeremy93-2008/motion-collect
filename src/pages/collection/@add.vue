@@ -119,9 +119,9 @@ const onKeyPress = (event: KeyboardEvent) => {
     overflow-y: auto;
     animation: slideToTop 0.2s linear both;
 
-    @media (max-width: 768px) {
-        left: calc(50vw - 100% / 2);
-        width: 85%;
+    @media (max-width: 1024px) {
+        left: 0;
+        width: calc(100% - 60px);
         min-width: auto;
     }
 

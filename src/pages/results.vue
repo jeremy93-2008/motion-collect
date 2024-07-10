@@ -128,7 +128,7 @@ const onClickFilterType = (type: string) => {
     border: 1px solid var(--color-background-shade);
     border-radius: 10px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         margin-right: 16px;
         align-items: center;
     }
@@ -146,14 +146,14 @@ const onClickFilterType = (type: string) => {
 
         &.tabs_results_filter_button_hover_overlay_all {
             transform: translateX(0);
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 width: 24%;
             }
         }
 
         &.tabs_results_filter_button_hover_overlay_movie {
             transform: translateX(100%);
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 transform: translateX(105%);
                 width: 24%;
             }
@@ -161,7 +161,7 @@ const onClickFilterType = (type: string) => {
 
         &.tabs_results_filter_button_hover_overlay_tv {
             transform: translateX(200%);
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 transform: translateX(235%);
                 width: 22%;
             }
@@ -169,7 +169,7 @@ const onClickFilterType = (type: string) => {
 
         &.tabs_results_filter_button_hover_overlay_collection {
             transform: translateX(300%);
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 transform: translateX(272%);
                 width: 27%;
             }
@@ -186,7 +186,7 @@ const onClickFilterType = (type: string) => {
         transition: background-color 0.2s ease-in-out;
         color: var(--color-shade);
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             padding: 8px 4px;
             overflow-x: hidden;
             text-overflow: ellipsis;

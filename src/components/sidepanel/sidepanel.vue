@@ -158,7 +158,7 @@ const { showErrorAlert } = useAlert()
 .overlay-responsive {
     display: none;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         &.open {
             display: block;
             position: fixed;
@@ -182,7 +182,7 @@ const { showErrorAlert } = useAlert()
     overflow-y: auto;
     scrollbar-width: thin;
 
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         position: absolute;
         background-color: var(--color-background);
         z-index: 100;
@@ -242,7 +242,7 @@ const { showErrorAlert } = useAlert()
             scrollbar-width: thin;
             scrollbar-color: var(--color-accent) var(--color-background-shade);
 
-            @media (max-width: 768px) {
+            @media (max-width: 1024px) {
                 height: auto;
                 overflow: visible;
                 margin-bottom: 22px;

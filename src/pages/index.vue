@@ -43,7 +43,7 @@ motion_page_title.value = ''
 h3.small-title {
     font-size: 24px;
     margin: 24px 0 8px 16px;
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         font-size: 18px;
     }
 }
