@@ -63,6 +63,16 @@ async function updateCollection(event: H3Event<EventHandlerRequest>) {
             message: 'Collection ID is required',
         })
 
+    const singleCollection = (await getCollection(
+        event
+    )) as CollectionObjectWithIncludes
+
+    if (singleCollection.user.id !== event.context.user.id)
+        throw createError({
+            statusCode: 401,
+            message: 'Unauthorized',
+        })
+
     await CollectionRepository(event).update({
         id: body.id,
         title: body.title,
