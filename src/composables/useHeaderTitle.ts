@@ -9,7 +9,7 @@ export function useHeaderTitle() {
         '/show/:id()-:name()': 'TV Show',
         '/movie/:id()-:name()': 'Movie',
         '/collection/:slug(.*)*': '',
-        '/collections': 'Collections',
+        '/collections': 'Public Collections',
         '/results': 'Search Results',
     }))
 

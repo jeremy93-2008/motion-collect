@@ -91,6 +91,15 @@ const { showErrorAlert } = useAlert()
                 :selected="(route.matched[0].name as string).includes('show')"
                 >TV Shows
             </Sidebutton>
+            <Sidebutton
+                @click="() => navigateTo('/collections')"
+                :leftIcon="collectionIcon"
+                :selected="
+                    (route.matched[0].name as string).includes('collections')
+                "
+            >
+                Public Collections
+            </Sidebutton>
 
             <div class="collection">
                 <div class="title">
@@ -123,19 +132,6 @@ const { showErrorAlert } = useAlert()
                 </div>
             </div>
             <div class="collection_list">
-                <Sidemediabutton
-                    @click="() => navigateTo('/collections')"
-                    :leftIcon="collectionIcon"
-                    :selected="
-                        (route.matched[0].name as string).includes(
-                            'collections'
-                        )
-                    "
-                    >Public Collections
-                </Sidemediabutton>
-                <div
-                    class="separator my-1 h-[1px] bg-[var(--color-background-shade)] rounded-full"
-                />
                 <Wait
                     :is-loading="
                         (!isLoaded || pending) && !cachedCollectionData
