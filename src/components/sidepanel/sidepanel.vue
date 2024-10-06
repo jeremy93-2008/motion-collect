@@ -91,6 +91,7 @@ const { showErrorAlert } = useAlert()
                 :selected="(route.matched[0].name as string).includes('show')"
                 >TV Shows
             </Sidebutton>
+
             <div class="collection">
                 <div class="title">
                     <img src="../../assets/collections.svg" alt="Collections" />
@@ -122,6 +123,19 @@ const { showErrorAlert } = useAlert()
                 </div>
             </div>
             <div class="collection_list">
+                <Sidemediabutton
+                    @click="() => navigateTo('/collections')"
+                    :leftIcon="collectionIcon"
+                    :selected="
+                        (route.matched[0].name as string).includes(
+                            'collections'
+                        )
+                    "
+                    >Public Collections
+                </Sidemediabutton>
+                <div
+                    class="separator my-1 h-[1px] bg-[var(--color-background-shade)] rounded-full"
+                />
                 <Wait
                     :is-loading="
                         (!isLoaded || pending) && !cachedCollectionData
@@ -174,7 +188,7 @@ const { showErrorAlert } = useAlert()
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 100vh;
+    height: 110vh;
     flex: 0 0 300px;
     padding: 24px 10px 0 10px;
     overflow-y: auto;

@@ -129,8 +129,6 @@ const clerkUser = useUser()
 const isOwner = computed(() => {
     return clerkUser.user?.value?.id === data.value?.user.id
 })
-
-console.log(data)
 </script>
 <template>
     <NuxtPage />

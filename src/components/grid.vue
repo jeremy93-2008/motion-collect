@@ -96,7 +96,8 @@ const { data: collections, pending } = await useLazyFetch<
                                   (item.poster_path || item.poster)
                                 : item.media_type === 'collection'
                                   ? 'https://fakeimg.pl/270x404?text=Collection'
-                                  : 'https://fakeimg.pl/270x390?text=image'
+                                  : 'https://fakeimg.pl/270x390?text=' +
+                                    (item.title || item.name)
                         "
                         alt="poster"
                     />

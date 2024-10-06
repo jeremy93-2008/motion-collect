@@ -5,9 +5,23 @@ import { CriteriaProvider } from '~/server/application/providers/criteria'
 import { CollectionObjectWithIncludes } from '~/domain/collection'
 
 async function getCollections(event: H3Event<EventHandlerRequest>) {
-    const { visibility } = getQuery(event) as { visibility: Visibility }
+    const { visibility, notIncludedUser } = getQuery(event) as {
+        visibility: Visibility
+        notIncludedUser: boolean
+    }
 
     const criteriaForVisibleCollections =
+        CriteriaProvider<CollectionObjectWithIncludes>()
+            .type('many')
+            .include(['user', 'Movies', 'TVSeries'])
+            .or({ visibility: Visibility.Public })
+            .not({
+                user: {
+                    id: event.context.user.id,
+                },
+            })
+
+    const criteriaForVisibleAndCurrentUserCollections =
         CriteriaProvider<CollectionObjectWithIncludes>()
             .type('many')
             .include(['user', 'Movies', 'TVSeries'])
@@ -31,7 +45,9 @@ async function getCollections(event: H3Event<EventHandlerRequest>) {
 
     return CollectionRepository(event).findByCriteria(
         visibility === Visibility.Public
-            ? criteriaForVisibleCollections
+            ? notIncludedUser
+                ? criteriaForVisibleCollections
+                : criteriaForVisibleAndCurrentUserCollections
             : criteriaForCurrentUserCollections
     )
 }

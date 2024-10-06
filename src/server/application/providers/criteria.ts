@@ -15,6 +15,7 @@ export interface ICriteriaProvider<T> {
 export interface ICriteriaWhere<T> {
     AND: Partial<T>[]
     OR: Partial<T>[]
+    NOT?: Partial<T>[]
 }
 
 export interface IPrismaCriteria<T> {
@@ -36,7 +37,7 @@ export interface ICriteria<T> {
 
 export function CriteriaProvider<T>(
     criteria: ICriteria<T> = {
-        where: { AND: [], OR: [] },
+        where: { AND: [], OR: [], NOT: [] },
         skip: 0,
         take: 10,
         type: 'many',
@@ -63,6 +64,16 @@ export function CriteriaProvider<T>(
                 where: {
                     ...criteria.where,
                     OR: [...criteria.where.OR, object],
+                },
+            }
+            return CriteriaProvider<T>({ ...newCriteria })
+        },
+        not: (object: Partial<T>) => {
+            const newCriteria = {
+                ...criteria,
+                where: {
+                    ...criteria.where,
+                    NOT: [...criteria.where.NOT, object],
                 },
             }
             return CriteriaProvider<T>({ ...newCriteria })
