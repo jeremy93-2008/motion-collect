@@ -17,12 +17,10 @@ const { selectedSortBy, selectedOption, selectedDirection } =
 const onDirectionChange = () => {
     selectedDirection.value = selectedDirection.value === 'asc' ? 'desc' : 'asc'
 }
-
-const isScrolling = useState('isScrolling')
 </script>
 
 <template>
-    <div class="sort-by__container" :class="{ small: isScrolling }">
+    <div class="sort-by__container">
         <p>Sort by</p>
         <div class="sort-by">
             <select v-model="selectedOption" @change="$emit('onChange')">
@@ -47,10 +45,6 @@ const isScrolling = useState('isScrolling')
 
 <style scoped>
 .sort-by__container {
-    position: sticky;
-    top: 70px;
-    background-color: var(--color-background);
-    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -104,22 +98,6 @@ const isScrolling = useState('isScrolling')
 
         .icon:active {
             background-color: var(--color-accent);
-        }
-    }
-
-    &.small {
-        top: 55px;
-        box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.4);
-        p {
-            font-size: 14px;
-        }
-        div.sort-by {
-            select {
-                font-size: 14px;
-            }
-        }
-        div.direction {
-            font-size: 18px;
         }
     }
 }

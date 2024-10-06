@@ -7,6 +7,7 @@ import homeIcon from 'assets/home.svg'
 import moviesIcon from 'assets/movies.svg'
 import tvIcon from 'assets/tv.svg'
 import collectionIcon from 'assets/collection.svg'
+import publicCollectionIcon from 'assets/public_collections.svg'
 import searchIcon from 'assets/search.svg'
 
 import plusIcon from 'assets/plus.svg'
@@ -93,7 +94,7 @@ const { showErrorAlert } = useAlert()
             </Sidebutton>
             <Sidebutton
                 @click="() => navigateTo('/collections')"
-                :leftIcon="collectionIcon"
+                :leftIcon="publicCollectionIcon"
                 :selected="
                     (route.matched[0].name as string).includes('collections')
                 "

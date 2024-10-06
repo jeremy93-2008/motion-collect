@@ -3,6 +3,7 @@ import type { IMovieDB, Movie } from '@/types/MovieDB.type'
 import SortBy from '~/components/sortBy.vue'
 import Wait from '~/components/wait.vue'
 import useInfiniteFetch from '~/composables/useInfiniteFetch'
+import DiscoverOptions from '~/components/discoverOptions.vue'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -29,7 +30,7 @@ motion_page_title.value = 'TV Shows'
 
 <template>
     <NuxtPage />
-    <SortBy />
+    <DiscoverOptions />
     <Wait :is-loading="status === 'pending'" :overlay="pageParams.page > 1">
         <Grid
             :items="data.map((d) => d.results).flat()"
