@@ -169,7 +169,10 @@ const isOwner = computed(() => {
             <span>Delete</span>
         </button>
     </section>
-
+    <section
+        class="single_collection_separator mb-2"
+        v-if="pending || !isOwner"
+    />
     <section v-if="data?.description">
         <section
             @click="onShowMore"
