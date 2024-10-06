@@ -184,7 +184,7 @@ const { showErrorAlert } = useAlert()
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 110vh;
+    height: 100vh;
     flex: 0 0 300px;
     padding: 24px 10px 0 10px;
     overflow-y: auto;
@@ -245,7 +245,7 @@ const { showErrorAlert } = useAlert()
             display: flex;
             flex-direction: column;
             gap: 8px;
-            height: calc(100vh - 428px);
+            height: calc(100vh - 484px);
             overflow: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--color-accent) var(--color-background-shade);
