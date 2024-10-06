@@ -129,6 +129,8 @@ const clerkUser = useUser()
 const isOwner = computed(() => {
     return clerkUser.user?.value?.id === data.value?.user.id
 })
+
+console.log(data)
 </script>
 <template>
     <NuxtPage />
@@ -170,9 +172,12 @@ const isOwner = computed(() => {
         </button>
     </section>
     <section
-        class="single_collection_separator mb-2"
+        class="single_collection_separator text-s, mb-2"
         v-if="pending || !isOwner"
-    />
+    >
+        Created by <em>{{ data?.user.name }}</em> at
+        <em>{{ new Date(data?.createdAt).toDateString() }}</em>
+    </section>
     <section v-if="data?.description">
         <section
             @click="onShowMore"
