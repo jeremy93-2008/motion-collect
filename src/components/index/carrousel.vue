@@ -61,9 +61,16 @@ onMounted(() => {
             </li>
         </ul>
         <div class="blue-gradient" />
-        <NuxtLink class="title" :to="getLinkHref(data[carrouselIndex])">{{
-            data[carrouselIndex].title ?? data[carrouselIndex].name
-        }}</NuxtLink>
+        <NuxtLink class="title" :to="getLinkHref(data[carrouselIndex])">
+            <Text
+                :clamp="3"
+                :tooltip-content="
+                    data[carrouselIndex].title ?? data[carrouselIndex].name
+                "
+            >
+                {{ data[carrouselIndex].title ?? data[carrouselIndex].name }}
+            </Text>
+        </NuxtLink>
         <ul class="carrousel_menu">
             <li v-for="(item, index) in data" :key="item.id">
                 <button
@@ -123,7 +130,7 @@ section.carrousel_container {
         top: 35px;
         left: 3vw;
         font-size: 48px;
-        max-width: 200px;
+        max-width: 230px;
         text-shadow: 0 0 20px var(--color-background);
         @media (max-width: 1024px) {
             font-size: 24px;

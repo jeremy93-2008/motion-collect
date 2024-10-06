@@ -1,6 +1,7 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
     className?: string
+    clamp?: number
     tooltipContent: string | undefined
 }>()
 
@@ -9,23 +10,36 @@ const refText = ref<HTMLElement | null>(null)
 
 onMounted(() => {
     window.setTimeout(() => {
-        if (refText.value) {
+        if (refText.value && !props.clamp) {
             const text = refText.value as HTMLElement
             if (text.offsetWidth >= text.scrollWidth) {
                 showTooltip.value = false
             }
+        } else if (refText.value && props.clamp) {
+            const text = refText.value as HTMLElement
+            showTooltip.value = text.offsetHeight < text.scrollHeight
         }
     }, 1000)
 })
 </script>
 <template>
-    <span :class="className" v-if="!showTooltip" ref="refText" class="text">
+    <span
+        :class="
+            clamp
+                ? `text-clamp ${className ? className : ''}`
+                : `text ${className ? className : ''}`
+        "
+        v-if="!showTooltip"
+        ref="refText"
+        :style="`-webkit-box-orient: vertical; -webkit-line-clamp: ${clamp}`"
+    >
         <slot />
     </span>
     <span
         v-if="showTooltip"
         ref="refText"
-        class="text"
+        :class="clamp ? 'text-clamp ' : 'text'"
+        :style="`-webkit-box-orient: vertical; -webkit-line-clamp: ${clamp}`"
         v-tooltip.bottom="tooltipContent"
     >
         <slot />
@@ -37,5 +51,10 @@ onMounted(() => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.text-clamp {
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
 }
 </style>
