@@ -63,6 +63,7 @@ onMounted(() => {
         <div class="blue-gradient" />
         <NuxtLink class="title" :to="getLinkHref(data[carrouselIndex])">
             <Text
+                :idx="carrouselIndex"
                 :clamp="3"
                 :tooltip-content="
                     data[carrouselIndex].title ?? data[carrouselIndex].name
