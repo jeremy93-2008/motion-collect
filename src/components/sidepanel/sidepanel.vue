@@ -139,9 +139,8 @@ const { showErrorAlert } = useAlert()
                         :selected="
                             (route.params.slug &&
                                 route.params.slug.length >= 2 &&
-                                (route.params.slug as string[])[1].includes(
-                                    collection.title
-                                )) ||
+                                (route.params.slug as string[])[1] ===
+                                    collection.title) ||
                             false
                         "
                         :tooltipContent="collection.title"
