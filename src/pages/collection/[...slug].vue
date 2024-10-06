@@ -4,6 +4,7 @@ import Collectionprompt from '~/components/collectionprompt/collectionprompt.vue
 import EditIcon from '@/assets/edit.svg'
 import TrashIcon from '@/assets/trash.svg'
 import { Visibility } from '~/types/collections.type'
+import { useUser } from 'vue-clerk'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -62,6 +63,7 @@ const onSaveEdit = ({
         })
         .catch(() => {
             onAfterClick({ isOk: false })
+            isEdit.value = false
             showErrorAlert(
                 'Failed to update collection',
                 'Something went wrong. Please try again'
@@ -122,6 +124,11 @@ watch([data, pending], () => {
         (document.querySelector('.single_collections_description')
             ?.clientHeight ?? 0)
 })
+
+const clerkUser = useUser()
+const isOwner = computed(() => {
+    return clerkUser.user?.value?.id === data.value?.user.id
+})
 </script>
 <template>
     <NuxtPage />
@@ -141,7 +148,10 @@ watch([data, pending], () => {
         "
         @onCollectionSave="onSaveEdit"
     />
-    <section class="single_collection_actions mb-2">
+    <section
+        v-if="!pending && data && isOwner"
+        class="single_collection_actions mb-2"
+    >
         <button
             @click="onEdit"
             class="single_collection_edit_btn"
