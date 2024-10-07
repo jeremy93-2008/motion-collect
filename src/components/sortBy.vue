@@ -52,6 +52,7 @@ const onDirectionChange = () => {
     margin-bottom: 10px;
 
     p {
+        width: 62px;
         margin-right: 8px;
     }
 

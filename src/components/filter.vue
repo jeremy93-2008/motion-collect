@@ -1,6 +1,27 @@
 <script setup lang="ts"></script>
 <template>
-    <section class="filter__container"></section>
+    <section class="filter__container__info">
+        <button
+            class="bg-[--color-background] py-2 px-5 rounded-3xl border border-transparent border-[--color-background-shade] hover:border-white active:bg-[--color-background-shade] disabled:bg-gray-500 disabled:pointer-events-none"
+        >
+            Show Filter
+        </button>
+        <div class="filter__container__info__tags">
+            <span class="tag">Action</span>
+            <span class="tag">Adventure</span>
+            <span class="tag">Animation</span>
+            <span class="tag">Action</span>
+            <span class="tag">Adventure</span>
+            <span class="tag">Animation</span>
+            <span class="tag">Action</span>
+            <span class="tag">Adventure</span>
+            <span class="tag">Animation</span>
+            <span class="tag">Action</span>
+            <span class="tag">Adventure</span>
+            <span class="tag">Animation</span>
+        </div>
+    </section>
+    <section class="filter__container__modal"></section>
     <!--
             Advanced Filters
                 Certification - +13, +18, etc or MA-13, R, etc (use in conjunction with region)
@@ -34,4 +55,32 @@
                 with_origin_country - US, GB, etc
         -->
 </template>
-<style scoped></style>
+<style scoped>
+.filter__container__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 10px;
+    gap: 16px;
+    flex: 1;
+    button {
+        flex: 0 0 150px;
+    }
+
+    .filter__container__info__tags {
+        display: flex;
+        flex: 1;
+        gap: 10px;
+        flex-wrap: wrap;
+        .tag {
+            background-color: var(--color-background-shade);
+            color: var(--color-text);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            user-select: none;
+        }
+    }
+}
+</style>

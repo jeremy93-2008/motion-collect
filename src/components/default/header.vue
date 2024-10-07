@@ -102,12 +102,14 @@ section.header {
         }
         & span.title {
             font-size: 28px;
+            margin-left: 32px;
             transition: font-size 0.1s linear;
 
             @media (max-width: 1024px) {
                 flex: 1;
                 font-size: 22px;
                 width: 50%;
+                margin-left: 0;
 
                 overflow-x: hidden;
                 white-space: nowrap;
